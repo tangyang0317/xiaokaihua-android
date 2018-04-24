@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="toolBarBg">#ffffff</color>
+    <color name="swiperRefreshThemeColor">#ff5555</color>
+    <color name="color_ef8c36">#EF8C36</color>
+</resources>
