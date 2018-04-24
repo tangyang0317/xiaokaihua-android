@@ -3,6 +3,8 @@ package xkh.hzp.xkh.com.http;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import xkh.hzp.xkh.com.BannerBean;
@@ -19,5 +21,5 @@ public interface APIFunction {
     Observable<BaseEntity<List<BannerBean>>> getBanner(@Query("type") String type);
 
     @GET(URlConfig.banner)
-    Observable<String> getStringBanner(@Query("type") String type);
+    Call<ResponseBody> getStringBanner(@Query("type") String type);
 }

@@ -6,6 +6,10 @@ import android.util.Log;
 
 import java.util.List;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import xkh.hzp.xkh.com.base.BaseActivty;
 import xkh.hzp.xkh.com.http.RetrofitHttp;
 import xkh.hzp.xkh.com.http.base.BaseEntity;
@@ -35,14 +39,14 @@ public class MainActivity extends BaseActivty {
         });
 
 
-        RetrofitHttp.getInstence().API().getStringBanner("index").compose(this.<String>setThread()).subscribe(new BaseObserverForString() {
+        RetrofitHttp.getInstence().API().getStringBanner("index").enqueue(new Callback<ResponseBody>() {
             @Override
-            protected void onSuccees(String str) throws Exception {
-                Log.d("xkh", str);
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Log.d("xkh", response.body().toString());
             }
 
             @Override
-            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
