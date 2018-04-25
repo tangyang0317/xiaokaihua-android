@@ -8,7 +8,7 @@ import xkh.hzp.xkh.com.base.base.BaseListActivity;
  * 描述
  **/
 public class SimpleListActivity extends BaseListActivity {
-    
+
     @Override
     protected void setViewTheme() {
     }
