@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/assets"/><source path="/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build-types/release/assets"/></dataSet></merger>

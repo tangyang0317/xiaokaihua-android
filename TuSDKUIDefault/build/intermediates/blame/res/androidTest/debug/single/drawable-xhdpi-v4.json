@@ -1,0 +1,550 @@
+[
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_large_selected.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_large_selected.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_preview_cancel_icon.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_preview_cancel_icon.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_whitening.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_whitening.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_aligncenter_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_aligncenter_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_exposure.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_exposure.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_menu_bg.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_menu_bg.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_finish_selected_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_finish_selected_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_history.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_history.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_saturation.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_saturation.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_image_none.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_image_none.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_capture.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_capture.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_album_camera.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_album_camera.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_guideline.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_guideline.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_brush_medium.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_brush_medium.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_brush_small.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_brush_small.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_medium.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_medium.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_nav_bar_back.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_nav_bar_back.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_hud_success.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_hud_success.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_addtype.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_addtype.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_color_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_color_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_selected_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_selected_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_bg_filter.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_bg_filter.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_button_close.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_button_close.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_bg_init.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_bg_init.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_orgin.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_orgin.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_vertical_mirror.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_vertical_mirror.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_2_3.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_2_3.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_wipe_filter.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_wipe_filter.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_small_selected.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_small_selected.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_album_poster_empty.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_album_poster_empty.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_auto_adjust.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_auto_adjust.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_function_icon.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_function_icon.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_config.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_config.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_holy_light.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_holy_light.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_cancel.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_cancel.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_chinsize.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_chinsize.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_sharpness.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_sharpness.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_large.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_large.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_3_4.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_3_4.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_brush_large.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_brush_large.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_linear.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_linear.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_depthfield.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_depthfield.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_undo.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_undo.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_nav_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_nav_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_smudge.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_smudge.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_focus.9.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_focus.9.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_icon_arrow_down.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_icon_arrow_down.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_sticker.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_sticker.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_step_prev.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_step_prev.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_back.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_back.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_highlights.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_highlights.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_flash_off.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_flash_off.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_step_next.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_step_next.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_rotate_scale.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_rotate_scale.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_resize.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_drag_resize.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_remove.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_remove.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_vignette.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_vignette.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_trun_right.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_trun_right.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_3_2.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_3_2.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_filter.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_filter.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_horizontal_mirror.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_horizontal_mirror.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_album_empty.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_album_empty.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_sticker_list.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_sticker_list.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_hud_error.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_hud_error.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_nav_button_back.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_nav_button_back.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_flash_on.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_flash_on.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_preview_confrim_icon.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_preview_confrim_icon.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_completed.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_completed.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_brightness.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_brightness.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_alignleft_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_alignleft_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_brush_eraser.jpg",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_brush_eraser.jpg"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_radial.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_radial.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_back_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_back_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_sticker_online.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_sticker_online.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_bg_pop.9.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_bg_pop.9.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_flash_auto.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_flash_auto.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_underline_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_underline_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_button_capture_icon.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_button_capture_icon.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_4_3.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_4_3.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_medium_selected.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_medium_selected.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_orgin.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_orgin.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_cancel.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_cancel.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_1_1.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_1_1.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_edit.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_edit.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_drag_rotate_scale.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_drag_rotate_scale.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_button_switch.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_button_switch.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_alignright_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_alignright_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_retouchsize.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_retouchsize.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_table_section_header_removel.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_table_section_header_removel.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_pen_small.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_pen_small.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_3_4.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_3_4.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_skin.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_skin.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_normal.jpg",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_normal.jpg"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_2_3.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_2_3.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_unselected_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_unselected_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_arrow_down.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_arrow_down.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_focus_crosshair.9.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_focus_crosshair.9.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_online.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_online.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_bg_filter_blue.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_bg_filter_blue.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_filter_adjust.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_filter_adjust.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_cancel_bg.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_cancel_bg.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_temperature.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_temperature.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_eyesize.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_eyesize.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_9_16.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_9_16.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_button_capture.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_button_capture.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_9_16.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_9_16.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_original.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_original.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_3_2.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_3_2.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_arrow_more_right.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_arrow_more_right.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_4_3.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_4_3.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_drag_cancel.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_drag_cancel.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_ratio_16_9.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_ratio_16_9.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_skincolor.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_skincolor.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_sticker_empty.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_sticker_empty.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_redo.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_redo.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_16_9.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_16_9.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_confirm_bg.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_confirm_bg.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_finish_unselected_button.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_multi_album_preview_finish_unselected_button.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_trun_left.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_trun_left.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_hdr.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_hdr.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_shadows.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_shadows.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_item_selected.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_item_selected.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_arrow_up.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_arrow_up.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_close.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_aperture_close.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_contrast.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_contrast.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_album_cover_empty.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_album_cover_empty.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_toright_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_toright_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_text_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_toleft_font_default.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_style_toleft_font_default.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_bg_preview.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_bg_preview.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_button_back.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_button_back.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_ratio_1_1.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_ratio_1_1.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_button_capture_bg.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_button_capture_bg.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_smoothing.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_smoothing.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_edit_icon_adjustment.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_edit_icon_adjustment.png"
+    },
+    {
+        "merged": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/lsq_style_default_camera_focus_ok.png",
+        "source": "/Users/tangyang/Documents/XKH-APP-Android/TuSDKUIDefault/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/lsq_style_default_camera_focus_ok.png"
+    }
+]

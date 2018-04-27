@@ -1,13 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-
-
-
+    compileSdkVersion rootProject.android.compileSdkVersion
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -25,6 +22,8 @@ android {
 }
 
 dependencies {
+    compile project(':TuSDKUIDefault')
+    compile project(':TuSDKUIGeeV2')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
