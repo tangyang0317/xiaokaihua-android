@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/TuSDKUIGeeV2" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common-library" />
+            <option value="$PROJECT_DIR$/umenglib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,0 +1,1 @@
+/** * */package xkh.hzp.xkh.com.base.model;/** * 空实现 * 实体继承 * 不混淆 */public class AbKeepBaseEntity {    public String keyTag;}

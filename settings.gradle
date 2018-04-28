@@ -1,1 +1,1 @@
-include ':app', ':common-library', ':TuSDKUIDefault', 'TuSDKUIGeeV2'
+include ':app', ':common-library', ':TuSDKUIDefault', ':umenglib', 'TuSDKUIGeeV2'

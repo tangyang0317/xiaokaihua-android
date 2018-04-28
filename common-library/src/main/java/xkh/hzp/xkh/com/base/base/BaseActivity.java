@@ -1,6 +1,5 @@
 package xkh.hzp.xkh.com.base.base;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.umeng.analytics.MobclickAgent;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import xkh.hzp.xkh.com.R;
 import xkh.hzp.xkh.com.base.utils.ToastUtils;
 
@@ -34,10 +39,32 @@ public abstract class BaseActivity extends AppCompatActivity {
         initBaseControllerView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //做数据统计
+        MobclickAgent.onResume(this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    public <T> ObservableTransformer<T, T> setThread() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
     /**
      * 初始化控制器View
      */
-    @SuppressLint("ResourceType")
     private void initBaseControllerView() {
         //设置沉浸式菜单栏
         ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.2f).statusBarColor(R.color.toolBarBg).init();

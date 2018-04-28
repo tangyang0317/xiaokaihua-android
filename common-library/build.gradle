@@ -24,6 +24,8 @@ android {
 dependencies {
     compile project(':TuSDKUIDefault')
     compile project(':TuSDKUIGeeV2')
+    compile project(':umenglib')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
