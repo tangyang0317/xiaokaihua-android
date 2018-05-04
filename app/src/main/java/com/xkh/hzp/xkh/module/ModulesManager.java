@@ -13,6 +13,7 @@ import xkh.hzp.xkh.com.base.utils.AbAppUtil;
  * @Author tangyang
  * @DATE 2018/4/27
  **/
+
 public class ModulesManager {
 
     private static ModulesManager ins;

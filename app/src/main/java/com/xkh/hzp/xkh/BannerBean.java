@@ -1,4 +1,4 @@
-package xkh.hzp.xkh.com;
+package com.xkh.hzp.xkh;
 
 /**
  * Created by tangyang on 18/4/21.

@@ -7,7 +7,6 @@ import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.umeng.socialize.PlatformConfig;
-import com.xkh.hzp.xkh.module.CloudPushModule;
 import com.xkh.hzp.xkh.module.ModulesManager;
 import com.xkh.hzp.xkh.module.TutuModule;
 import com.xkh.hzp.xkh.module.UmengModule;

@@ -27,7 +27,7 @@ public abstract class BaseListActivity extends BaseActivity implements SwipeRefr
     public void initView() {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recycleView);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.swiperRefreshThemeColor));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 

@@ -1,4 +1,4 @@
-package xkh.hzp.xkh.com.tuSDK;
+package com.xkh.hzp.xkh.tuSDK;
 
 /**
  * 单图操作回调

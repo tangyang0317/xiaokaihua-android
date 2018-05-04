@@ -1,5 +1,7 @@
 package xkh.hzp.xkh.com.base.base;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView toolBarTitleTxt, toolBarRightTxt;
     private ImageView toolBarRightImg;
     private LinearLayout baseContentLayout;
+
+
+    public static void lunchActivity(Activity activity, Bundle bundle, Class tClass) {
+        Intent intent = new Intent(activity, tClass);
+        if (bundle != null) {
+            intent.putExtra("bundle", bundle);
+        }
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,14 +78,14 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private void initBaseControllerView() {
         //设置沉浸式菜单栏
-        ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.2f).statusBarColor(R.color.toolBarBg).init();
+        ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.2f).statusBarColor(R.color.color_ff5555).init();
         baseToolBar = findViewById(R.id.baseToolBar);
         toolBarTitleTxt = findViewById(R.id.toolBarTitleTxt);
         toolBarRightTxt = findViewById(R.id.toolBarRightTxt);
         toolBarRightImg = findViewById(R.id.toolBarRightImg);
         baseContentLayout = findViewById(R.id.baseContentLayout);
         setTitleNavigationIcon(R.drawable.icon_back);
-        setToolBarBg(R.color.toolBarBg);
+        setToolBarBg(R.color.color_ff5555);
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
         initView();
         setListenner();

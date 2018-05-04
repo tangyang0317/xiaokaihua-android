@@ -1,4 +1,4 @@
-package xkh.hzp.xkh.com.tuSDK;
+package com.xkh.hzp.xkh.tuSDK;
 
 import android.app.Activity;
 

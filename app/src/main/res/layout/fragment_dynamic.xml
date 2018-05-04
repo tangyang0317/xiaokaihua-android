@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
+            android:id="@+id/dynamicPagerSlidingTabStrip"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            app:pstsDividerColor="@color/color_ff5555"
+            app:pstsDividerPadding="@dimen/dp_10"
+            app:pstsIndicatorColor="@android:color/transparent"
+            app:pstsIndicatorHeight="0dp"
+            app:pstsTextColor="@color/color_333333"
+            app:pstsUnderlineColor="@android:color/transparent"
+            app:pstsUnderlineHeight="0dp"
+            app:selectedTabTextColor="@color/color_ff5555">
+
+        </xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip>
+
+    </LinearLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/dynamicViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

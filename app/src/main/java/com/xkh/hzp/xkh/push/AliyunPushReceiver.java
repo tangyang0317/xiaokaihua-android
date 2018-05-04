@@ -1,4 +1,4 @@
-package xkh.hzp.xkh.com.push;
+package com.xkh.hzp.xkh.push;
 
 import android.content.Context;
 

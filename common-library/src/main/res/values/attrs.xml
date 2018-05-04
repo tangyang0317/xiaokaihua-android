@@ -16,4 +16,15 @@
         <attr name="selectedTabTextColor" format="reference" />
         <attr name="pstsIndicatiorWidth" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ItemLayout">
+        <attr name="leftIcon" format="reference"></attr>
+        <attr name="rightIcon" format="reference"></attr>
+        <attr name="leftTitleTxt" format="string"></attr>
+        <attr name="rightTitleTxt" format="string"></attr>
+        <attr name="leftTitleTextColor" format="color"></attr>
+        <attr name="rightTitleTextColor" format="color"></attr>
+        <attr name="leftTitleTextSize" format="float"></attr>
+        <attr name="rightTitleTextSize" format="float"></attr>
+    </declare-styleable>
 </resources>
