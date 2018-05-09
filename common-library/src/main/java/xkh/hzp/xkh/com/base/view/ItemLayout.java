@@ -19,6 +19,7 @@ import xkh.hzp.xkh.com.R;
  * @Author tangyang
  * @DATE 2018/5/3
  **/
+
 public class ItemLayout extends LinearLayout {
 
     private Context context;

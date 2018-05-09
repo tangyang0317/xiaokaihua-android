@@ -1,14 +1,43 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Context;
+import android.media.Image;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.gyf.barlibrary.ImmersionBar;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.xkh.hzp.xkh.BannerBean;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
+import com.xkh.hzp.xkh.http.RetrofitHttp;
+import com.xkh.hzp.xkh.http.base.BaseEntity;
+import com.xkh.hzp.xkh.http.base.BaseObserver;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.OnFlingOverListener;
+import ru.noties.scrollable.OnScrollChangedListener;
+import ru.noties.scrollable.ScrollableLayout;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
@@ -18,52 +47,241 @@ import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
  * @Author tangyang
  * @DATE 2018/4/28
  **/
-public class DynamicFragment extends BaseFragment {
+public class DynamicFragment extends BaseFragment implements View.OnClickListener {
 
-    private PagerSlidingTabStrip dynamicPagerSlidingTabStrip;
-    private ViewPager dynamicViewPager;
+    private ScrollableLayout scrollableLayout;
+    private LinearLayout searchLayout;
+    private Banner sampleHeaderView;
+    private ViewPager viewPager;
+    private PagerSlidingTabStrip tabsLayout;
+    protected ImmersionBar mImmersionBar;
+
+    private FloatingActionMenu rightLowerMenu;
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
+    private interface CurrentFragment {
+        @Nullable
+        FragmentPagerFragment currentFragment();
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (mImmersionBar != null) {
+                mImmersionBar.init();
+            }
+        } else {
+            rightLowerMenu = null;
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
+    }
 
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_dynamic;
     }
 
+
     @Override
     public void initView(View contentView) {
-        dynamicPagerSlidingTabStrip = contentView.findViewById(R.id.dynamicPagerSlidingTabStrip);
-        dynamicViewPager = contentView.findViewById(R.id.dynamicViewPager);
-        dynamicViewPager.setAdapter(new DynamicPagerAdapter(getChildFragmentManager()));
-        dynamicPagerSlidingTabStrip.setViewPager(dynamicViewPager);
+        initImmersionBar();
+        scrollableLayout = contentView.findViewById(R.id.scrollable_layout);
+        sampleHeaderView = contentView.findViewById(R.id.headerBanner);
+        viewPager = contentView.findViewById(R.id.view_pager);
+        tabsLayout = contentView.findViewById(R.id.tabs);
+        searchLayout = contentView.findViewById(R.id.searchLayout);
+        MineFragmentPagerAdapter dynimicPagerAdapter = new MineFragmentPagerAdapter(getChildFragmentManager(), items());
+        viewPager.setAdapter(dynimicPagerAdapter);
+        tabsLayout.setViewPager(viewPager);
+        scrollableLayout.setDraggableView(tabsLayout);
+        final CurrentFragment currentFragment = new CurrentFragmentImpl(viewPager, getChildFragmentManager());
+        scrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate() {
+            @Override
+            public boolean canScrollVertically(int direction) {
+                final FragmentPagerFragment fragment = currentFragment.currentFragment();
+                return fragment != null && fragment.canScrollVertically(direction);
+            }
+        });
+
+        scrollableLayout.setOnFlingOverListener(new OnFlingOverListener() {
+            @Override
+            public void onFlingOver(int y, long duration) {
+                final FragmentPagerFragment fragment = currentFragment.currentFragment();
+                if (fragment != null) {
+                    fragment.onFlingOver(y, duration);
+                }
+            }
+        });
+
+        scrollableLayout.addOnScrollChangedListener(new OnScrollChangedListener() {
+
+            @Override
+            public void onScrollChanged(int y, int oldY, int maxY) {
+
+                Log.d("xkh", "maxY===" + maxY + "oldY=====" + oldY + "y=====" + y);
+                final float tabsTranslationY;
+                if (y < maxY) {
+                    tabsTranslationY = .0F;
+                } else {
+                    tabsTranslationY = y - maxY;
+                }
+                tabsLayout.setTranslationY(tabsTranslationY);
+//                int bannerHeight = sampleHeaderView.getHeight();
+//                if (y >= bannerHeight) {
+//                    searchLayout.setVisibility(View.VISIBLE);
+//                    YoYo.with(Techniques.FadeInDown).playOn(searchLayout);
+//                } else {
+//
+//                    if (y < oldY) {
+//
+//                    }
+//                    searchLayout.setVisibility(View.GONE);
+//                    YoYo.with(Techniques.FadeOutDown).playOn(searchLayout);
+//                }
+
+            }
+        });
+
+        initData();
+    }
+
+
+    /***
+     * 动画显示SearchLayout
+     */
+    private void hideSearchLayout() {
+        YoYo.with(Techniques.FadeInDown).playOn(searchLayout);
+    }
+
+
+    /***
+     * 加载数据
+     */
+    private void initData() {
+
+        RetrofitHttp.getInstence().API().getBanner("index").compose(this.<BaseEntity<List<BannerBean>>>setThread()).subscribe(new BaseObserver<List<BannerBean>>() {
+            @Override
+            protected void onSuccees(BaseEntity<List<BannerBean>> t) throws Exception {
+                sampleHeaderView.setImages(t.getResult()).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
+            }
+
+            @Override
+            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+
+            }
+        });
 
     }
+
+    /***
+     * 初始化沉浸式
+     */
+    private void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+    }
+
 
     @Override
     public void setListernner() {
-
     }
 
-    class DynamicPagerAdapter extends FragmentPagerAdapter {
 
-        String[] title = {"图片", "视频", "其他"};
+    private static class CurrentFragmentImpl implements CurrentFragment {
+        private final ViewPager mViewPager;
+        private final FragmentManager mFragmentManager;
+        private final FragmentPagerAdapter mAdapter;
 
-        public DynamicPagerAdapter(FragmentManager fm) {
-            super(fm);
+        CurrentFragmentImpl(ViewPager pager, FragmentManager manager) {
+            mViewPager = pager;
+            mFragmentManager = manager;
+            mAdapter = (FragmentPagerAdapter) pager.getAdapter();
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return title[position];
+        @Nullable
+        public FragmentPagerFragment currentFragment() {
+            final FragmentPagerFragment out;
+            final int position = mViewPager.getCurrentItem();
+            if (position < 0
+                    || position >= mAdapter.getCount()) {
+                out = null;
+            } else {
+                final String tag = makeFragmentName(mViewPager.getId(), mAdapter.getItemId(position));
+                final Fragment fragment = mFragmentManager.findFragmentByTag(tag);
+                if (fragment != null) {
+                    out = (FragmentPagerFragment) fragment;
+                } else {
+                    // fragment is still not attached
+                    out = null;
+                }
+            }
+            return out;
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            return new TalentFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
+        private static String makeFragmentName(int viewId, long id) {
+            return "android:switcher:" + viewId + ":" + id;
         }
     }
+
+    private static List<MineFragmentPagerAdapter.Item> items() {
+        final List<MineFragmentPagerAdapter.Item> items = new ArrayList<>(4);
+        items.add(new MineFragmentPagerAdapter.Item("动态",
+                new MineFragmentPagerAdapter.Provider() {
+                    @Override
+                    public Fragment provide() {
+                        return new TalentDynamicFragment();
+                    }
+                }
+        ));
+        items.add(new MineFragmentPagerAdapter.Item(
+                "视频",
+                new MineFragmentPagerAdapter.Provider() {
+                    @Override
+                    public Fragment provide() {
+                        return new TalentDynamicFragment();
+                    }
+                }
+        ));
+        items.add(new MineFragmentPagerAdapter.Item(
+                "关注",
+                new MineFragmentPagerAdapter.Provider() {
+                    @Override
+                    public Fragment provide() {
+                        return new TalentDynamicFragment();
+                    }
+                }
+        ));
+
+        return items;
+    }
+
+
+    /**
+     * GlideImageLoader
+     */
+    public static class GlideImageLoader extends ImageLoader {
+
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            BannerBean bannerBean = (BannerBean) path;
+            Glide.with(context).load(bannerBean.getImgUrl()).into(imageView);
+        }
+    }
+
 
 }

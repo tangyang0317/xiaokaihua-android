@@ -27,4 +27,19 @@
         <attr name="leftTitleTextSize" format="float"></attr>
         <attr name="rightTitleTextSize" format="float"></attr>
     </declare-styleable>
+
+
+    <declare-styleable name="RatioImageView">
+        <attr name="ratio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="NineGridLayout">
+        <attr name="sapcing" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SampleHeaderView">
+        <attr name="shv_title" format="string" />
+        <attr name="shv_expandedColor" format="color" />
+        <attr name="shv_collapsedColor" format="color" />
+    </declare-styleable>
 </resources>

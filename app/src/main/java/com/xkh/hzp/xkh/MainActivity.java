@@ -1,58 +1,74 @@
 package com.xkh.hzp.xkh;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.umeng.onlineconfig.OnlineConfigAgent;
+import com.gyf.barlibrary.ImmersionBar;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.xkh.hzp.xkh.activity.PublishPictureTextActvity;
 import com.xkh.hzp.xkh.fragment.FragmentFactory;
 import com.xkh.hzp.xkh.http.RetrofitHttp;
-import com.xkh.hzp.xkh.http.base.BaseEntity;
-import com.xkh.hzp.xkh.http.base.BaseObserver;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.DimentUtils;
 
 /**
  * Created by tangyang on 18/4/21.
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private RadioGroup indexRadioGroup;
+    private RelativeLayout contentBgLayout;
+    private FloatingActionButton floatingActionButton;
+    private SubActionButton.Builder rLSubBuilder;
+    private FloatingActionMenu rightLowerMenu;
+    private ImageView addIconImg, videoImg, imgTextImg;
+    private ArrayList<ValueAnimator> animList = new ArrayList<>();
+
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
         hideToolbar();
+//        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).fitsSystemWindows(true).init();
         indexRadioGroup = findViewById(R.id.indexRadioGroup);
-        String update = OnlineConfigAgent.getInstance().getConfigParams(this, "update");
-        Log.d("xkh", update);
+        contentBgLayout = findViewById(R.id.contentBgLayout);
+        if (contentBgLayout.getForeground() == null) {
+            contentBgLayout.setForeground(new ColorDrawable(Color.parseColor("#ffffff")));
+        }
+
+        contentBgLayout.getForeground().setAlpha(0);
+        initfFloatButton();
         initFragment(0);
-        RetrofitHttp.getInstence().API().getBanner("index").compose(this.<BaseEntity<List<BannerBean>>>setThread()).subscribe(new BaseObserver<List<BannerBean>>() {
-            @Override
-            protected void onSuccees(BaseEntity<List<BannerBean>> t) throws Exception {
-                Log.d("xkh", t.getResult().get(0).getImgUrl());
-            }
-
-            @Override
-            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
-
-            }
-        });
-
 
         RetrofitHttp.getInstence().API().getStringBanner("index").enqueue(new Callback<ResponseBody>() {
             @Override
@@ -65,9 +81,88 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
 
+
+    /**
+     * 悬浮菜单
+     */
+    private void initfFloatButton() {
+
+        addIconImg = new ImageView(this);
+        FloatingActionButton.LayoutParams layoutParams = new FloatingActionButton.LayoutParams(DimentUtils.dip2px(this, 60), DimentUtils.dip2px(this, 60));
+        layoutParams.bottomMargin = DimentUtils.dip2px(this, 70);
+        layoutParams.rightMargin = DimentUtils.dip2px(this, 20);
+
+        addIconImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_vedio));
+        addIconImg.setScaleType(ImageView.ScaleType.FIT_XY);
+        floatingActionButton = new FloatingActionButton.Builder(this).setContentView(addIconImg)
+                .setLayoutParams(layoutParams)
+                .build();
+
+        FrameLayout.LayoutParams layoutParams1 = new FrameLayout.LayoutParams(DimentUtils.dip2px(this, 50), DimentUtils.dip2px(this, 50));
+
+        rLSubBuilder = new SubActionButton.Builder(this)
+                .setLayoutParams(layoutParams1);
+        videoImg = new ImageView(this);
+        imgTextImg = new ImageView(this);
+        videoImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_vedio));
+        imgTextImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_img_text));
+
+        rightLowerMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(rLSubBuilder.setContentView(videoImg).build())
+                .addSubActionView(rLSubBuilder.setContentView(imgTextImg).build())
+                .setRadius(150)
+                .attachTo(floatingActionButton).build();
+
+        rightLowerMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
+            @Override
+            public void onMenuOpened(FloatingActionMenu menu) {
+                // 增加按钮中的+号图标顺时针旋转45度
+                // Rotate the icon of rightLowerButton 45 degrees clockwise
+                executeAlphaAnimation(0, 180, 200);
+                addIconImg.setRotation(0);
+                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 45);
+                ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(addIconImg, pvhR);
+                animation.start();
+            }
+
+            @Override
+            public void onMenuClosed(FloatingActionMenu menu) {
+                // 增加按钮中的+号图标逆时针旋转45度
+                // Rotate the icon of rightLowerButton 45 degrees
+                // counter-clockwise
+                executeAlphaAnimation(180, 0, 200);
+                addIconImg.setRotation(45);
+                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 0);
+                ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(addIconImg, pvhR);
+                animation.start();
+            }
+        });
 
     }
+
+
+    private void executeAlphaAnimation(final int from, final int to, final int duration) {
+        final ValueAnimator valueAnimator = ValueAnimator.ofInt(from, to);
+        valueAnimator.setDuration(duration);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int newAlpha = (int) animation.getAnimatedValue();
+                contentBgLayout.getForeground().setAlpha(newAlpha);
+                //anim finished
+                if (newAlpha == to) {
+                    valueAnimator.cancel();
+                    animList.clear();
+                }
+            }
+        });
+        valueAnimator.start();
+        animList.add(valueAnimator);
+    }
+
 
     private long firstTime = 0;
 
@@ -97,17 +192,25 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.dynamicRB:
+                        floatingActionButton.setVisibility(View.VISIBLE);
                         initFragment(0);
                         break;
                     case R.id.talentRB:
+                        floatingActionButton.setVisibility(View.GONE);
+                        if (rightLowerMenu.isOpen()) rightLowerMenu.close(true);
                         initFragment(1);
                         break;
                     case R.id.mineRB:
+                        floatingActionButton.setVisibility(View.GONE);
+                        if (rightLowerMenu.isOpen()) rightLowerMenu.close(true);
                         initFragment(2);
                         break;
                 }
             }
         });
+
+        videoImg.setOnClickListener(this);
+        imgTextImg.setOnClickListener(this);
     }
 
 
@@ -117,5 +220,15 @@ public class MainActivity extends BaseActivity {
         Fragment fragment = FragmentFactory.createFragment(i);
         transaction.replace(R.id.mainContainerFrameLayout, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == videoImg) {
+
+        } else if (view == imgTextImg) {
+            rightLowerMenu.close(true);
+            PublishPictureTextActvity.lunchActivity(this, null, PublishPictureTextActvity.class);
+        }
     }
 }

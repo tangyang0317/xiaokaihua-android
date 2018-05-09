@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:gravity="center_vertical"
         android:text="我是标题"
-        android:textColor="#666666"
+        android:textColor="#ffffff"
         android:textSize="16sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
         android:text="提交"
-        android:textColor="#777777"
+        android:textColor="#ffffff"
         android:textSize="14sp"
         android:visibility="gone" />
 

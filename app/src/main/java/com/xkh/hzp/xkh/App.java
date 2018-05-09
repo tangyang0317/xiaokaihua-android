@@ -7,9 +7,12 @@ import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.umeng.socialize.PlatformConfig;
+import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.module.ModulesManager;
 import com.xkh.hzp.xkh.module.TutuModule;
 import com.xkh.hzp.xkh.module.UmengModule;
+
+import org.lasque.tusdk.core.TuSdk;
 
 import xkh.hzp.xkh.com.base.Global;
 
@@ -21,26 +24,25 @@ import xkh.hzp.xkh.com.base.Global;
  **/
 public class App extends Application {
 
-
     {
         PlatformConfig.setWeixin("wx0977b69d0ab9fbed", "8f7ce94b39dd82fed7644497fd761e3a");
         PlatformConfig.setQQZone("101419520", "f9d32332cba45a256a78d271eb243cd8");
         PlatformConfig.setSinaWeibo("3815760382", "1191851cfadecafcfd709635eae10a0d", "http://api.xkhstar.cn");
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         Global.init(this);
-
         initCloud();
+        /****初始化TuSDK***/
+        TuSdk.init(this, "688f44bc830433b2-07-catjr1");
+        TuSdk.enableDebugLog(Config.isDebug);
         ModulesManager.getIns().configModule(new UmengModule(), new TutuModule());
         ModulesManager.getIns().initModules();
     }
 
     private void initCloud() {
-
         PushServiceFactory.init(this);
         final CloudPushService pushService = PushServiceFactory.getCloudPushService();
         pushService.register(this, new CommonCallback() {

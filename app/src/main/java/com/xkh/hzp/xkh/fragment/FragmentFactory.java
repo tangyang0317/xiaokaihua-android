@@ -30,7 +30,7 @@ public class FragmentFactory {
                     fragment = new TalentFragment();
                     break;
                 case FRAGMENT_MINE:
-                    fragment = new MineFragment();
+                    fragment = new TalentMineFragment();
                     break;
             }
             //存到集合中
