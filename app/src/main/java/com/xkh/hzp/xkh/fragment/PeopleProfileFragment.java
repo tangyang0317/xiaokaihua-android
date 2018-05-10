@@ -20,7 +20,7 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
  * @Author tangyang
  * @DATE 2018/5/9
  **/
-public class PeopleProfileFragment extends BaseFragment {
+public class PeopleProfileFragment extends FragmentPagerFragment {
 
     private RecyclerView talentPictureRecycleView;
     private TextView talentHeightTxt, talentWidghtTxt, talentMeasurementstTxt, talentConstellationTxt;
@@ -57,5 +57,17 @@ public class PeopleProfileFragment extends BaseFragment {
     @Override
     public void setListernner() {
 
+    }
+
+    @Override
+    public boolean canScrollVertically(int direction) {
+        return talentPictureRecycleView != null && talentPictureRecycleView.canScrollVertically(direction);
+    }
+
+    @Override
+    public void onFlingOver(int y, long duration) {
+        if (talentPictureRecycleView != null) {
+            talentPictureRecycleView.smoothScrollBy(0, y);
+        }
     }
 }

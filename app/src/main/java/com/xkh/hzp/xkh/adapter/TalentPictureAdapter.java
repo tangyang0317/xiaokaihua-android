@@ -3,6 +3,7 @@ package com.xkh.hzp.xkh.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,12 +28,24 @@ public class TalentPictureAdapter extends BaseQuickAdapter<String, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         ImageView pictureImg = helper.getView(R.id.telentPictureImg);
-        View telentPictureSpaceView = helper.getView(R.id.telentPictureSpaceView);
-        ViewGroup.LayoutParams spaceViewLayoutParams = new ViewGroup.LayoutParams(helper.getPosition() == 0 ? DimentUtils.dip2px(mContext, 15) : DimentUtils.dip2px(mContext, 10), ViewGroup.LayoutParams.WRAP_CONTENT);
-        telentPictureSpaceView.setLayoutParams(spaceViewLayoutParams);
-        int width = (DimentUtils.getScreenWidth(mContext) - DimentUtils.dip2px(mContext, 35)) * 4 / 5;
+        LinearLayout itemContentLayout = helper.getView(R.id.itemContentLayout);
+        View startTelentPictureSpaceView = helper.getView(R.id.startTelentPictureSpaceView);
+        View stopTelentPictureSpaceView = helper.getView(R.id.stopTelentPictureSpaceView);
+
+        LinearLayout.LayoutParams spaceViewLayoutParams = new LinearLayout.LayoutParams(helper.getPosition() == 0 ? DimentUtils.dip2px(mContext, 15) : DimentUtils.dip2px(mContext, 10), LinearLayout.LayoutParams.WRAP_CONTENT);
+        startTelentPictureSpaceView.setLayoutParams(spaceViewLayoutParams);
+        int width = (DimentUtils.getScreenWidth(mContext) - DimentUtils.dip2px(mContext, 35)) * 2 / 5;
         int height = (int) (width + width * 0.6);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
         pictureImg.setLayoutParams(layoutParams);
+        int layoutWidth = 0;
+        if (helper.getPosition() == getData().size() - 1) {
+            layoutWidth = layoutParams.width + spaceViewLayoutParams.width * 2;
+            stopTelentPictureSpaceView.setVisibility(View.VISIBLE);
+        } else {
+            layoutWidth = layoutParams.width + spaceViewLayoutParams.width;
+        }
+        LinearLayout.LayoutParams itemContentLayoutParams = new LinearLayout.LayoutParams(layoutWidth, height);
+        itemContentLayout.setLayoutParams(itemContentLayoutParams);
     }
 }
