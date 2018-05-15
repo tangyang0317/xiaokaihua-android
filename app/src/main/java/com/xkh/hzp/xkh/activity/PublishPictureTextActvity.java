@@ -44,7 +44,7 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
         richEditComponentSample.setTuMutipleHandle(this);
         pictureTxtEdit = findViewById(R.id.pictureTxtEdit);
         imgGridView = findViewById(R.id.imgGridView);
-        addImgesAdpter = new GridViewAddImgesAdpter(null, this);
+        addImgesAdpter = new GridViewAddImgesAdpter(null, this, 5);
         addImgesAdpter.setMaxImages(9);
         imgGridView.setAdapter(addImgesAdpter);
 

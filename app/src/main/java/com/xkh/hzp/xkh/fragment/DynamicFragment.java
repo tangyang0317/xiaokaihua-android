@@ -1,13 +1,13 @@
 package com.xkh.hzp.xkh.fragment;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Context;
-import android.media.Image;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +18,6 @@ import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.gyf.barlibrary.ImmersionBar;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.xkh.hzp.xkh.BannerBean;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
@@ -39,6 +36,7 @@ import ru.noties.scrollable.OnFlingOverListener;
 import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.base.BaseLazyFragment;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
 /**
@@ -54,15 +52,12 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private Banner sampleHeaderView;
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsLayout;
-    protected ImmersionBar mImmersionBar;
 
-    private FloatingActionMenu rightLowerMenu;
 
     @Override
     public void onClick(View view) {
 
     }
-
 
     private interface CurrentFragment {
         @Nullable
@@ -71,34 +66,12 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            if (mImmersionBar != null) {
-                mImmersionBar.init();
-            }
-        } else {
-            rightLowerMenu = null;
-        }
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mImmersionBar != null)
-            mImmersionBar.destroy();
-    }
-
-    @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_dynamic;
     }
 
-
     @Override
     public void initView(View contentView) {
-        initImmersionBar();
         scrollableLayout = contentView.findViewById(R.id.scrollable_layout);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
         viewPager = contentView.findViewById(R.id.view_pager);
@@ -131,7 +104,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onScrollChanged(int y, int oldY, int maxY) {
-
                 Log.d("xkh", "maxY===" + maxY + "oldY=====" + oldY + "y=====" + y);
                 final float tabsTranslationY;
                 if (y < maxY) {
@@ -140,33 +112,11 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                     tabsTranslationY = y - maxY;
                 }
                 tabsLayout.setTranslationY(tabsTranslationY);
-//                int bannerHeight = sampleHeaderView.getHeight();
-//                if (y >= bannerHeight) {
-//                    searchLayout.setVisibility(View.VISIBLE);
-//                    YoYo.with(Techniques.FadeInDown).playOn(searchLayout);
-//                } else {
-//
-//                    if (y < oldY) {
-//
-//                    }
-//                    searchLayout.setVisibility(View.GONE);
-//                    YoYo.with(Techniques.FadeOutDown).playOn(searchLayout);
-//                }
-
             }
         });
 
         initData();
     }
-
-
-    /***
-     * 动画显示SearchLayout
-     */
-    private void hideSearchLayout() {
-        YoYo.with(Techniques.FadeInDown).playOn(searchLayout);
-    }
-
 
     /***
      * 加载数据
@@ -185,14 +135,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-    }
-
-    /***
-     * 初始化沉浸式
-     */
-    private void initImmersionBar() {
-        mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
 
 

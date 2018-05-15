@@ -26,26 +26,10 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
  * @DATE 2018/4/28
  **/
 public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
-    protected ImmersionBar mImmersionBar;
     private SwipeRefreshLayout talentSwipeRefreshLayout;
     private RecyclerView talentRecyclerView;
     private TalentAdapter talentAdapter;
     private TalentClassAdapter talentClassAdapter;
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden && mImmersionBar != null) {
-            mImmersionBar.init();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mImmersionBar != null)
-            mImmersionBar.destroy();
-    }
 
     @Override
     public int getFragmentLayoutId() {
@@ -54,7 +38,6 @@ public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void initView(View contentView) {
-        initImmersionBar();
         talentSwipeRefreshLayout = contentView.findViewById(R.id.talentSwipeRefreshLayout);
         talentRecyclerView = contentView.findViewById(R.id.talentRecyclerView);
 
@@ -94,14 +77,6 @@ public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.O
         talentClassAdapter.setNewData(headerList);
         talentClassAdapter.notifyDataSetChanged();
 
-    }
-
-    /***
-     * 初始化沉浸式
-     */
-    private void initImmersionBar() {
-        mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
 
     @Override

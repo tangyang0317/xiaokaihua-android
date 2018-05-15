@@ -24,4 +24,9 @@
         <item name="android:textColor">@drawable/selector_index_radio_text</item>
     </style>
 
+    <style name="inputDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
+        <item name="android:colorBackground">@color/color_ffffff</item>
+    </style>
+
 </resources>

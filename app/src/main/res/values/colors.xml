@@ -10,6 +10,12 @@
     <color name="color_333333">#333333</color>
     <color name="color_888888">#888888</color>
     <color name="color_dadada">#dadada</color>
+    <color name="color_4b4b4b">#4B4B4B</color>
+    <color name="color_9c9c9c">#9c9c9c</color>
+    <color name="color_909090">#909090</color>
+    <color name="color_006cff">#006cff</color>
+    <color name="color_c3c3c3">#c3c3c3</color>
+    <color name="color_ff8080">#FF8080</color>
 
 
 </resources>

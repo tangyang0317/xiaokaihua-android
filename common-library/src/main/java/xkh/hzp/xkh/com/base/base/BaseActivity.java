@@ -78,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private void initBaseControllerView() {
         //设置沉浸式菜单栏
-        ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.2f).statusBarColor(R.color.color_ff5555).init();
+        ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ff5555).init();
         baseToolBar = findViewById(R.id.baseToolBar);
         toolBarTitleTxt = findViewById(R.id.toolBarTitleTxt);
         toolBarRightTxt = findViewById(R.id.toolBarRightTxt);

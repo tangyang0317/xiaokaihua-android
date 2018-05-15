@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/activity_login_backImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="@dimen/dp_10"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_back_gray_delete" />
+
+        <ImageView
+            android:id="@+id/activity_login_logoImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_login_backImg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/img_logo"
+            android:visibility="visible" />
+
+
+        <LinearLayout
+            android:id="@+id/phoneNumLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/activity_login_logoImg"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_edit_bg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0"
+                android:text="+86"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/activity_login_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:focusable="true"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                android:textColor="@color/color_4b4b4b"
+                android:textColorHint="@color/color_9c9c9c"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/activity_login_getyzm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/sl_btn_red"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp20"
+                android:paddingRight="@dimen/dp20"
+                android:text="获取验证码"
+                android:textColor="@color/color_ffffff"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/activity_login_yzm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/phoneNumLinearLayout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_edit_enable_bg"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:textColor="@color/color_4b4b4b"
+            android:textColorHint="@color/color_9c9c9c"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/activity_login_tv"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/activity_login_yzm"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="未注册的手机号经验证过自动注册为校开花账号"
+            android:textColor="#969696"
+            android:textSize="@dimen/sp_12" />
+
+        <Button
+            android:id="@+id/activity_login_btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_login_tv"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@drawable/sl_btn_red"
+            android:text="进入校开花"
+            android:textColor="@color/color_ffffff"
+            android:textSize="@dimen/sp_14" />
+
+
+        <LinearLayout
+            android:id="@+id/serviceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_login_btnLogin"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="点击登录则表示同意校开花"
+                android:textColor="#B1B1B1"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/activity_login_tv_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="服务条款"
+                android:textColor="@color/color_006cff"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/activity_login_tv_zhichi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="隐私政策"
+                android:textColor="@color/color_006cff"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="社区规范"
+                android:textColor="@color/color_006cff"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/activity_login_toLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/serviceLayout"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:text="账号密码登录"
+            android:textColor="@color/color_006cff"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

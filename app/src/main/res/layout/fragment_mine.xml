@@ -11,17 +11,17 @@
         android:background="@color/color_ffffff">
 
         <ImageView
-            android:id="@+id/mineHeadImg"
+            android:id="@+id/userHeadImg"
             android:layout_width="@dimen/dp50"
             android:layout_height="@dimen/dp50"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_launcher_round" />
 
         <TextView
-            android:id="@+id/mineNickNameTxt"
+            android:id="@+id/userNickNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mineHeadImg"
+            android:layout_below="@id/userHeadImg"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp10"
             android:text="爱吃糖的羊"
@@ -30,9 +30,10 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/userIntroductionTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mineNickNameTxt"
+            android:layout_below="@id/userNickNameTxt"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp10"
             android:text="找模特，找模特，找模特，找模特" />
@@ -42,6 +43,7 @@
     <include layout="@layout/view_horizontal_space" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/userMsgItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
         android:gravity="center_vertical"
@@ -51,6 +53,7 @@
     <include layout="@layout/view_line_horientol" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/joinTalentItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
         android:gravity="center_vertical"
@@ -60,6 +63,7 @@
     <include layout="@layout/view_line_horientol" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/businessConperationItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
         android:gravity="center_vertical"
@@ -69,6 +73,7 @@
     <include layout="@layout/view_horizontal_space" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/updateInfoItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
         android:gravity="center_vertical"
@@ -78,6 +83,7 @@
     <include layout="@layout/view_line_horientol" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/settingItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
         android:gravity="center_vertical"

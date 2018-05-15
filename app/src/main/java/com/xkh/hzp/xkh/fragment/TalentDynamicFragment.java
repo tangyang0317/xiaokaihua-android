@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
 import com.xkh.hzp.xkh.adapter.DynamicAdapter;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 
@@ -61,6 +62,13 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
 
     @Override
     public void setListernner() {
+
+        dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                GraphicDynamicDetailsActivity.lunchActivity(getActivity(), null, GraphicDynamicDetailsActivity.class);
+            }
+        });
 
     }
 

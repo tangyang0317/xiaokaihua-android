@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dynamicDetailsImg"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginLeft="@dimen/dp15"
+    android:layout_marginRight="@dimen/dp15"
+    android:layout_marginTop="@dimen/dp15"
+    android:scaleType="fitXY"
+    android:src="@drawable/example">
+
+</ImageView>

@@ -7,6 +7,9 @@
 .DS_Store
 build/
 .idea/
+/TuSDKUIDefault/
+/TuSDKUIGeeV2/
+/umenglib/
 /captures
 .externalNativeBuild
 *.apk

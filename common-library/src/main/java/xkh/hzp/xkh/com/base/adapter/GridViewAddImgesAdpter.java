@@ -29,6 +29,7 @@ import xkh.hzp.xkh.com.base.utils.DimentUtils;
 public class GridViewAddImgesAdpter extends BaseAdapter {
     private List<String> datas;
     private Context context;
+    private int numOfRow;
     private LayoutInflater inflater;
     /**
      * 可以动态设置最多上传几张，之后就不显示+号了，用户也无法上传了
@@ -36,9 +37,10 @@ public class GridViewAddImgesAdpter extends BaseAdapter {
      */
     private int maxImages = 9;
 
-    public GridViewAddImgesAdpter(List<String> datas, Context context) {
+    public GridViewAddImgesAdpter(List<String> datas, Context context, int numOfRow) {
         this.datas = datas;
         this.context = context;
+        this.numOfRow = numOfRow;
         inflater = LayoutInflater.from(context);
     }
 
@@ -100,8 +102,8 @@ public class GridViewAddImgesAdpter extends BaseAdapter {
 
         int screenWidth = DimentUtils.getScreenWidth(context);
         ViewGroup.LayoutParams layoutParams = viewHolder.ivimage.getLayoutParams();
-        layoutParams.width = (screenWidth - DimentUtils.dip2px(context, 40)) / 5;
-        layoutParams.height = (screenWidth - DimentUtils.dip2px(context, 40)) / 5;
+        layoutParams.width = (screenWidth - DimentUtils.dip2px(context, numOfRow * 10)) / numOfRow;
+        layoutParams.height = (screenWidth - DimentUtils.dip2px(context, numOfRow * 10)) / numOfRow;
         viewHolder.ivimage.setLayoutParams(layoutParams);
 
         if (datas != null && position < datas.size()) {

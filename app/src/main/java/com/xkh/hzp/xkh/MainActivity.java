@@ -59,7 +59,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void initView() {
         hideToolbar();
-//        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).fitsSystemWindows(true).init();
         indexRadioGroup = findViewById(R.id.indexRadioGroup);
         contentBgLayout = findViewById(R.id.contentBgLayout);
         if (contentBgLayout.getForeground() == null) {
@@ -91,7 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         addIconImg = new ImageView(this);
         FloatingActionButton.LayoutParams layoutParams = new FloatingActionButton.LayoutParams(DimentUtils.dip2px(this, 60), DimentUtils.dip2px(this, 60));
-        layoutParams.bottomMargin = DimentUtils.dip2px(this, 70);
+        layoutParams.bottomMargin = DimentUtils.dip2px(this, 48);
         layoutParams.rightMargin = DimentUtils.dip2px(this, 20);
 
         addIconImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_vedio));
@@ -192,15 +191,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.dynamicRB:
+                        ImmersionBar.with(MainActivity.this).fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ff5555).init();
                         floatingActionButton.setVisibility(View.VISIBLE);
                         initFragment(0);
                         break;
                     case R.id.talentRB:
+                        ImmersionBar.with(MainActivity.this).fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ff5555).init();
                         floatingActionButton.setVisibility(View.GONE);
                         if (rightLowerMenu.isOpen()) rightLowerMenu.close(true);
                         initFragment(1);
                         break;
                     case R.id.mineRB:
+                        ImmersionBar.with(MainActivity.this).fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff, 0.5f).init();
                         floatingActionButton.setVisibility(View.GONE);
                         if (rightLowerMenu.isOpen()) rightLowerMenu.close(true);
                         initFragment(2);

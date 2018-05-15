@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/graphicDetailsNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp15">
+
+
+                <ImageView
+                    android:id="@+id/userHeadImg"
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_launcher_round" />
+
+                <TextView
+                    android:id="@+id/userNickNameTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:layout_toRightOf="@id/userHeadImg"
+                    android:text="爱吃糖的羊" />
+
+
+                <TextView
+                    android:id="@+id/userIsAttentionTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_attention"
+                    android:paddingBottom="@dimen/dp4"
+                    android:paddingLeft="@dimen/dp15"
+                    android:paddingRight="@dimen/dp15"
+                    android:paddingTop="@dimen/dp4"
+                    android:text="+关注"
+                    android:textColor="@color/color_ff5555" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dynamicContentTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginRight="@dimen/dp15"
+                android:text="习近平强调，人类对自然规律的认知没有止境，防灾减灾、抗灾救灾是人类生存发展的永恒课题。科学认识致灾规律，有效减轻灾害风险，实现人与自然和谐共处，需要国际社会共同努力。中国将坚持以人民为中心的发展理念，坚持以防为主、防灾抗灾救灾相结合，全面提升综合防灾能力，为人民生命财产安全提供坚实保障。希望各位代表围绕本次研讨会“与地震风险共处”的主题，踊跃参与，集思广益，为促进减灾国际合作、降低自然灾害风险、构建人类命运共同体作出积极贡献。"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dp15" />
+
+            <LinearLayout
+                android:id="@+id/dynamicDetailsImgLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/dynamicDateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/dp15"
+                android:text="2017-04-24" />
+
+            <com.xkh.hzp.xkh.view.CommentExpandableListView
+                android:id="@+id/commentExpandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp"
+                android:divider="@null"
+                android:focusable="false"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/contentEditLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/etComment"
+            android:layout_width="0px"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="评论"
+            android:imeOptions="actionDone"
+            android:paddingLeft="@dimen/dp_4"
+            android:textColor="@color/color_666666"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/shape_send_btn"
+            android:gravity="center"
+            android:text="发送"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vgBottomInfo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="0"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_line_horientol" />
+
+        <LinearLayout
+            android:id="@+id/contentReplyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/detailsShareLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/detailsSharedImg"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/icon_share_red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_toRightOf="@id/detailsSharedImg"
+                    android:text="转发"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:background="#999999" />
+
+            <RelativeLayout
+                android:id="@+id/detailsCommentLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/detailsCommentImg"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_btn_comment" />
+
+                <TextView
+                    android:id="@+id/detailsCommentTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_toRightOf="@id/detailsCommentImg"
+                    android:text="0"
+                    android:textSize="13sp" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:background="#999999" />
+
+            <RelativeLayout
+                android:id="@+id/detailsPraiseLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/detailsPraiseImg"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_unpraised" />
+
+                <TextView
+                    android:id="@+id/detailsPraiseTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_toRightOf="@+id/detailsPraiseImg"
+                    android:text="0" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
