@@ -304,6 +304,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.VideoDynamicDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
 

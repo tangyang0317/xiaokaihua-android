@@ -12,6 +12,81 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+                android:id="@+id/videoPlayerView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+            </com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp15">
+
+                <ImageView
+                    android:id="@+id/userHeadImg"
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_launcher_round" />
+
+                <TextView
+                    android:id="@+id/userNickNameTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:layout_toRightOf="@id/userHeadImg"
+                    android:text="爱吃糖的羊" />
+
+
+                <TextView
+                    android:id="@+id/userIsAttentionTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_attention"
+                    android:paddingBottom="@dimen/dp4"
+                    android:paddingLeft="@dimen/dp15"
+                    android:paddingRight="@dimen/dp15"
+                    android:paddingTop="@dimen/dp4"
+                    android:text="+关注"
+                    android:textColor="@color/color_ff5555" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dynamicContentTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginRight="@dimen/dp15"
+                android:text="习近平强调，人类对自然规律的认知没有止境，防灾减灾、抗灾救灾是人类生存发展的永恒课题。科学认识致灾规律，有效减轻灾害风险，实现人与自然和谐共处，需要国际社会共同努力。中国将坚持以人民为中心的发展理念，坚持以防为主、防灾抗灾救灾相结合，全面提升综合防灾能力，为人民生命财产安全提供坚实保障。希望各位代表围绕本次研讨会“与地震风险共处”的主题，踊跃参与，集思广益，为促进减灾国际合作、降低自然灾害风险、构建人类命运共同体作出积极贡献。"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/dp15" />
+
+
+            <TextView
+                android:id="@+id/dynamicDateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/dp15"
+                android:text="2017-04-24" />
+
+
+            <com.xkh.hzp.xkh.view.CommentExpandableListView
+                android:id="@+id/commentExpandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp"
+                android:divider="@null"
+                android:focusable="false"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none" />
 
         </LinearLayout>
 
@@ -29,7 +104,6 @@
         <include layout="@layout/view_line_horientol" />
 
         <LinearLayout
-            android:id="@+id/contentReplyLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
