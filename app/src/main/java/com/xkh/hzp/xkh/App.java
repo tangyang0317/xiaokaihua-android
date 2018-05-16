@@ -1,11 +1,17 @@
 package com.xkh.hzp.xkh;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.umeng.socialize.PlatformConfig;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.module.ModulesManager;
@@ -14,6 +20,7 @@ import com.xkh.hzp.xkh.module.UmengModule;
 
 import org.lasque.tusdk.core.TuSdk;
 
+import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.Global;
 
 /**
@@ -40,6 +47,14 @@ public class App extends Application {
         TuSdk.enableDebugLog(Config.isDebug);
         ModulesManager.getIns().configModule(new UmengModule(), new TutuModule());
         ModulesManager.getIns().initModules();
+
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)
+                .methodCount(0)
+                .methodOffset(7)
+                .tag("xkh")
+                .build();
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
     }
 
     private void initCloud() {

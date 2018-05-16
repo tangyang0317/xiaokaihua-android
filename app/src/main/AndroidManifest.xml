@@ -315,6 +315,14 @@
             android:name=".activity.SettingPasswordActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.ChooseGenderActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.BusinessCooperationActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

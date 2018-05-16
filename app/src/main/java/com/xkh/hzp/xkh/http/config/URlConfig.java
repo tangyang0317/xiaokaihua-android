@@ -6,5 +6,6 @@ package com.xkh.hzp.xkh.http.config;
 
 public class URlConfig {
     public static final String banner = "/message/banner/query";
+    public static final String getToken = "/dynamic/getToken";
 
 }

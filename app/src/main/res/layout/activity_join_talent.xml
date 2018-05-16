@@ -23,10 +23,12 @@
 
 
             <EditText
+                android:id="@+id/talentLinkManNameEdit"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_join_us" />
+                android:background="@drawable/shape_edit_join_us"
+                android:paddingLeft="@dimen/dp4" />
 
         </LinearLayout>
 
@@ -46,10 +48,12 @@
 
 
             <EditText
+                android:id="@+id/talentLinkManPhoneEdit"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_join_us" />
+                android:background="@drawable/shape_edit_join_us"
+                android:paddingLeft="@dimen/dp4" />
 
         </LinearLayout>
 
@@ -70,10 +74,12 @@
 
 
             <EditText
+                android:id="@+id/talentWeiBoEdit"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_join_us" />
+                android:background="@drawable/shape_edit_join_us"
+                android:paddingLeft="@dimen/dp4" />
 
         </LinearLayout>
 
@@ -94,10 +100,12 @@
 
 
             <EditText
+                android:id="@+id/talentHeightEdit"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_join_us" />
+                android:background="@drawable/shape_edit_join_us"
+                android:paddingLeft="@dimen/dp4" />
 
         </LinearLayout>
 
@@ -118,10 +126,12 @@
 
 
             <EditText
+                android:id="@+id/talentWidghtEdit"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_join_us" />
+                android:background="@drawable/shape_edit_join_us"
+                android:paddingLeft="@dimen/dp4" />
 
         </LinearLayout>
 
@@ -132,12 +142,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp15"
             android:layout_marginRight="@dimen/dp15"
-            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
             android:numColumns="4"
             android:verticalSpacing="@dimen/dp10" />
 
 
         <Button
+            android:id="@+id/joinUsSubmitBtn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp40"
             android:layout_margin="@dimen/dp15"

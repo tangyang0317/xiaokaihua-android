@@ -16,6 +16,9 @@
     <color name="color_006cff">#006cff</color>
     <color name="color_c3c3c3">#c3c3c3</color>
     <color name="color_ff8080">#FF8080</color>
-
+    <color name="toasty_eorr">#E45D2E</color>
+    <color name="toasty_warm">#DEA06F</color>
+    <color name="toasty_success">#DEA06F</color>
+    <color name="toasty_info">#5C70E0</color>
 
 </resources>

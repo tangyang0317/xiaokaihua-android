@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:background="@mipmap/guide_start"
+        android:background="@mipmap/icon_guide_start"
         android:textColor="@color/color_ff5555"
         android:visibility="invisible" />
 

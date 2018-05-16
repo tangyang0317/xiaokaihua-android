@@ -53,7 +53,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsLayout;
 
-
     @Override
     public void onClick(View view) {
 
@@ -123,17 +122,17 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
      */
     private void initData() {
 
-        RetrofitHttp.getInstence().API().getBanner("index").compose(this.<BaseEntity<List<BannerBean>>>setThread()).subscribe(new BaseObserver<List<BannerBean>>() {
-            @Override
-            protected void onSuccees(BaseEntity<List<BannerBean>> t) throws Exception {
-                sampleHeaderView.setImages(t.getResult()).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
-            }
-
-            @Override
-            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
-
-            }
-        });
+//        RetrofitHttp.getInstence().API().getBanner("index").compose(this.<BaseEntity<List<BannerBean>>>setThread()).subscribe(new BaseObserver<List<BannerBean>>() {
+//            @Override
+//            protected void onSuccees(BaseEntity<List<BannerBean>> t) throws Exception {
+//                sampleHeaderView.setImages(t.getResult()).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
+//            }
+//
+//            @Override
+//            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
+//
+//            }
+//        });
 
     }
 

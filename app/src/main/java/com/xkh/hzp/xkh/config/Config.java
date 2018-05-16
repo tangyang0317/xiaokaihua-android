@@ -9,4 +9,6 @@ package com.xkh.hzp.xkh.config;
 public class Config {
 
     public static final boolean isDebug = true;
+
+    public static final String QI_NIU_DOMAIN = "http://xkh-cdn.007fenqi.com";
 }

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
 import com.xkh.hzp.xkh.activity.JoinTalentActivity;
 import com.xkh.hzp.xkh.activity.LoginActivity;
 
@@ -59,7 +60,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (view == joinTalentItemLayout) {
             JoinTalentActivity.lunchActivity(getActivity(), null, JoinTalentActivity.class);
         } else if (view == businessConperationItemLayout) {
-
+            BusinessCooperationActivity.lunchActivity(getActivity(), null, BusinessCooperationActivity.class);
         } else if (view == settingItemLayout) {
 
         } else if (view == userHeadImg) {

@@ -23,7 +23,7 @@
             android:layout_below="@id/activity_login_backImg"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@mipmap/img_logo"
+            android:src="@mipmap/icon_img_logo"
             android:visibility="visible" />
 
 

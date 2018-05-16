@@ -21,6 +21,8 @@ public interface APIFunction {
     @GET(URlConfig.banner)
     Observable<BaseEntity<List<BannerBean>>> getBanner(@Query("type") String type);
 
-    @GET(URlConfig.banner)
-    Call<ResponseBody> getStringBanner(@Query("type") String type);
+    @GET(URlConfig.getToken)
+    Call<ResponseBody> getToken(@Query("type") String type);
+
+
 }

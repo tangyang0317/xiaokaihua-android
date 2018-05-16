@@ -69,17 +69,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initfFloatButton();
         initFragment(0);
 
-        RetrofitHttp.getInstence().API().getStringBanner("index").enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                Log.d("xkh", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+//        RetrofitHttp.getInstence().API().getStringBanner("index").enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+//                Log.d("xkh", response.body().toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
     }
 
 
