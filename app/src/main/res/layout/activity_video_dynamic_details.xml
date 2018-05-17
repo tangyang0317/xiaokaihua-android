@@ -4,18 +4,21 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
             <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
                 android:id="@+id/videoPlayerView"
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="180dp">
 
             </com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer>
 
@@ -91,6 +94,46 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/navigationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bar_bg"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/topView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp48">
+
+
+            <ImageView
+                android:id="@+id/leftBackImg"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/icon_back" />
+
+
+            <TextView
+                android:id="@+id/videoDynamicTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="视频详情"
+                android:textColor="@color/color_ffffff"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/vgBottomInfo"

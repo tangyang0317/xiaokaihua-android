@@ -68,7 +68,11 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                if (position % 2 == 0) {
+                    VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                } else {
+                    GraphicDynamicDetailsActivity.lunchActivity(getActivity(), null, GraphicDynamicDetailsActivity.class);
+                }
             }
         });
 

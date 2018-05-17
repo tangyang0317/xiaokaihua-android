@@ -20,6 +20,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.gyf.barlibrary.ImmersionBar;
 import com.xkh.hzp.xkh.BannerBean;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
 import com.xkh.hzp.xkh.http.RetrofitHttp;
 import com.xkh.hzp.xkh.http.base.BaseEntity;
@@ -55,7 +56,9 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-
+        if (view == searchLayout) {
+            SearchHistoryActivty.openActivity(getActivity(), 0);
+        }
     }
 
     private interface CurrentFragment {
@@ -103,7 +106,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onScrollChanged(int y, int oldY, int maxY) {
-                Log.d("xkh", "maxY===" + maxY + "oldY=====" + oldY + "y=====" + y);
                 final float tabsTranslationY;
                 if (y < maxY) {
                     tabsTranslationY = .0F;
@@ -139,6 +141,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void setListernner() {
+        searchLayout.setOnClickListener(this);
     }
 
 

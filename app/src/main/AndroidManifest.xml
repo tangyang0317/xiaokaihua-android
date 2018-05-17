@@ -328,6 +328,18 @@
             android:name=".activity.BusinessCooperationActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.TalentHomePageActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SearchHistoryActivty"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

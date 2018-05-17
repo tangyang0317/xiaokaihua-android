@@ -1,13 +1,26 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v4.widget.NestedScrollView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
+import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -21,8 +34,10 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.CommentExpandAdapter;
 import com.xkh.hzp.xkh.entity.CommentBean;
 import com.xkh.hzp.xkh.entity.CommentDetailBean;
+import com.xkh.hzp.xkh.entity.ReplyDetailBean;
 import com.xkh.hzp.xkh.view.CommentExpandableListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
@@ -38,10 +53,11 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
 public class VideoDynamicDetailsActivity extends BaseActivity implements View.OnClickListener {
 
     private NormalGSYVideoPlayer videoPlayerView;
-    private ImageView userHeadImg;
-    private TextView userNickNameTxt, userIsAttentionTxt, dynamicContentTxt, dynamicDateTxt;
+    private NestedScrollView contentScrollView;
+    private ImageView userHeadImg, leftBackImg;
+    private TextView userNickNameTxt, videoDynamicTitleTxt, userIsAttentionTxt, dynamicContentTxt, dynamicDateTxt;
     private CommentExpandableListView commentExpandableListView;
-    private LinearLayout vgBottomInfo;
+    private LinearLayout vgBottomInfo, navigationLayout;
     private RelativeLayout detailsShareLayout, detailsCommentLayout, detailsPraiseLayout;
     private ImageView detailsPraiseImg, detailsCommentImg, detailsSharedImg;
     private TextView detailsPraiseTxt, detailsCommentTxt;
@@ -62,7 +78,18 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     }
 
     @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.statusBarView(R.id.topView).init();
+    }
+
+    @Override
     public void initView() {
+        hideToolbar();
+        ImmersionBar.with(this).fitsSystemWindows(false).transparentStatusBar().init();
+        leftBackImg = findViewById(R.id.leftBackImg);
+        videoDynamicTitleTxt = findViewById(R.id.videoDynamicTitleTxt);
+        contentScrollView = findViewById(R.id.contentScrollView);
         videoPlayerView = findViewById(R.id.videoPlayerView);
         userHeadImg = findViewById(R.id.userHeadImg);
         userNickNameTxt = findViewById(R.id.userNickNameTxt);
@@ -70,6 +97,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         dynamicContentTxt = findViewById(R.id.dynamicContentTxt);
         dynamicDateTxt = findViewById(R.id.dynamicDateTxt);
         commentExpandableListView = findViewById(R.id.commentExpandableListView);
+        navigationLayout = findViewById(R.id.navigationLayout);
         vgBottomInfo = findViewById(R.id.vgBottomInfo);
         detailsShareLayout = findViewById(R.id.detailsShareLayout);
         detailsCommentLayout = findViewById(R.id.detailsCommentLayout);
@@ -79,10 +107,109 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsSharedImg = findViewById(R.id.detailsSharedImg);
         detailsPraiseTxt = findViewById(R.id.detailsPraiseTxt);
         detailsCommentTxt = findViewById(R.id.detailsCommentTxt);
-
         initVideo();
+        navigationLayout.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT
+                , ContextCompat.getColor(this, R.color.color_ff5555), 0));
+        commentsList = generateTestData();
+        commentExpandAdapter = new CommentExpandAdapter(this, commentsList);
+        commentExpandableListView.setAdapter(commentExpandAdapter);
+        commentExpandableListView.setGroupIndicator(null);
+        //默认展开所有回复
+        for (int i = 0; i < commentsList.size(); i++) {
+            commentExpandableListView.expandGroup(i);
+        }
+        commentExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
+                boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
+//                if(isExpanded){
+//                    expandableListView.collapseGroup(groupPosition);
+//                }else {
+//                    expandableListView.expandGroup(groupPosition, true);
+//                }
+//                showReplyDialog(groupPosition);
+                return true;
+            }
+        });
+
+        commentExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                return false;
+            }
+        });
+
+        commentExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+
+            }
+        });
+
+        contentScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                Logger.d("scrollY" + scrollY + "------>oldScrollY" + oldScrollY);
+                int videoPlayerViewHeight = videoPlayerView.getHeight() - navigationLayout.getHeight() - ImmersionBar.getStatusBarHeight(VideoDynamicDetailsActivity.this);
+                if (scrollY <= videoPlayerViewHeight) {
+                    videoDynamicTitleTxt.setVisibility(View.GONE);
+                    float alpha = (float) scrollY / videoPlayerViewHeight;
+                    navigationLayout.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT
+                            , ContextCompat.getColor(VideoDynamicDetailsActivity.this, R.color.color_ff5555), alpha));
+                } else {
+                    videoDynamicTitleTxt.setVisibility(View.VISIBLE);
+                    navigationLayout.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT
+                            , ContextCompat.getColor(VideoDynamicDetailsActivity.this, R.color.color_ff5555), 1));
+                }
+            }
+        });
 
     }
+
+    /**
+     * 显示编辑输入框Dialog
+     */
+    private void showEditDialog() {
+        bottomSheetDialog = new BottomSheetDialog(this, R.style.inputDialog);
+        final View contentView = LayoutInflater.from(this).inflate(R.layout.view_dialog_edit, null);
+        final EditText commentEdit = contentView.findViewById(R.id.commentEdit);
+        bottomSheetDialog.setContentView(contentView);
+        /**
+         * 解决bsd显示不全的情况
+         */
+        View parent = (View) contentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        contentView.measure(0, 0);
+        behavior.setPeekHeight(contentView.getMeasuredHeight());
+        bottomSheetDialog.setCanceledOnTouchOutside(true);
+        bottomSheetDialog.show();
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                InputMethodManager inputMgr = (InputMethodManager) VideoDynamicDetailsActivity.this
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMgr.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
+            }
+        });
+
+    }
+
+
+    private List<CommentDetailBean> generateTestData() {
+        List<CommentDetailBean> commentDetailBeanList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CommentDetailBean commentDetailBean = new CommentDetailBean("爱吃糖的羊", "这条笔记不错" + i, "一分钟前");
+            List<ReplyDetailBean> replyDetailBeanList = new ArrayList<ReplyDetailBean>();
+            for (int j = 0; j < 5; j++) {
+                ReplyDetailBean replyDetailBean = new ReplyDetailBean("勒布朗", "下场比赛一定要赢");
+                replyDetailBeanList.add(replyDetailBean);
+            }
+            commentDetailBean.setReplyList(replyDetailBeanList);
+            commentDetailBeanList.add(commentDetailBean);
+        }
+        return commentDetailBeanList;
+    }
+
 
     /***
      * 初始化视频
@@ -259,7 +386,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         } else if (view == userHeadImg) {
 
         } else if (view == detailsCommentLayout) {
-
+            showEditDialog();
         } else if (view == detailsPraiseLayout) {
 
         }

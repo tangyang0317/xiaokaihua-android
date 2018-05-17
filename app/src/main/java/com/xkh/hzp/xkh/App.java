@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.umeng.socialize.PlatformConfig;
 import com.xkh.hzp.xkh.config.Config;
+import com.xkh.hzp.xkh.dblite.DataBaseHelper;
 import com.xkh.hzp.xkh.module.ModulesManager;
 import com.xkh.hzp.xkh.module.TutuModule;
 import com.xkh.hzp.xkh.module.UmengModule;
@@ -47,6 +48,9 @@ public class App extends Application {
         TuSdk.enableDebugLog(Config.isDebug);
         ModulesManager.getIns().configModule(new UmengModule(), new TutuModule());
         ModulesManager.getIns().initModules();
+
+        /****初始化数据库****/
+        DataBaseHelper.getHelper(this);
 
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)

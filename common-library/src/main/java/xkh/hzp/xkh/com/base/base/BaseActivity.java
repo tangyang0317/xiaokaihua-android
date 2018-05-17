@@ -2,6 +2,7 @@ package xkh.hzp.xkh.com.base.base;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView toolBarTitleTxt, toolBarRightTxt;
     private ImageView toolBarRightImg;
     private LinearLayout baseContentLayout;
-
+    protected ImmersionBar mImmersionBar;
 
     public static void lunchActivity(Activity activity, Bundle bundle, Class tClass) {
         Intent intent = new Intent(activity, tClass);
@@ -73,20 +74,39 @@ public abstract class BaseActivity extends AppCompatActivity {
         };
     }
 
+
+    protected void initImmersionBar() {
+        //在BaseActivity里初始化
+        mImmersionBar = ImmersionBar.with(this).titleBar(baseToolBar);
+        mImmersionBar.statusBarDarkFont(true, 0.5f).init();
+    }
+
+    /**
+     * 是否可以使用沉浸式
+     * Is immersion bar enabled boolean.
+     *
+     * @return the boolean
+     */
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
     /**
      * 初始化控制器View
      */
     private void initBaseControllerView() {
-        //设置沉浸式菜单栏
-        ImmersionBar.with(this).fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ff5555).init();
         baseToolBar = findViewById(R.id.baseToolBar);
         toolBarTitleTxt = findViewById(R.id.toolBarTitleTxt);
         toolBarRightTxt = findViewById(R.id.toolBarRightTxt);
         toolBarRightImg = findViewById(R.id.toolBarRightImg);
         baseContentLayout = findViewById(R.id.baseContentLayout);
         setTitleNavigationIcon(R.drawable.icon_back);
-        setToolBarBg(R.color.color_ff5555);
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
+        //设置沉浸式菜单栏
+        //初始化沉浸式
+        if (isImmersionBarEnabled()) {
+            initImmersionBar();
+        }
         initView();
         setListenner();
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -151,16 +171,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     /**
-     * 设置标题栏背景颜色
-     *
-     * @param color
-     */
-    protected void setToolBarBg(int color) {
-        baseToolBar.setBackgroundColor(getResources().getColor(color));
-    }
-
-
-    /**
      * 设置左边标题图标
      *
      * @param iconRes
@@ -217,7 +227,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void setListenner();
 
-
     public void showToast(String toastMsg) {
         ToastUtils.showToast(this, toastMsg);
     }
@@ -229,7 +238,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ImmersionBar.with(this).destroy();
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();  //在BaseActivity里销毁
     }
 
 }

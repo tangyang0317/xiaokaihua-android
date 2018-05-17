@@ -5,10 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.activity.TalentClassActivity;
 import com.xkh.hzp.xkh.adapter.TalentClassAdapter;
 import com.xkh.hzp.xkh.adapter.TalentAdapter;
@@ -25,9 +27,10 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
  * @Author tangyang
  * @DATE 2018/4/28
  **/
-public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class TalentFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     private SwipeRefreshLayout talentSwipeRefreshLayout;
     private RecyclerView talentRecyclerView;
+    private LinearLayout searchLayout;
     private TalentAdapter talentAdapter;
     private TalentClassAdapter talentClassAdapter;
 
@@ -38,6 +41,7 @@ public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void initView(View contentView) {
+        searchLayout = contentView.findViewById(R.id.searchLayout);
         talentSwipeRefreshLayout = contentView.findViewById(R.id.talentSwipeRefreshLayout);
         talentRecyclerView = contentView.findViewById(R.id.talentRecyclerView);
 
@@ -81,7 +85,7 @@ public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void setListernner() {
-
+        searchLayout.setOnClickListener(this);
         talentClassAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -99,5 +103,12 @@ public class TalentFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onLoadMoreRequested() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == searchLayout) {
+            SearchHistoryActivty.openActivity(getActivity(), 0);
+        }
     }
 }

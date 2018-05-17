@@ -19,7 +19,6 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
  * @DATE 2018/5/16
  **/
 public class BusinessCooperationActivity extends BaseActivity implements View.OnClickListener {
-
     private EditText companyNameEdit, linkManNameEdit, linkManPhoneEdit, promotionRequireEdit;
     private Button businessConperationSubmitBtn;
     private String companyNameStr, linkManNameStr, linkManPhoneStr, promotionRequireStr;
