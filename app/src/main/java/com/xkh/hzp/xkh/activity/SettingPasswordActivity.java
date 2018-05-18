@@ -28,6 +28,12 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
+    }
+
+    @Override
     public void initView() {
         button = findViewById(R.id.activity_setpassword_btnLogin);
         etName = findViewById(R.id.activity_setpassword_name);

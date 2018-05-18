@@ -36,6 +36,12 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         return R.layout.activity_login_with_pwd;
     }
 
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
+    }
+
     @SuppressLint("WrongViewCast")
     @Override
     public void initView() {

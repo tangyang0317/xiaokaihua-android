@@ -6,11 +6,15 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.tuSDK.RichEditComponentSample;
 import com.xkh.hzp.xkh.tuSDK.TuMutipleHandle;
+import com.xkh.hzp.xkh.upload.OnUploadListener;
+import com.xkh.hzp.xkh.upload.UploadImageManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -47,6 +51,33 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
         addImgesAdpter = new GridViewAddImgesAdpter(null, this, 5);
         addImgesAdpter.setMaxImages(9);
         imgGridView.setAdapter(addImgesAdpter);
+
+    }
+
+
+    @Override
+    protected void callbackOnclickRightMenu(View view) {
+        super.callbackOnclickRightMenu(view);
+
+        UploadImageManager.getInstances().doUpload(this, addImgesAdpter.getDatas(), new OnUploadListener() {
+            @Override
+            public void onAllSuccess(List<HashMap<String, Object>> allImages) {
+
+                for (HashMap<String, Object> allImage : allImages) {
+                    Logger.d(allImage.get(""));
+                }
+            }
+
+            @Override
+            public void onAllFailed(String message) {
+
+            }
+
+            @Override
+            public void onThreadFinish(int position) {
+
+            }
+        });
 
     }
 

@@ -27,6 +27,14 @@ import xkh.hzp.xkh.com.base.utils.DimentUtils;
  * @DATE 2018/5/4
  **/
 public class GridViewAddImgesAdpter extends BaseAdapter {
+    public List<String> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<String> datas) {
+        this.datas = datas;
+    }
+
     private List<String> datas;
     private Context context;
     private int numOfRow;

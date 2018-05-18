@@ -22,7 +22,6 @@ public class AbDevice {
     public static int appTargetSdkVersion;
     public static int appVersionCode = 0;
 
-
     //移动设备国际识别码，移动设备的唯一识别号码
     public static String IMEI = null;
     //国际移动用户识别码储存在SIM卡中

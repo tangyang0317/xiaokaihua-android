@@ -29,6 +29,12 @@ public class ChooseGenderActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
+    }
+
+    @Override
     public void initView() {
         ivFemale = findViewById(R.id.activity_medetail_female_iv);
         ivMale = findViewById(R.id.activity_medetail_male_iv);
