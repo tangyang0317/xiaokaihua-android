@@ -1,152 +1,6 @@
 {
     "filterGroups":[
         {
-            "file":"lsq_filter_Leica_1.gfilter",
-            "name":"lsq_filter_group_Leica",
-            "default_filter_id":12,
-            "type":0,
-            "filters":[
-                {
-                    "id":11,
-                    "name":"lsq_filter_Brilliant",
-                    "color":"#E74C3C",
-                    "args":{
-                        "mixied":0.5
-                    }
-                },
-                {
-                    "id":12,
-                    "name":"lsq_filter_Leica",
-                    "color":"#E74C3C",
-                    "args":{
-                        "mixied":0.6
-                    }
-                },
-                {
-                    "id":13,
-                    "name":"lsq_filter_Gloss",
-                    "color":"#E74C3C",
-                    "args":{
-                        "mixied":0.55
-                    }
-                },
-                {
-                    "id":14,
-                    "name":"lsq_filter_Harmony",
-                    "color":"#E74C3C",
-                    "args":{
-                        "mixied":0.75
-                    }
-                },
-                {
-                    "id":15,
-                    "name":"lsq_filter_Noir",
-                    "color":"#E74C3C"
-                }
-            ]
-        },
-        {
-            "file":"lsq_filter_GailyColoured_2.gfilter",
-            "name":"lsq_filter_group_GailyColoured",
-            "default_filter_id":24,
-            "type":0,
-            "filters":[
-                {
-                    "id":21,
-                    "name":"lsq_filter_Brightly",
-                    "color":"#0091FF",
-                    "args":{
-                        "mixied":0.6
-                    }
-                },
-                {
-                    "id":22,
-                    "name":"lsq_filter_Clear",
-                    "color":"#0091FF",
-                    "args":{
-                        "mixied":0.6
-                    }
-                },
-                {
-                    "id":23,
-                    "name":"lsq_filter_Morning",
-                    "color":"#0091FF",
-                    "args":{
-                        "mixied":0.75
-                    }
-                },
-                {
-                    "id":24,
-                    "name":"lsq_filter_Newborn",
-                    "color":"#0091FF",
-                    "args":{
-                        "mixied":0.7
-                    }
-                },
-                {
-                    "id":25,
-                    "name":"lsq_filter_Artistic",
-                    "color":"#0091FF",
-                    "args":{
-                        "mixied":0.7
-                    }
-                }
-            ]
-        },
-        {
-            "file":"lsq_filter_Food_3.gfilter",
-            "name":"lsq_filter_group_Food",
-            "default_filter_id":34,
-            "type":0,
-            "filters":[
-                {
-                    "id":31,
-                    "name":"lsq_filter_Sweet002",
-                    "color":"#18BC9C",
-                    "args":{
-                        "mixied":0.7,
-                        "vignette":0.5
-                    }
-                },
-                {
-                    "id":32,
-                    "name":"lsq_filter_Thick",
-                    "color":"#18BC9C",
-                    "args":{
-                        "mixied":0.7,
-                        "vignette":0.6
-                    }
-                },
-                {
-                    "id":33,
-                    "name":"lsq_filter_Coffee",
-                    "color":"#18BC9C",
-                    "args":{
-                        "mixied":0.7,
-                        "vignette":0.6
-                    }
-                },
-                {
-                    "id":34,
-                    "name":"lsq_filter_Gold",
-                    "color":"#18BC9C",
-                    "args":{
-                        "mixied":1,
-                        "vignette":0.6
-                    }
-                },
-                {
-                    "id":35,
-                    "name":"lsq_filter_Rum",
-                    "color":"#18BC9C",
-                    "args":{
-                        "mixied":0.7,
-                        "vignette":0.6
-                    }
-                }
-            ]
-        },
-        {
             "file":"lsq_filter_Enhance_4.gfilter",
             "name":"lsq_filter_group_Enhance",
             "default_filter_id":42,
@@ -190,6 +44,117 @@
                     "color":"#7E6B5A",
                     "args":{
                         "mixied":0.5
+                    }
+                }
+            ]
+        },
+        {
+            "file":"lsq_filter_EdgeEffects001_96.gfilter",
+            "name":"lsq_filter_group_EdgeEffects001",
+            "default_filter_id":670,
+            "type":0,
+            "filters":[
+                {
+                    "id":669,
+                    "name":"lsq_filter_Multicolor",
+                    "color":"#50afff",
+                    "args":{
+                        "edgeStrength":0.35,
+                        "speed":0.3,
+                        "showType":0.5
+                    }
+                },
+                {
+                    "id":670,
+                    "name":"lsq_filter_Azure",
+                    "color":"#5a62ff",
+                    "args":{
+                        "edgeStrength":0.35,
+                        "speed":0.48,
+                        "showType":1
+                    }
+                },
+                {
+                    "id":671,
+                    "name":"lsq_filter_Infrared",
+                    "color":"#ff8f00",
+                    "args":{
+                        "edgeStrength":0.35,
+                        "speed":0.3,
+                        "showType":0.5
+                    }
+                },
+                {
+                    "id":672,
+                    "name":"lsq_filter_Fluorescence",
+                    "color":"#20fdad",
+                    "args":{
+                        "edgeStrength":0.35,
+                        "speed":0.3,
+                        "showType":0.3
+                    }
+                },
+                {
+                    "id":673,
+                    "name":"lsq_filter_Starshine",
+                    "color":"#0cfff3",
+                    "args":{
+                        "edgeStrength":0.35,
+                        "speed":0.3,
+                        "showType":0.15
+                    }
+                }
+            ]
+        },
+        {
+            "file":"lsq_filter_Magic_7.gfilter",
+            "name":"lsq_filter_group_Magic",
+            "default_filter_id":74,
+            "type":0,
+            "filters":[
+                {
+                    "id":71,
+                    "name":"lsq_filter_MagicRed",
+                    "color":"#DC1015",
+                    "args":{
+                        "hue":0.05,
+                        "hueSpace":0.1
+                    }
+                },
+                {
+                    "id":72,
+                    "name":"lsq_filter_MagicYellow",
+                    "color":"#F7C533",
+                    "args":{
+                        "hue":0.2,
+                        "hueSpace":0.1
+                    }
+                },
+                {
+                    "id":73,
+                    "name":"lsq_filter_MagicBlue",
+                    "color":"#0091FF",
+                    "args":{
+                        "hue":0.65,
+                        "hueSpace":0.2
+                    }
+                },
+                {
+                    "id":74,
+                    "name":"lsq_filter_MagicGreen",
+                    "color":"#0AA300",
+                    "args":{
+                        "hue":0.4,
+                        "hueSpace":0.2
+                    }
+                },
+                {
+                    "id":75,
+                    "name":"lsq_filter_MagicPurple",
+                    "color":"#E0008F",
+                    "args":{
+                        "hue":0.9,
+                        "hueSpace":0.05
                     }
                 }
             ]
@@ -266,112 +231,147 @@
             ]
         },
         {
-            "file":"lsq_filter_Magic_7.gfilter",
-            "name":"lsq_filter_group_Magic",
-            "default_filter_id":74,
+            "file":"lsq_filter_GailyColoured_2.gfilter",
+            "name":"lsq_filter_group_GailyColoured",
+            "default_filter_id":24,
             "type":0,
             "filters":[
                 {
-                    "id":71,
-                    "name":"lsq_filter_MagicRed",
-                    "color":"#DC1015",
-                    "args":{
-                        "hue":0.05,
-                        "hueSpace":0.1
-                    }
-                },
-                {
-                    "id":72,
-                    "name":"lsq_filter_MagicYellow",
-                    "color":"#F7C533",
-                    "args":{
-                        "hue":0.2,
-                        "hueSpace":0.1
-                    }
-                },
-                {
-                    "id":73,
-                    "name":"lsq_filter_MagicBlue",
+                    "id":21,
+                    "name":"lsq_filter_Brightly",
                     "color":"#0091FF",
                     "args":{
-                        "hue":0.65,
-                        "hueSpace":0.2
+                        "mixied":0.6
                     }
                 },
                 {
-                    "id":74,
-                    "name":"lsq_filter_MagicGreen",
-                    "color":"#0AA300",
+                    "id":22,
+                    "name":"lsq_filter_Clear",
+                    "color":"#0091FF",
                     "args":{
-                        "hue":0.4,
-                        "hueSpace":0.2
+                        "mixied":0.6
                     }
                 },
                 {
-                    "id":75,
-                    "name":"lsq_filter_MagicPurple",
-                    "color":"#E0008F",
+                    "id":23,
+                    "name":"lsq_filter_Morning",
+                    "color":"#0091FF",
                     "args":{
-                        "hue":0.9,
-                        "hueSpace":0.05
+                        "mixied":0.75
+                    }
+                },
+                {
+                    "id":24,
+                    "name":"lsq_filter_Newborn",
+                    "color":"#0091FF",
+                    "args":{
+                        "mixied":0.7
+                    }
+                },
+                {
+                    "id":25,
+                    "name":"lsq_filter_Artistic",
+                    "color":"#0091FF",
+                    "args":{
+                        "mixied":0.7
                     }
                 }
             ]
         },
         {
-            "file":"lsq_filter_EdgeEffects001_96.gfilter",
-            "name":"lsq_filter_group_EdgeEffects001",
-            "default_filter_id":670,
+            "file":"lsq_filter_Leica_1.gfilter",
+            "name":"lsq_filter_group_Leica",
+            "default_filter_id":12,
             "type":0,
             "filters":[
                 {
-                    "id":669,
-                    "name":"lsq_filter_Multicolor",
-                    "color":"#50afff",
+                    "id":11,
+                    "name":"lsq_filter_Brilliant",
+                    "color":"#E74C3C",
                     "args":{
-                        "edgeStrength":0.35,
-                        "speed":0.3,
-                        "showType":0.5
+                        "mixied":0.5
                     }
                 },
                 {
-                    "id":670,
-                    "name":"lsq_filter_Azure",
-                    "color":"#5a62ff",
+                    "id":12,
+                    "name":"lsq_filter_Leica",
+                    "color":"#E74C3C",
                     "args":{
-                        "edgeStrength":0.35,
-                        "speed":0.48,
-                        "showType":1
+                        "mixied":0.6
                     }
                 },
                 {
-                    "id":671,
-                    "name":"lsq_filter_Infrared",
-                    "color":"#ff8f00",
+                    "id":13,
+                    "name":"lsq_filter_Gloss",
+                    "color":"#E74C3C",
                     "args":{
-                        "edgeStrength":0.35,
-                        "speed":0.3,
-                        "showType":0.5
+                        "mixied":0.55
                     }
                 },
                 {
-                    "id":672,
-                    "name":"lsq_filter_Fluorescence",
-                    "color":"#20fdad",
+                    "id":14,
+                    "name":"lsq_filter_Harmony",
+                    "color":"#E74C3C",
                     "args":{
-                        "edgeStrength":0.35,
-                        "speed":0.3,
-                        "showType":0.3
+                        "mixied":0.75
                     }
                 },
                 {
-                    "id":673,
-                    "name":"lsq_filter_Starshine",
-                    "color":"#0cfff3",
+                    "id":15,
+                    "name":"lsq_filter_Noir",
+                    "color":"#E74C3C"
+                }
+            ]
+        },
+        {
+            "file":"lsq_filter_Food_3.gfilter",
+            "name":"lsq_filter_group_Food",
+            "default_filter_id":34,
+            "type":0,
+            "filters":[
+                {
+                    "id":31,
+                    "name":"lsq_filter_Sweet002",
+                    "color":"#18BC9C",
                     "args":{
-                        "edgeStrength":0.35,
-                        "speed":0.3,
-                        "showType":0.15
+                        "mixied":0.7,
+                        "vignette":0.5
+                    }
+                },
+                {
+                    "id":32,
+                    "name":"lsq_filter_Thick",
+                    "color":"#18BC9C",
+                    "args":{
+                        "mixied":0.7,
+                        "vignette":0.6
+                    }
+                },
+                {
+                    "id":33,
+                    "name":"lsq_filter_Coffee",
+                    "color":"#18BC9C",
+                    "args":{
+                        "mixied":0.7,
+                        "vignette":0.6
+                    }
+                },
+                {
+                    "id":34,
+                    "name":"lsq_filter_Gold",
+                    "color":"#18BC9C",
+                    "args":{
+                        "mixied":1,
+                        "vignette":0.6
+                    }
+                },
+                {
+                    "id":35,
+                    "name":"lsq_filter_Rum",
+                    "color":"#18BC9C",
+                    "args":{
+                        "mixied":0.7,
+                        "vignette":0.6
                     }
                 }
             ]
@@ -380,48 +380,18 @@
     "stickerCategories":[
         {
             "id":1,
-            "name":"\u8d34\u7eb8"
+            "name":"lsq_sticker_cate_default"
         },
         {
             "id":2,
-            "name":"\u5fc3\u60c5"
+            "name":"lsq_sticker_cate_mood"
         },
         {
             "id":3,
-            "name":"\u6c34\u5370"
+            "name":"lsq_sticker_cate_watermark"
         }
     ],
     "stickerGroups":[
-        {
-            "file":"lsq_sticker_1_1376.gsce",
-            "name":"Valentine's day",
-            "stickers":[
-                {
-                    "id":10188
-                },
-                {
-                    "id":10189
-                },
-                {
-                    "id":10190
-                },
-                {
-                    "id":10191
-                },
-                {
-                    "id":10192
-                },
-                {
-                    "id":10193
-                },
-                {
-                    "id":10194
-                },
-                {
-                    "id":10195
-                }
-            ]
-        },
         {
             "file":"lsq_sticker_1_1125.gsce",
             "name":"\u5fc3\u60c5\u6846\u6846",
@@ -573,5 +543,5 @@
             ]
         }
     ],
-    "master":"ffHi60l+2yPYq1RZviyFEQhXzaWLH4Y0kP09+cV4SFKb8ZmRLlqWhWF5blXE1R9c2VSof6sjUMFeoO8O5eZtUUAS4rnXsvQAe0uNAiLXsOgCtlWOz954cc1+72VA1ms28hTWhiVKCJTLX0bEjbLiQqcUwTIZhkecUfY6Dh4SiP5eClFbQEqBI168ZKCNQRvBXSxrwV2pmAxyFBvAnfd3mWm5ckMHWMaFZMpLvWHMa1+2NzwCtlOL4jaK\/H4gR8e5MRs52rLoC\/jrjuwO4RodC4Q1W0DYZSPwD\/AU4aXDlXfaEupvXZTZdH0kfEvHvOih5Dnw8kSg\/eCjL8LiWDzfiYmsiS6hiWNm+z2JRAJ0VIrtsuD36qMWAFCX5epliVO0lV3QNm7KCgLxyizVvYXGM1WlW7X\/\/pQHG6QbcMDwuXpTg6LGeNgk4MVeOSHmgN3R+F6BrTunTKbLY2vM+kVRYGv7tvha0R+kjsVP9dW9wSXQhHIuqTlGTyN5LK3\/PF3YR3tbzvnrA4huoV9WdHdJyaSqTuw40uJ4H+69HH1m25WOKdpEOGx7L20jMPTj+LaULdn5\/1GtcaxsE4T\/tvZ9jkM4Je75ttAwVekOQcSQvU\/aKi2b1TqpE9rpDFBodfuqON+1XYOyfPWtJYvMzg2SYNXV\/Y\/8EA4xhjH\/SkRyMLFzhl2iEQ\/xITFuoP4avnfwqMeoHJsBz+gQbp8mdXcyppdgvNmBYVY7swY6252I3vb+h\/UZpKpCmX\/HLnA7f1z4eApTFeYPIpXE7BG6Af88ja6ZUY\/xz\/Jv0aRsFyrHwcTUjGeulWmkD5Xmw49MeJZuusCBSN68TQNEjJu7G06yzjE5rZnYT\/NRH04Yz\/VqrIpTabv3Lhy2mOSYRp58iRNpiCD99j8P0z8lSMcqBkwXgvSNRLgCXn8WdWHPClCcmDhqKqIAYJPKuz7GPwC0HrIFzwXCGZW+1961U1UfRty+vNKqVTn9u7G0iHgEIZY7tANLO2w9FnUFrAJF3CSN68c2dzXRc36YwFRT5tBOJLvms6IIv\/Jepe4llLMWF9I6UQ0NseuVqFUCt8Zw1qf8YhScqbYzXGryCMXXkG+Ux8NPvlzHdl+jbtw7MWBcjbeCfVGZdDMHAhUbeNPDwm7h+jmMcJJYV\/oYAlBjeSfm\/AhFVSA4wxj9LfIVi99UNNz5sS+2gnS8Af4642ZdoxEpOvcPOW8RXmwYfyvGnSosZQJjxFduqfMk3eDI32G+Nb2sRllBTwRmD1r2CGI2kXpcxoh1cAzDslPEDR1yKwBbzcttMARSNCykvIlh0dbLhDc42Q0EkWdKz5llEnYGLYNe\/tzjLyOHq5NcYqBJsNLsoTWsNEo7KMfb852rn9DRlZ5z4PI\/2xS5O3\/QShPXeho9xHj60WexbfTABeSiVRlyWZ2Tm75arEU5JIasRwDW+wf2ZOq3Lh74j7RvzkkxVLlmHapi3Khiv1Nc6MfHMQc8jMiRtTrjdORL1z16wyvzChNOGvnq8xTAKHyJ9nZwCAA6Mz4q9ol3DLEFdSI0zAtOR\/\/oLhgrxUGQ7r3raTl53MTWubhsiB+S20vXuPs+iOZREkijVsOzQ1kr6tuqykjpaDav75s18GO9TqlIIRZuzSztBAp0CjBRyTFox6vjnt9DISXKC45AD85029"
+    "master":"ibhOkLWkGuOk3EcwULmZTA1jRDtXunBNOF8OfqJqUeAnv0TQNLXHBZKBzSigjuFQ5A1J2g36d69GKSF1ys20CcwU4Y0qQMV9M8y7lbTAkhcSIjcrXqJDr+imV+i+avIhe4IErnebq99DBmqvKunGUgU7fCOFqgZSatJaEv5ts0WlfFZnO7nO+sPLFgJybo4eU0fvjBAbO\/bEbFGYYS5CpBAmuMI4P29ARjsrNwG7GA\/51juIqr2BWOiqlZPwgulDJWUJXyaTV4+9sfhZGChjYKTVM21l1F2n3RvnleO+wUYw8ONrHtuQE+u168DcMs8uLYIe6a74OOed\/3bKzq5qvKqTZ\/mwkPDAVdYtwqWT+t5cmWWzZvHh2Eb4+kGZkV1wESD+3d8\/WyFXme3M8IsIYn1jSP2lDNCjli4ynPsPeBZDqrZlxpweIPTMKTv0qtqijs2IWrjIAIE1OEnvAJzL5Or\/bjv3mgISWL\/OAqR6osd8rrv0JRRvazQqURiwRXrfjEVtVnzzFgyBOhXJ\/4woEDIiB1z9c81R9jiMy9nI24XhY43+W26rfzuGQZ7RhZ0uS79F\/RebpIEa21CM15rg5vusI9UoFfRbQeqUvMuWDZat8HXhrvn6a8hcnq73TtlEKatZQJY+rTP\/reSV4acGTYlgKS9C3C5bf+BejQBD9+J+yFQ+Cd9nPvEOTHYtQ+87321Bofe1abCbS\/fAoDyYAqieGKbYFGGimVXK5DT\/Ya7UQlhhjrVcoHpJgaP8i54VYXhFkT+eoog+ty0v4sYtbKaoEDri0V+x9poyfSKDkzS8+r7Ayj2bbRTH33TAUBPEweK83aszpy9sNxQSBn1GVGrMn3W52XKqJ5GV5iwvKxfygYKyKMcN2\/ip29\/CyaZOBKeE6RZ8XlkH7I1P87sUnZKHvd2DRaOfTR6kFqwgscKqOhKrY8MPZ4Ay\/Z7riKVMZdNGn3PPcEvXLGEErHVkGxJVyuxQC5v+fy18DvxVWczrzt47Kyj\/Aa88wllgANmMBMsaTQO2wGTgEBZA+hT75QfIJ2FOIkazo1KVw3j\/evT7nitRSP00a7AUbLH9eTxp9hkakIhCicAmnbayOpQgcPBRQUcCPgDHutuVfnU7IQeHeMxn96eXyFjtLGkQAaNfXqzCaRVq\/LkWl+f7aU94RJoremXkNGk0iwNo1jkem1mbhwXifGkKbYaijnMtm2M\/UaBo2cg9FhKwZfezWkhA\/I8XnBvDjFhWt43JSdLv\/KNsl7risOcFNosMwv1kGHRarbETt\/6XH3VnDjeDQILI1nkGP9sI+VdiFoC39dUftFixxaHFtBFlwNOFTA+NgfXaG94dWZg979xVilpQuZEGhKlXruH2bXzIdV2ioYawQZx2r6yFp8njOdXrupGXNBXxnWCoLxLjQhq+8rHm6HUzzzlr0dCu2Y+pMUvCjACfV9A2ZIXlgwbj5SfN7xNFcDlPRXqgcitu\/YTECHnZyEGWhk2DmhQic8D0eOYmeaFDkCWtieib+8lU4v+GzaQhbsWiFrE\/2Y73GCgg4LEghlBh1DnsqpDgjC0T2of5dAgG+P5yDs56ApFucbD\/RA9pvxgF7GcmExoVubcwKL2eyybaN5t4P1T1MjsBGyXD+lc1iGLNX7eL9VJVqdJis2NV61xG5B6C56F506"
 }

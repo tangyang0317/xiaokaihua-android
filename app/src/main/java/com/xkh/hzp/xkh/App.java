@@ -43,8 +43,6 @@ public class App extends Application {
         super.onCreate();
         Global.init(this);
         initCloud();
-        /****初始化TuSDK***/
-        TuSdk.init(this, "688f44bc830433b2-07-catjr1");
         TuSdk.enableDebugLog(Config.isDebug);
         ModulesManager.getIns().configModule(new UmengModule(), new TutuModule());
         ModulesManager.getIns().initModules();
@@ -59,6 +57,7 @@ public class App extends Application {
                 .tag("xkh")
                 .build();
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
+
     }
 
     private void initCloud() {

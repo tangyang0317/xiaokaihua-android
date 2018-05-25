@@ -11,6 +11,8 @@ public class BaseEntity<T> {
     private int code;
     private boolean success;
     private T result;
+    private String resultCode;
+    private String resultMsg;
 
 
     public String getMsg() {
@@ -43,5 +45,21 @@ public class BaseEntity<T> {
 
     public void setResult(T result) {
         this.result = result;
+    }
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+
+    public String getResultMsg() {
+        return resultMsg;
+    }
+
+    public void setResultMsg(String resultMsg) {
+        this.resultMsg = resultMsg;
     }
 }

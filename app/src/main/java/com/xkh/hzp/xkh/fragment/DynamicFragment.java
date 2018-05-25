@@ -1,44 +1,39 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.gyf.barlibrary.ImmersionBar;
 import com.xkh.hzp.xkh.BannerBean;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.PublishPictureTextActvity;
+import com.xkh.hzp.xkh.activity.PublishVideoActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
-import com.xkh.hzp.xkh.http.RetrofitHttp;
-import com.xkh.hzp.xkh.http.base.BaseEntity;
-import com.xkh.hzp.xkh.http.base.BaseObserver;
 import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnFlingOverListener;
 import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
-import xkh.hzp.xkh.com.base.base.BaseLazyFragment;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
+import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonData;
+import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonEventListener;
+import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
 
 /**
  * @packageName com.xkh.hzp.xkh.fragment
@@ -46,19 +41,26 @@ import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
  * @Author tangyang
  * @DATE 2018/4/28
  **/
-public class DynamicFragment extends BaseFragment implements View.OnClickListener {
+public class DynamicFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private SwipeRefreshLayout dynamicSwipRefreshLayout;
     private ScrollableLayout scrollableLayout;
     private LinearLayout searchLayout;
     private Banner sampleHeaderView;
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsLayout;
+    private SectorMenuButton bottomMenuButton;
 
     @Override
     public void onClick(View view) {
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 0);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     private interface CurrentFragment {
@@ -74,11 +76,14 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void initView(View contentView) {
+        dynamicSwipRefreshLayout = contentView.findViewById(R.id.dynamicSwipRefreshLayout);
         scrollableLayout = contentView.findViewById(R.id.scrollable_layout);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
         viewPager = contentView.findViewById(R.id.view_pager);
         tabsLayout = contentView.findViewById(R.id.tabs);
         searchLayout = contentView.findViewById(R.id.searchLayout);
+        bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
+        dynamicSwipRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         MineFragmentPagerAdapter dynimicPagerAdapter = new MineFragmentPagerAdapter(getChildFragmentManager(), items());
         viewPager.setAdapter(dynimicPagerAdapter);
         tabsLayout.setViewPager(viewPager);
@@ -115,6 +120,38 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 tabsLayout.setTranslationY(tabsTranslationY);
             }
         });
+
+
+        final List<ButtonData> buttonDatas = new ArrayList<>();
+        int[] drawable = {R.mipmap.icon_vedio, R.mipmap.icon_vedio, R.mipmap.icon_img_text};
+        for (int i = 0; i < 3; i++) {
+            //最后一个参数表示padding
+            ButtonData buttonData = ButtonData.buildIconButton(getActivity(), drawable[i], 0);
+            buttonData.setBackgroundColorId(getActivity(), R.color.colorAccent);
+            buttonDatas.add(buttonData);
+        }
+        bottomMenuButton.setButtonDatas(buttonDatas);
+
+        bottomMenuButton.setButtonEventListener(new ButtonEventListener() {
+            @Override
+            public void onButtonClicked(int index) {
+
+                if (index == 1) {
+                    PublishVideoActivity.lunchActivity(getActivity(), null, PublishVideoActivity.class);
+                } else if (index == 2) {
+                    PublishPictureTextActvity.lunchActivity(getActivity(), null, PublishPictureTextActvity.class);
+                }
+            }
+
+            @Override
+            public void onExpand() {
+            }
+
+            @Override
+            public void onCollapse() {
+            }
+        });
+
 
         initData();
     }

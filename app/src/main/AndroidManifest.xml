@@ -340,6 +340,11 @@
             android:name=".activity.SearchActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.PublishVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -52,12 +52,12 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
             String passwordStr = etName.getText().toString();
             String passwordAgainStr = etPassword.getText().toString();
             if (TextUtils.isEmpty(passwordStr) || TextUtils.isEmpty(passwordAgainStr)) {
-                Toasty.error(SettingPasswordActivity.this, "请输入6-16位密码");
+                Toasty.error(SettingPasswordActivity.this, "请输入6-16位密码").show();
                 return;
             }
 
             if (!passwordStr.equals(passwordAgainStr)) {
-                Toasty.error(SettingPasswordActivity.this, "两次输入的密码不一致，请从新输入");
+                Toasty.error(SettingPasswordActivity.this, "两次输入的密码不一致，请从新输入").show();
                 return;
             }
         }

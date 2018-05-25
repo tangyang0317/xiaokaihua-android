@@ -1,87 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
 
     <LinearLayout
-        android:id="@+id/searchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp48"
-        android:background="@color/color_fb435b"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp30"
-            android:layout_marginRight="@dimen/dp30"
-            android:layout_weight="1"
-            android:background="@drawable/shape_search"
-            android:gravity="center"
-            android:text="搜索关键字及达人昵称"
-            android:textSize="@dimen/sp_12" />
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp15"
-            android:layout_weight="0"
-            android:src="@mipmap/icon_msg_white" />
-
-
-    </LinearLayout>
-
-    <ru.noties.scrollable.ScrollableLayout
-        android:id="@+id/scrollable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:scrollable_autoMaxScroll="true"
-        app:scrollable_defaultCloseUp="true">
-
-        <com.youth.banner.Banner
-            android:id="@+id/headerBanner"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/searchLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/dp48"
+            android:background="@color/color_fb435b"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
-                android:id="@+id/tabs"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp30"
+                android:layout_marginRight="@dimen/dp30"
+                android:layout_weight="1"
+                android:background="@drawable/shape_search"
+                android:gravity="center"
+                android:text="搜索关键字及达人昵称"
+                android:textSize="@dimen/sp_12" />
+
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp45"
-                android:layout_gravity="center_horizontal"
-                app:pstsIndicatiorWidth="@dimen/dp30"
-                app:pstsIndicatorColor="@color/color_ff5555"
-                app:pstsIndicatorHeight="1dp"
-                app:pstsTextColor="@color/color_666666"
-                app:selectedTabTextColor="@color/color_ff5555" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp15"
+                android:layout_weight="0"
+                android:src="@mipmap/icon_msg_white" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.75dp"
-                android:layout_marginTop="@dimen/dp2"
-                android:background="#dadada" />
 
         </LinearLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/dynamicSwipRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp45" />
+            android:layout_height="match_parent">
+
+            <ru.noties.scrollable.ScrollableLayout
+                android:id="@+id/scrollable_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scrollable_autoMaxScroll="true"
+                app:scrollable_defaultCloseUp="true">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/headerBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
+                        android:id="@+id/tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp45"
+                        android:layout_gravity="center_horizontal"
+                        app:pstsIndicatiorWidth="@dimen/dp30"
+                        app:pstsIndicatorColor="@color/color_ff5555"
+                        app:pstsIndicatorHeight="1dp"
+                        app:pstsTextColor="@color/color_666666"
+                        app:selectedTabTextColor="@color/color_ff5555" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.75dp"
+                        android:layout_marginTop="@dimen/dp2"
+                        android:background="#dadada" />
+
+                </LinearLayout>
 
 
-    </ru.noties.scrollable.ScrollableLayout>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp45" />
 
-</LinearLayout>
+
+            </ru.noties.scrollable.ScrollableLayout>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton
+        android:id="@+id/bottomMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/dp30"
+        android:layout_marginRight="@dimen/dp30"
+        app:aebAnimDurationMillis="175"
+        app:aebBlurBackground="true"
+        app:aebBlurRadius="10"
+        app:aebButtonElevation="0dp"
+        app:aebButtonGapDp="50dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonRotateAnimDurationMillis="300"
+        app:aebMainButtonRotateDegree="45"
+        app:aebMainButtonSizeDp="40dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="40dp" />
+
+</FrameLayout>
+

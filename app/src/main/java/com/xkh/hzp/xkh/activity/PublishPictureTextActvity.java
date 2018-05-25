@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.adapter.GridViewAddImgesAdpter;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.view.UILoadingView;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -58,26 +60,36 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
     @Override
     protected void callbackOnclickRightMenu(View view) {
         super.callbackOnclickRightMenu(view);
+        final UILoadingView loadingView = new UILoadingView(this, false, "正在上传视频");
 
-        UploadImageManager.getInstances().doUpload(this, addImgesAdpter.getDatas(), new OnUploadListener() {
+        loadingView.show();
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onAllSuccess(List<HashMap<String, Object>> allImages) {
-
-                for (HashMap<String, Object> allImage : allImages) {
-                    Logger.d(allImage.get(""));
-                }
+            public void run() {
+                loadingView.dismiss();
             }
+        }, 5000);
 
-            @Override
-            public void onAllFailed(String message) {
-
-            }
-
-            @Override
-            public void onThreadFinish(int position) {
-
-            }
-        });
+//        UploadImageManager.getInstances().doUpload(this, addImgesAdpter.getDatas(), new OnUploadListener() {
+//            @Override
+//            public void onAllSuccess(List<HashMap<String, Object>> allImages) {
+//
+//                for (HashMap<String, Object> allImage : allImages) {
+//                    Logger.d(allImage.get(""));
+//                }
+//            }
+//
+//            @Override
+//            public void onAllFailed(String message) {
+//
+//            }
+//
+//            @Override
+//            public void onThreadFinish(int position) {
+//
+//            }
+//        });
 
     }
 
@@ -106,6 +118,6 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
 
     @Override
     public void onFail(String msg) {
-        Toasty.error(PublishPictureTextActvity.this, "涂图处理图片失败");
+        Toasty.error(PublishPictureTextActvity.this, "涂图处理图片失败").show();
     }
 }

@@ -33,6 +33,9 @@ public class RetrofitHttp {
         mOkHttpClient.connectTimeout(HttpConfig.HTTP_TIME, TimeUnit.SECONDS);
         mOkHttpClient.readTimeout(HttpConfig.HTTP_TIME, TimeUnit.SECONDS);
         mOkHttpClient.writeTimeout(HttpConfig.HTTP_TIME, TimeUnit.SECONDS);
+        /*****添加cookie*****/
+        mOkHttpClient.addInterceptor(new AddCookieInterceptor());
+        mOkHttpClient.addInterceptor(new ReceiverCookieInterceptor());
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

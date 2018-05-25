@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+        android:id="@+id/videoPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvReplaceFace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_lable_blue"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="3dp"
+            android:text="设置封面"
+            android:textColor="#006cff"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvReplaceVedio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_lable_blue"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="3dp"
+            android:text="替换视频"
+            android:textColor="#006cff"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_line_horientol" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/dynamicVedioContentEdit"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/activity_note_rl_two"
+            android:background="@null"
+            android:gravity="left|top"
+            android:hint="说点什么吧（150个字）"
+            android:padding="@dimen/dp10"
+            android:textColorHint="@color/color_888888"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+</LinearLayout>
