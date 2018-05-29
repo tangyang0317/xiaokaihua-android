@@ -12,14 +12,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeng.socialize.UMShareAPI;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.WebUserBean;
+import com.xkh.hzp.xkh.entity.result.RegisterResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
 
 /**
  * Created by Administrator on 2017/6/29 0029.
@@ -39,6 +51,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvZhichi;
     private ImageView ivLogo;
     private TextView tvOrder;
+    /****用户是否注册***/
+    private boolean isRegister = false;
 
     @Override
     public int getLayoutId() {
@@ -188,7 +202,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             btnLogin.setEnabled(true);
                         }
                     }, 1000);
-                    btnLogin();
+                    loginOrRegiser();
                 } else {
                     Toast.makeText(this, "请输入正确的手机号或验证码", Toast.LENGTH_SHORT).show();
                 }
@@ -196,6 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.activity_login_getyzm:
                 if (!TextUtils.isEmpty(meditText.getText()) && meditText.length() == 11) {
                     //获取验证码
+                    checkRegister();
                 } else if (TextUtils.isEmpty(meditText.getText()) || meditText.length() != 11) {
                     Toast.makeText(this, "请填写正确手机号", Toast.LENGTH_SHORT).show();
                 }
@@ -213,23 +228,187 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    /***
+     * 登陆或者注册
+     */
+    private void loginOrRegiser() {
+        if (isRegister) {
+            registerWithAuthCode();
+        } else {
+            loginWithAuthCode();
+        }
+
+    }
+
+    /****
+     * 验证码注册
+     */
+    private void registerWithAuthCode() {
+        String account = meditText.getText().toString();
+        String sms = editYzm.getText().toString();
+        if (TextUtils.isEmpty(account) || account.length() != 11) {
+            Toasty.warning(this, "请输入11位手机号码").show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(sms) || sms.length() != 4) {
+            Toasty.warning(this, "请输入4位数字验证码").show();
+            return;
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("authCode", sms);
+        params.put("phone", account);
+        params.put("source", "android-app");
+
+        ABHttp.getIns().postJSON(UrlConfig.register, JsonUtils.toJson(params), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<RegisterResult>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    RegisterResult registerResult = (RegisterResult) extra.get("result");
+                    if (registerResult != null) {
+                        WebUserBean webUserBean = new WebUserBean();
+                        webUserBean.setLoginId(registerResult.getLoginId());
+                        webUserBean.setUid(registerResult.getId());
+                        webUserBean.setLoginType(registerResult.getLoginType());
+                        UserDataManager.getInstance().putLoginUser(webUserBean);
+                        SettingPasswordActivity.lunchActivity(LoginActivity.this, null, SettingPasswordActivity.class);
+                        hideKeyBoard();
+                        LoginActivity.this.finish();
+                    }
+                }
+            }
+        });
+
+
+    }
+
+
+    /***
+     * 检查用户是否注册
+     */
+    private void checkRegister() {
+        final String account = meditText.getText().toString();
+        HashMap<String, String> param = new HashMap<>();
+        param.put("phone", account);
+        ABHttp.getIns().postJSON(UrlConfig.registerCheck, JsonUtils.toJson(param), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Boolean.TYPE);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    boolean register = (boolean) extra.get("result");
+                    isRegister = register;
+                    sendAuthCode(account, isRegister);
+                } else {
+                    Toasty.error(LoginActivity.this, msg).show();
+                }
+            }
+        });
+
+
+    }
+
+    /***
+     * 短信验证码登陆
+     */
+    private void loginWithAuthCode() {
+        String account = meditText.getText().toString();
+        String sms = editYzm.getText().toString();
+        if (TextUtils.isEmpty(account) || account.length() != 11) {
+            Toasty.warning(this, "请输入11位手机号码").show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(sms) || sms.length() != 4) {
+            Toasty.warning(this, "请输入4位数字验证码").show();
+            return;
+        }
+
+        HashMap map = new HashMap();
+        map.put("authCode", sms);
+        map.put("loginType", "code");
+        map.put("deviceType", null);
+        map.put("location", null);
+        map.put("password", null);
+        map.put("phone", account);
+        map.put("uniqueId", null);
+        ABHttp.getIns().postJSON(UrlConfig.login, new Gson().toJson(map), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                entity.putField("result", new TypeToken<WebUserBean>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean isSuccess, HashMap<String, Object> extra) {
+                showToast(msg);
+                if (ABHttp.CODE_SUCCESS.equals(code)) {
+                    WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
+                    if (loginInfoBean != null) {
+                        UserDataManager.getInstance().putLoginUser(loginInfoBean);
+                        hideKeyBoard();
+                        LoginActivity.this.finish();
+                    }
+                }
+            }
+        });
+
+
+    }
+
+
+    /***
+     * 发送验证码
+     */
+    private void sendAuthCode(String phone, boolean isRegister) {
+        timer.schedule(task, 1000, 1000);
+        LinkedHashMap<String, String> param = new LinkedHashMap<>();
+        param.put("type", isRegister ? "reg" : "login");
+        param.put("phone", phone);
+        ABHttp.getIns().restfulGet(UrlConfig.getAuthCode, param, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", String.class);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    editYzm.setFocusable(true);
+                    editYzm.setFocusableInTouchMode(true);
+                    editYzm.requestFocus();
+                }
+                Toasty.info(LoginActivity.this, msg).show();
+            }
+
+            @Override
+            public boolean onFailure(String code, String msg) {
+                return super.onFailure(code, msg);
+            }
+        });
+
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-
-    //登陆
-    private void btnLogin() {
-        final String account = meditText.getText().toString();
-        String sms = editYzm.getText().toString();
-        if (TextUtils.isEmpty(account)) {
-            Toast.makeText(LoginActivity.this, "请输入手机号码", Toast.LENGTH_SHORT).show();
-        }
-        if (TextUtils.isEmpty(sms)) {
-            Toasty.error(LoginActivity.this, "请输入验证码");
-        }
     }
 
 

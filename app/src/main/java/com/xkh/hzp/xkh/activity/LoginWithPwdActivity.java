@@ -2,17 +2,29 @@ package com.xkh.hzp.xkh.activity;
 
 import android.annotation.SuppressLint;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.WebUserBean;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import java.util.HashMap;
+
+import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 
 /**
@@ -29,6 +41,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
     private Button btnLogin;
     private TextView tvFotget;
     private TextView btnToLogin;
+    private TextView tvOrder;
     private RelativeLayout passwordLayout;
 
     @Override
@@ -53,7 +66,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         tvFotget = findViewById(R.id.activity_register_forgetPassword);
         btnToLogin = findViewById(R.id.activity_login_toLogin);
         passwordLayout = findViewById(R.id.ll_passwd);
-        TextView tvOrder = findViewById(R.id.tvOrder);
+        tvOrder = findViewById(R.id.tvOrder);
         etUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean b) {
@@ -117,8 +130,10 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
 
             }
         });
+    }
 
-
+    @Override
+    public void setListenner() {
         tvOrder.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
@@ -126,16 +141,61 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         btnToLogin.setOnClickListener(this);
         findViewById(R.id.activity_login_tv_service).setOnClickListener(this);
         findViewById(R.id.activity_login_tv_zhichi).setOnClickListener(this);
+    }
+
+    /***
+     * 账号密码登陆
+     */
+    private void loginWithPwd() {
+        String account = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        if (TextUtils.isEmpty(account)) {
+            Toasty.error(LoginWithPwdActivity.this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toasty.error(LoginWithPwdActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        HashMap map = new HashMap();
+        map.put("authCode", null);
+        map.put("deviceType", null);
+        map.put("location", null);
+        map.put("password", password);
+        map.put("phone", account);
+        map.put("uniqueId", null);
+
+        ABHttp.getIns().postJSON(UrlConfig.login, new Gson().toJson(map), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                entity.putField("result", new TypeToken<WebUserBean>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean isSuccess, HashMap<String, Object> extra) {
+                showToast(msg);
+                if (ABHttp.CODE_SUCCESS.equals(code)) {
+                    WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
+                    if (loginInfoBean != null) {
+                        UserDataManager.getInstance().putLoginUser(loginInfoBean);
+                        LoginWithPwdActivity.this.finish();
+                    }
+                }
+            }
+        });
+
 
     }
 
-    @Override
-    public void setListenner() {
-
-    }
 
     @Override
     public void onClick(View view) {
+
+        if (view == btnLogin) {
+            loginWithPwd();
+        }
 
     }
 }

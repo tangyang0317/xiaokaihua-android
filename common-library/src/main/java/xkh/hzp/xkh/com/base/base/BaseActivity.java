@@ -1,6 +1,7 @@
 package xkh.hzp.xkh.com.base.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -209,6 +211,22 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void callbackOnClickNavigationAction(View view) {
         onBackPressed();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        hideKeyBoard();
+    }
+
+    public void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && getCurrentFocus() != null) {
+            if (getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     protected void callbackOnclickRightMenu(View view) {

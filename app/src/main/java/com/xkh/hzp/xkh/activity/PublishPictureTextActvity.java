@@ -1,18 +1,23 @@
 package com.xkh.hzp.xkh.activity;
 
-import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.request.PublishDynamicParam;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.tuSDK.RichEditComponentSample;
 import com.xkh.hzp.xkh.tuSDK.TuMutipleHandle;
 import com.xkh.hzp.xkh.upload.OnUploadListener;
 import com.xkh.hzp.xkh.upload.UploadImageManager;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +26,8 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.adapter.GridViewAddImgesAdpter;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.UILoadingView;
 
 /**
@@ -36,6 +43,8 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
     private GridViewAddImgesAdpter addImgesAdpter;
     private RichEditComponentSample richEditComponentSample;
     private List<String> localImgFilePath = new ArrayList<>();
+    private List<String> qiNiuimg = new ArrayList<>();
+    private UILoadingView loadingView;
 
     @Override
     public int getLayoutId() {
@@ -57,40 +66,89 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
     }
 
 
+    /***
+     * 发布动态
+     */
+    public void publishDynamic(List<String> imgList, String dynamicTxt, String dynamicType) {
+        PublishDynamicParam publishDynamicParam = new PublishDynamicParam();
+        publishDynamicParam.setAnnexUrl(imgList);
+        publishDynamicParam.setDynamicType(dynamicType);
+        publishDynamicParam.setWordDescription(dynamicTxt);
+        String userId = String.valueOf(UserDataManager.getInstance().getLoginUser().getUid());
+        ABHttp.getIns().postJSON(UrlConfig.publishDynamic + "?userId=" + userId, JsonUtils.toJson(publishDynamicParam), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Integer.TYPE);
+            }
+
+            @Override
+            public boolean onFailure(String code, String msg) {
+                Toasty.info(PublishPictureTextActvity.this, "动态发布失败").show();
+                loadingView.dismiss();
+                return true;
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                loadingView.dismiss();
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                loadingView.dismiss();
+                if (success) {
+                    Toasty.info(PublishPictureTextActvity.this, "发布成功").show();
+                    PublishPictureTextActvity.this.finish();
+                } else {
+                    Toasty.info(PublishPictureTextActvity.this, "发布失败").show();
+                }
+            }
+        });
+
+    }
+
+
     @Override
     protected void callbackOnclickRightMenu(View view) {
         super.callbackOnclickRightMenu(view);
-        final UILoadingView loadingView = new UILoadingView(this, false, "正在上传视频");
 
+        final String pictureTxtStr = pictureTxtEdit.getText().toString();
+        if (addImgesAdpter.getDatas().size() < 1) {
+            Toasty.warning(PublishPictureTextActvity.this, "请至少选择一张图片").show();
+            return;
+        }
+        if (TextUtils.isEmpty(pictureTxtStr) || pictureTxtStr.length() > 150) {
+            Toasty.warning(PublishPictureTextActvity.this, "请输入最多150个字的动态内容").show();
+            return;
+        }
+
+        loadingView = new UILoadingView(this, false, "正在上传图片");
         loadingView.show();
-
-        new Handler().postDelayed(new Runnable() {
+        UploadImageManager.getInstances().doUpload(this, addImgesAdpter.getDatas(), new OnUploadListener() {
             @Override
-            public void run() {
-                loadingView.dismiss();
+            public void onAllSuccess(List<HashMap<String, Object>> allImages) {
+                if (allImages != null && allImages.size() > 0) {
+                    for (int i = 0; i < allImages.size(); i++) {
+                        qiNiuimg.add((String) allImages.get(i).get("url"));
+                    }
+                    publishDynamic(qiNiuimg, pictureTxtStr, "image");
+                }
             }
-        }, 5000);
 
-//        UploadImageManager.getInstances().doUpload(this, addImgesAdpter.getDatas(), new OnUploadListener() {
-//            @Override
-//            public void onAllSuccess(List<HashMap<String, Object>> allImages) {
-//
-//                for (HashMap<String, Object> allImage : allImages) {
-//                    Logger.d(allImage.get(""));
-//                }
-//            }
-//
-//            @Override
-//            public void onAllFailed(String message) {
-//
-//            }
-//
-//            @Override
-//            public void onThreadFinish(int position) {
-//
-//            }
-//        });
+            @Override
+            public void onAllFailed(String message) {
+                loadingView.dismiss();
+                Toasty.error(PublishPictureTextActvity.this, message).show();
+            }
 
+            @Override
+            public void onThreadFinish(int position) {
+
+            }
+        });
     }
 
     @Override

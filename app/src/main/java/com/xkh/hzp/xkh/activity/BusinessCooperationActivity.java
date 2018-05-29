@@ -2,13 +2,22 @@ package com.xkh.hzp.xkh.activity;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
+
+import java.util.HashMap;
 
 import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
 
 /**
  * 商务合作
@@ -68,6 +77,39 @@ public class BusinessCooperationActivity extends BaseActivity implements View.On
                 return;
             }
 
+            businessCooperation();
+
         }
+    }
+
+    /***
+     *
+     * 商务合作
+     */
+    private void businessCooperation() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("companyName", companyNameStr);
+        params.put("phone", linkManPhoneStr);
+        params.put("contactName", linkManNameStr);
+        params.put("promotionRequire", promotionRequireStr);
+        params.put("userId", UserDataManager.getInstance().getUserId());
+
+        ABHttp.getIns().postJSON(UrlConfig.businessCooperation, JsonUtils.toJson(params), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    BusinessCooperationActivity.this.finish();
+                    Toasty.info(BusinessCooperationActivity.this, "提交成功").show();
+                } else {
+                    Toasty.info(BusinessCooperationActivity.this, msg).show();
+                }
+            }
+        });
     }
 }

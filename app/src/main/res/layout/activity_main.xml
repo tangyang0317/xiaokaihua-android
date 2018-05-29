@@ -5,13 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <FrameLayout
         android:id="@+id/mainContainerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/indexViewLine" />
-
 
     <View
         android:id="@+id/indexViewLine"
@@ -31,22 +29,25 @@
             android:id="@+id/dynamicRB"
             style="@style/IndexRadio"
             android:checked="true"
-            android:drawableTop="@mipmap/icon_dongtai"
+            android:drawableTop="@drawable/selector_dynamic"
             android:text="动态"
+            android:textColor="@drawable/selector_index_radio_text"
             android:textSize="@dimen/sp_12" />
 
         <RadioButton
             android:id="@+id/talentRB"
             style="@style/IndexRadio"
-            android:drawableTop="@mipmap/icon_daren"
+            android:drawableTop="@drawable/selector_talent"
             android:text="达人"
+            android:textColor="@drawable/selector_index_radio_text"
             android:textSize="@dimen/sp_12" />
 
         <RadioButton
             android:id="@+id/mineRB"
             style="@style/IndexRadio"
-            android:drawableTop="@mipmap/icon_wode"
+            android:drawableTop="@drawable/selector_mine"
             android:text="我的"
+            android:textColor="@drawable/selector_index_radio_text"
             android:textSize="@dimen/sp_12" />
 
     </RadioGroup>

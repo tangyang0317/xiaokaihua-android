@@ -19,18 +19,18 @@ public class WebUserBean implements Serializable {
      * success : true
      */
 
-    private int uid;
+    private long uid;
     private String loginId;
     private String loginType;
     private long expireTime;
     private String loginToken;
     private boolean success;
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

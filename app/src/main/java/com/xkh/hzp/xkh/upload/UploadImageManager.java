@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
-import com.xkh.hzp.xkh.http.RetrofitHttp;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -17,11 +19,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * 上传图片管理类
@@ -64,28 +61,36 @@ public class UploadImageManager {
      * 获取七牛Token，图片的cdn域名地址
      */
     private void getToken() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("type", "simple");
-        map.put("storeName", "images");
-        map.put("fileKey", "");
-
-        RetrofitHttp.getInstence().API().getToken("annex_image").enqueue(new Callback<ResponseBody>() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("type", "annex_image");
+        ABHttp.getIns().get(UrlConfig.getToken, params, new AbHttpCallback() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String token = response.body().toString();
-                if (response.isSuccessful() && !TextUtils.isEmpty(token)) {
-                    QINIU_TOKEN = token;
-                    comressUploadImage();
-                }
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", String.class);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public boolean onFailure(String code, String msg) {
                 Bundle bundle = new Bundle();
                 bundle.putInt(THREAD_POSITION, -1);
                 Message.obtain(uploadHandler, THREAD_TOKEN_FAILED_CODE, bundle).sendToTarget();
+                return true;
             }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                if (success) {
+                    QINIU_TOKEN = (String) extra.get("result");
+                    comressUploadImage();
+                } else {
+                    uploadHandler.sendEmptyMessage(THREAD_TOKEN_FAILED_CODE);
+                }
+            }
+
+
         });
+
     }
 
 

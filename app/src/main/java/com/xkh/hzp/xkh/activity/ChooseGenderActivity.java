@@ -22,6 +22,7 @@ public class ChooseGenderActivity extends BaseActivity implements View.OnClickLi
     private ImageView ivMale;
     private Button button;
     private String gender = "W";
+    private String headPic = "http://xkh-cdn.007fenqi.com/icon_female_selected.png";
 
     @Override
     public int getLayoutId() {
@@ -56,12 +57,17 @@ public class ChooseGenderActivity extends BaseActivity implements View.OnClickLi
             ivMale.setImageDrawable(getResources().getDrawable(R.mipmap.icon_male));
             ivFemale.setImageDrawable(getResources().getDrawable(R.mipmap.icon_female_selected));
             gender = "W";
+            headPic = "http://xkh-cdn.007fenqi.com/icon_female_selected.png";
         } else if (view == ivMale) {
             ivMale.setImageDrawable(getResources().getDrawable(R.mipmap.icon_male_selected));
             ivFemale.setImageDrawable(getResources().getDrawable(R.mipmap.icon_female));
             gender = "M";
+            headPic = "http://xkh-cdn.007fenqi.com/icon_male_selected.png";
         } else if (view == button) {
-
+            completeInfo();
         }
+    }
+
+    private void completeInfo() {
     }
 }

@@ -99,15 +99,6 @@ public class UploadFile implements Runnable {
 
     @Override
     public void run() {
-        try {
-            List<File> list = Luban.with(context)
-                    .ignoreBy(100)
-                    .load(uploadFile)
-                    .get();
-            Logger.d("压缩后的-----" + Thread.currentThread().getId() + "--->" + list.get(0).getPath());
-            doUploadToQiNiu(list.get(0));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        doUploadToQiNiu(new File(uploadFile));
     }
 }

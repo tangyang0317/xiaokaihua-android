@@ -98,8 +98,7 @@
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
             android:gravity="top"
-            android:paddingLeft="@dimen/dp4"
-            android:text="111" />
+            android:paddingLeft="@dimen/dp4" />
 
     </LinearLayout>
 

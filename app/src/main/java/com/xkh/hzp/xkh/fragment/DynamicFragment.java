@@ -123,7 +123,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
 
         final List<ButtonData> buttonDatas = new ArrayList<>();
-        int[] drawable = {R.mipmap.icon_vedio, R.mipmap.icon_vedio, R.mipmap.icon_img_text};
+        int[] drawable = {R.mipmap.icon_publish_dynamic, R.mipmap.icon_vedio, R.mipmap.icon_img_text};
         for (int i = 0; i < 3; i++) {
             //最后一个参数表示padding
             ButtonData buttonData = ButtonData.buildIconButton(getActivity(), drawable[i], 0);

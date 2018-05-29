@@ -1,17 +1,28 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.TalentAdapter;
+import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.TalentBean;
+import com.xkh.hzp.xkh.entity.result.TalentResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.view.EmptyView;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -19,11 +30,31 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
  * @Author tangyang
  * @DATE 2018/5/7
  **/
-public class TalentClassActivity extends BaseActivity {
+public class TalentClassActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private SwipeRefreshLayout talentClassSwipefreshLayout;
     private RecyclerView talentClassRecyclerView;
     private TalentAdapter talentAdapter;
+    private int pageNum = 1, pageSize = 10;
+
+
+    public static void lanuchActivity(Activity activity, int hotLableId, String hotLableName) {
+        Intent intent = new Intent(activity, TalentClassActivity.class);
+        intent.putExtra("hotLableId", hotLableId);
+        intent.putExtra("hotLableName", hotLableName);
+        activity.startActivity(intent);
+    }
+
+
+    private int getHotLableId() {
+        return getIntent().getIntExtra("hotLableId", 0);
+    }
+
+
+    private String getHotLableName() {
+        return getIntent().getStringExtra("hotLableName");
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -32,28 +63,79 @@ public class TalentClassActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        setToolbarTitleTv("学院风");
+        setToolbarTitleTv(getHotLableName());
         talentClassSwipefreshLayout = findViewById(R.id.talentClassSwipefreshLayout);
         talentClassRecyclerView = findViewById(R.id.talentClassRecyclerView);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         talentClassRecyclerView.setLayoutManager(linearLayoutManager);
-
+        talentClassSwipefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
+        talentClassSwipefreshLayout.setOnRefreshListener(this);
         talentAdapter = new TalentAdapter();
+        EmptyView emptyView = new EmptyView(this);
+        emptyView.setOperateBtnVisiable(false);
+        talentAdapter.setEmptyView(emptyView);
+        talentAdapter.setOnLoadMoreListener(this, talentClassRecyclerView);
         talentClassRecyclerView.setAdapter(talentAdapter);
+        initData(pageNum, pageSize);
+    }
 
-        List<TalentBean> talentBeans = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            TalentBean talentBean = new TalentBean();
-            talentBeans.add(talentBean);
-        }
-        talentAdapter.setNewData(talentBeans);
-        talentAdapter.notifyDataSetChanged();
+    private void initData(final int pageNum, int pageSize) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("pageNum", String.valueOf(pageNum));
+        params.put("pageSize", String.valueOf(pageSize));
+        params.put("signatureId", String.valueOf(getHotLableId()));
+        ABHttp.getIns().get(UrlConfig.queryTalentList, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<List<TalentResult>>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    List<TalentResult> talentResults = (List<TalentResult>) extra.get("result");
+                    if (pageNum == 1) {
+                        if (talentResults != null && talentResults.size() > 0) {
+                            talentClassSwipefreshLayout.setRefreshing(false);
+                            talentAdapter.setEnableLoadMore(true);
+                            talentAdapter.setNewData(talentResults);
+                            talentAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        if (talentResults != null && talentResults.size() > 0) {
+                            talentClassSwipefreshLayout.setRefreshing(false);
+                            talentAdapter.loadMoreComplete();
+                            talentAdapter.addData(talentResults);
+                            talentAdapter.notifyDataSetChanged();
+                        } else {
+                            talentClassSwipefreshLayout.setRefreshing(false);
+                            talentAdapter.loadMoreComplete();
+                            talentAdapter.loadMoreEnd();
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
     @Override
     public void setListenner() {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
+        initData(pageNum, pageSize);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        pageNum++;
+        initData(pageNum, pageSize);
     }
 }

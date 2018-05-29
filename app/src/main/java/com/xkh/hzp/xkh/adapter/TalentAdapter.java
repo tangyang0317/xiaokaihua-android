@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.TalentBean;
+import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -25,15 +26,15 @@ import xkh.hzp.xkh.com.base.utils.DimentUtils;
  * @Author tangyang
  * @DATE 2018/5/7
  **/
-public class TalentAdapter extends BaseQuickAdapter<TalentBean, BaseViewHolder> {
+public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder> {
 
 
     public TalentAdapter() {
-        super(R.layout.view_item_talent, new ArrayList<TalentBean>());
+        super(R.layout.view_item_talent, new ArrayList<TalentResult>());
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, TalentBean item) {
+    protected void convert(BaseViewHolder helper, TalentResult item) {
         View spaceView = helper.getView(R.id.spaceView);
         ImageView talentHeadImg = helper.getView(R.id.talentHeadImg);
         TextView talentNickNameTxt = helper.getView(R.id.talentNickNameTxt);
@@ -62,9 +63,7 @@ public class TalentAdapter extends BaseQuickAdapter<TalentBean, BaseViewHolder> 
         tags.add("甜美风");
         tags.add("日系风");
         tags.add("欧美风");
-
         talentLableFlowLayout.setAdapter(new TagAdapter<String>(tags) {
-
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_lable, null);

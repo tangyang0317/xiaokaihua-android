@@ -297,7 +297,8 @@
 
         <activity
             android:name=".activity.JoinTalentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
             android:name=".activity.GraphicDynamicDetailsActivity"
@@ -326,7 +327,8 @@
 
         <activity
             android:name=".activity.BusinessCooperationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
             android:name=".activity.TalentHomePageActivity"

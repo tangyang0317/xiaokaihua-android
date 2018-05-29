@@ -1,7 +1,5 @@
 package com.xkh.hzp.xkh.utils;
 
-import android.content.Context;
-
 import com.xkh.hzp.xkh.entity.WebUserBean;
 
 import xkh.hzp.xkh.com.base.Global;
@@ -30,6 +28,15 @@ public class UserDataManager {
      */
     public WebUserBean getLoginUser() {
         return (WebUserBean) SharedprefrenceHelper.getIns(Global.app).readObject("loginUser");
+    }
+
+    /**
+     * getuserId
+     *
+     * @return
+     */
+    public String getUserId() {
+        return String.valueOf(getLoginUser().getUid());
     }
 
     /***

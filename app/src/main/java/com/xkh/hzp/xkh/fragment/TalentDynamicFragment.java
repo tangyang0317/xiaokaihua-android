@@ -37,7 +37,6 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicObservableRecyclerView.setHasFixedSize(true);
-
         dynamicAdapter = new DynamicAdapter();
         dynamicObservableRecyclerView.setAdapter(dynamicAdapter);
         List<DynamicBean> list = new ArrayList<>();
@@ -67,7 +66,6 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
         dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 if (position % 2 == 0) {
                     VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
                 } else {
@@ -75,7 +73,6 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
                 }
             }
         });
-
     }
 
     @Override
