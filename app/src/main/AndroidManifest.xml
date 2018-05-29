@@ -96,9 +96,8 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -345,6 +344,21 @@
         <activity
             android:name=".activity.PublishVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserInfoActvity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.UserIconActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.UserNickNameActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.UserSignActivity"
             android:screenOrientation="portrait" />
 
     </application>

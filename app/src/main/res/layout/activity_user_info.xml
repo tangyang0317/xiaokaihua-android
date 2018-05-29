@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/activity_user_info_icon_rl"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="头像" />
+
+        <ImageView
+            android:id="@+id/activity_user_info_icon_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toLeftOf="@+id/activity_user_info_icon_content"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/activity_user_info_icon_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:src="@mipmap/btn_item_back" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line_horientol" />
+
+    <RelativeLayout
+        android:id="@+id/activity_user_info_id_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="校开花ID" />
+
+        <TextView
+            android:id="@+id/activity_user_info_id_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line_horientol" />
+
+    <RelativeLayout
+        android:id="@+id/activity_user_info_nick_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="昵称" />
+
+        <TextView
+            android:id="@+id/activity_user_info_nick_content"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableRight="@mipmap/btn_item_back"
+            android:gravity="right"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+    <include layout="@layout/view_line_horientol" />
+
+    <RelativeLayout
+        android:id="@+id/activity_user_info_sex_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="性别" />
+
+        <TextView
+            android:id="@+id/activity_user_info_sex_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableRight="@mipmap/btn_item_back" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_line_horientol" />
+
+    <RelativeLayout
+        android:id="@+id/activity_user_info_sign_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/labSign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="美丽签名" />
+
+        <TextView
+            android:id="@+id/activity_user_info_sign_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toRightOf="@+id/labSign"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableRight="@mipmap/btn_item_back"
+            android:gravity="right"
+            android:maxEms="15"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

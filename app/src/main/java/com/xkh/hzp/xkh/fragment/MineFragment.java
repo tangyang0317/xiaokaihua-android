@@ -9,6 +9,7 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
 import com.xkh.hzp.xkh.activity.JoinTalentActivity;
 import com.xkh.hzp.xkh.activity.LoginActivity;
+import com.xkh.hzp.xkh.activity.UserInfoActvity;
 
 import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.view.ItemLayout;
@@ -65,6 +66,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         } else if (view == userHeadImg) {
             LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+        } else if (view == updateInfoItemLayout) {
+            UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
         }
     }
 }

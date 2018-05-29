@@ -12,19 +12,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.xkh.hzp.xkh.BannerBean;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.PublishPictureTextActvity;
 import com.xkh.hzp.xkh.activity.PublishVideoActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.result.BannerResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnFlingOverListener;
 import ru.noties.scrollable.OnScrollChangedListener;
@@ -50,6 +57,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsLayout;
     private SectorMenuButton bottomMenuButton;
+    private List<BannerResult> bannerResultList;
 
     @Override
     public void onClick(View view) {
@@ -160,18 +168,28 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
      * 加载数据
      */
     private void initData() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("showPosition", "index");
+        ABHttp.getIns().get(UrlConfig.banner, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<List<BannerResult>>() {
+                }.getType());
+            }
 
-//        RetrofitHttp.getInstence().API().getBanner("index").compose(this.<BaseEntity<List<BannerBean>>>setThread()).subscribe(new BaseObserver<List<BannerBean>>() {
-//            @Override
-//            protected void onSuccees(BaseEntity<List<BannerBean>> t) throws Exception {
-//                sampleHeaderView.setImages(t.getResult()).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
-//            }
-//
-//            @Override
-//            protected void onFailure(Throwable e, boolean isNetWorkError) throws Exception {
-//
-//            }
-//        });
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    List<BannerResult> bannerResults = (List<BannerResult>) extra.get("result");
+                    bannerResultList = bannerResults;
+                    if (bannerResults != null && bannerResults.size() > 0) {
+                        sampleHeaderView.setImages(bannerResults).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
+                    }
+                }
+            }
+        });
 
     }
 
@@ -179,6 +197,14 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
+        sampleHeaderView.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (bannerResultList != null && bannerResultList.size() > 0) {
+                    BannerResult bannerResult = bannerResultList.get(position);
+                }
+            }
+        });
     }
 
 
@@ -253,13 +279,13 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
 
     /**
-     * GlideImageLoader
+     * 加载banner的GlideImageLoader
      */
     public static class GlideImageLoader extends ImageLoader {
 
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            BannerBean bannerBean = (BannerBean) path;
+            BannerResult bannerBean = (BannerResult) path;
             Glide.with(context).load(bannerBean.getImgUrl()).into(imageView);
         }
     }

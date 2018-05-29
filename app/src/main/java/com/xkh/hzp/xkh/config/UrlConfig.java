@@ -10,7 +10,7 @@ public class UrlConfig {
 
     public static final String USER_BASE_URL = "http://192.168.2.131:9091";
     public static final String DYNAMIC_BASE_URL = "http://192.168.2.130:8002";
-    public static final String banner = DYNAMIC_BASE_URL + "/message/banner/query";
+    public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";
     public static final String login = USER_BASE_URL + "/uc/login/in";
     public static final String register = USER_BASE_URL + "/uc/register/save";
