@@ -10,8 +10,6 @@ public class UrlConfig {
 
     public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
     public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
-    //    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
-//    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
     public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";
     public static final String login = USER_BASE_URL + "/uc/login/in";
@@ -32,5 +30,6 @@ public class UrlConfig {
     public static final String queryuserInfo = USER_BASE_URL + "/inner/uc/user/_getOne";
     public static final String foucsTalent = DYNAMIC_BASE_URL + "/focus";
     public static final String cancleFoucsTalent = DYNAMIC_BASE_URL + "/focus/cancel";
+    public static final String dynamicList = DYNAMIC_BASE_URL + "/dynamic";
 
 }

@@ -4,11 +4,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.event.LogoutEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.IntentUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -84,7 +86,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     boolean result = (boolean) extra.get("result");
                     if (result) {
                         SharedprefrenceHelper.getIns(SettingActivity.this).clear();
-                        EventBus.getDefault().post(new LogoutEvent(true));
+                        /****发送广播通知MainActivity替换"我的"页面****/
+                        IntentUtils.sendBroadcast(SettingActivity.this, Config.LOGOUT_ACTION);
                         SettingActivity.this.finish();
                     }
                 }

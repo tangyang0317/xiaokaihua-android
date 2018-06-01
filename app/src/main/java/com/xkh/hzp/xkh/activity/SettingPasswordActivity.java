@@ -82,7 +82,6 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
                         if (result) {
                             Toasty.info(SettingPasswordActivity.this, "密码设置成功").show();
                             SettingPasswordActivity.this.finish();
-                            ChooseGenderActivity.lunchActivity(SettingPasswordActivity.this, null, ChooseGenderActivity.class);
                         }
                     }
                 }

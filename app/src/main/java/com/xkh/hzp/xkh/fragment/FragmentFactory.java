@@ -3,6 +3,8 @@ package com.xkh.hzp.xkh.fragment;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 
+import com.xkh.hzp.xkh.utils.UserDataManager;
+
 /**
  * Fragment创建工厂类
  * Created by tangyang on 18/4/14.
@@ -13,6 +15,7 @@ public class FragmentFactory {
     private static final int FRAGMENT_PINGGU = 0;
     private static final int FRAGMENT_ZUJIN = 1;
     private static final int FRAGMENT_MINE = 2;
+    private static final int FRAGMENT_TALENT_MINE = 3;
 
     //SparseArray:key是整形的key,根据整形的key来获取一个对象,效率比较高.
     private static SparseArray<Fragment> fragments = new SparseArray<>();
@@ -31,6 +34,9 @@ public class FragmentFactory {
                     break;
                 case FRAGMENT_MINE:
                     fragment = new MineFragment();
+                    break;
+                case FRAGMENT_TALENT_MINE:
+                    fragment = new TalentMineFragment();
                     break;
             }
             //存到集合中

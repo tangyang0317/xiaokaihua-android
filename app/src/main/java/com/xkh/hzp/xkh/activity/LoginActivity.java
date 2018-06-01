@@ -286,6 +286,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
+                Toasty.info(LoginActivity.this, msg).show();
                 if (success) {
                     RegisterResult registerResult = (RegisterResult) extra.get("result");
                     if (registerResult != null) {
@@ -363,7 +364,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean isSuccess, HashMap<String, Object> extra) {
-                showToast(msg);
+                Toasty.info(LoginActivity.this, msg).show();
                 if (isSuccess) {
                     final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {

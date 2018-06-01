@@ -151,7 +151,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
 
         UploadOptions uploadOptions = new UploadOptions(null, null, false, upProgressHandler, null);
 
-        uploadManager.put(new File(videoLocalPath), String.valueOf(System.currentTimeMillis() * 100 * 1000), Config.QINIU_VIDEO_TOKEN, upCompletionHandler, uploadOptions);
+//        uploadManager.put(new File(videoLocalPath), String.valueOf(System.currentTimeMillis() * 100 * 1000), Config.QINIU_VIDEO_TOKEN, upCompletionHandler, uploadOptions);
 
     }
 

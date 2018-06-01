@@ -57,19 +57,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (UserDataManager.getInstance().getLoginUser() != null) {
-            getUserInfo();
-        } else {
-            mineLoginTxt.setVisibility(View.VISIBLE);
-            userHeadImg.setVisibility(View.GONE);
-            userNickNameTxt.setVisibility(View.GONE);
-            userIntroductionTxt.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(getActivity());
@@ -89,6 +76,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         businessConperationItemLayout = contentView.findViewById(R.id.businessConperationItemLayout);
         updateInfoItemLayout = contentView.findViewById(R.id.updateInfoItemLayout);
         settingItemLayout = contentView.findViewById(R.id.settingItemLayout);
+        getUserInfo();
     }
 
 

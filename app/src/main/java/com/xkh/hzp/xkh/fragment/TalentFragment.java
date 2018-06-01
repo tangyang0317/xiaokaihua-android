@@ -67,6 +67,8 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         recommendTalentRecycleView.setAdapter(talentClassAdapter);
         talentAdapter = new TalentAdapter();
         EmptyView emptyView = new EmptyView(getActivity());
+        emptyView.setNodataImageSource(R.mipmap.note_empty);
+        emptyView.setNodataTitle("暂无达人列表");
         emptyView.setOperateBtnVisiable(false);
         talentAdapter.setEmptyView(emptyView);
         talentAdapter.setOnLoadMoreListener(this, talentRecyclerView);

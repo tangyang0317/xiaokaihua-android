@@ -31,15 +31,20 @@ public class CheckLoginManager {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
-                entity.putField("result", Boolean.TYPE);
+            }
+
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                checkLoginCallBack.isLogin(false);
             }
 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
-                    boolean result = (boolean) extra.get("result");
-                    checkLoginCallBack.isLogin(result);
+                    checkLoginCallBack.isLogin(true);
                 }
             }
         });

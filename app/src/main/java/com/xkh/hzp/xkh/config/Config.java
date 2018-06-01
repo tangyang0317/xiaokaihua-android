@@ -19,8 +19,6 @@ public class Config {
     public static String shequguifan = "http://xkh-h5.007fenqi.com/agree/articles";
     //隐私政策H5url
     public static String yinsizhengce = "http://xkh-h5.007fenqi.com/agree/privacy";
-    /**
-     * 七牛上传视频token
-     **/
-    public static final String QINIU_VIDEO_TOKEN = "WABmq71y5ibDDDx4qRK3eZbz2kxE7e5tlYWR-dZ3:xFB_evDXwdNwr_u72RgTXjE5khI=:eyJzY29wZSI6InZpZGVvIiwiZGVhZGxpbmUiOjE1MjcxNDI5MDZ9";
+    public static String LOGIN_ACTION = "com.hzp.xkh.hzp.login";
+    public static String LOGOUT_ACTION = "com.hzp.xkh.hzp.logout";
 }

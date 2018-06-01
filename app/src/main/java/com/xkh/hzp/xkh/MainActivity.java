@@ -1,23 +1,41 @@
 package com.xkh.hzp.xkh;
 
 import android.Manifest;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.xkh.hzp.xkh.config.Config;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.result.UserInfoResult;
+import com.xkh.hzp.xkh.event.LoginEvent;
+import com.xkh.hzp.xkh.event.LogoutEvent;
+import com.xkh.hzp.xkh.event.UpdateUserInfoEvent;
 import com.xkh.hzp.xkh.fragment.FragmentFactory;
+import com.xkh.hzp.xkh.fragment.MineFragment;
+import com.xkh.hzp.xkh.fragment.TalentMineFragment;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.AppManager;
@@ -27,11 +45,10 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
  * Created by tangyang on 18/4/21.
  */
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity {
 
     private RadioGroup indexRadioGroup;
-    private RelativeLayout contentBgLayout;
-
+    private RefreshUIBoardCastReceiver refreshUIBoardCastReceiver;
 
     @Override
     protected void initImmersionBar() {
@@ -44,18 +61,65 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return R.layout.activity_main;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
+        refreshUIBoardCastReceiver = new RefreshUIBoardCastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.LOGIN_ACTION);
+        intentFilter.addAction(Config.LOGOUT_ACTION);
+        registerReceiver(refreshUIBoardCastReceiver, intentFilter);
         hideToolbar();
         requestPermissions();
         indexRadioGroup = findViewById(R.id.indexRadioGroup);
-        contentBgLayout = findViewById(R.id.contentBgLayout);
-        if (contentBgLayout.getForeground() == null) {
-            contentBgLayout.setForeground(new ColorDrawable(Color.parseColor("#ffffff")));
-        }
-        contentBgLayout.getForeground().setAlpha(0);
         initFragment(0);
+    }
+
+
+    /***
+     *查询用户信息
+     */
+    private void getUserInfo() {
+        String userId = UserDataManager.getInstance().getUserId();
+        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        hashMap.put("userId", userId);
+        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<UserInfoResult>() {
+                }.getType());
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                refreshUI();
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    final UserInfoResult userInfoResult = (UserInfoResult) extra.get("result");
+                    if (userInfoResult != null) {
+                        UserDataManager.getInstance().saveUserInfo(userInfoResult);
+                    }
+                }
+            }
+        });
+    }
+
+    /***
+     * 刷新UI页面
+     */
+    private void refreshUI() {
+        if (indexRadioGroup.getCheckedRadioButtonId() == R.id.mineRB) {
+            if ("talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+                initFragment(3);
+            } else {
+                initFragment(2);
+            }
+        }
     }
 
     private void requestPermissions() {
@@ -131,7 +195,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         break;
                     case R.id.mineRB:
                         mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
-                        initFragment(2);
+                        UserInfoResult userInfoResult = UserDataManager.getInstance().getUserInfo();
+                        if (userInfoResult != null && "talent".equals(userInfoResult.getUserType())) {
+                            initFragment(3);
+                        } else {
+                            initFragment(2);
+                        }
                         break;
                 }
             }
@@ -140,6 +209,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    /***
+     * 接收登陆和登出的广播
+     */
+    public class RefreshUIBoardCastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                if (Config.LOGIN_ACTION.equals(intent.getAction())) {
+                    getUserInfo();
+                } else if (Config.LOGOUT_ACTION.equals(intent.getAction())) {
+                    if (indexRadioGroup.getCheckedRadioButtonId() == R.id.mineRB) {
+                        initFragment(2);
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(refreshUIBoardCastReceiver);
+    }
 
     public void initFragment(int i) {
         FragmentManager manager = getSupportFragmentManager();
@@ -147,15 +240,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Fragment fragment = FragmentFactory.createFragment(i);
         transaction.replace(R.id.mainContainerFrameLayout, fragment);
         transaction.commit();
-    }
-
-    @Override
-    public void onClick(View view) {
-//        if (view == videoImg) {
-//
-//        } else if (view == imgTextImg) {
-//            rightLowerMenu.close(true);
-//            PublishPictureTextActvity.lunchActivity(this, null, PublishPictureTextActvity.class);
-//        }
     }
 }
