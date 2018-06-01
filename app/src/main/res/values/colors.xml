@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
 
+    <color name="bgcolor">#F3F5FA</color>
+    <color name="color_efefef">#efefef</color>
     <color name="color_ff5555">#ff5555</color>
     <color name="color_ffffff">#ffffff</color>
     <color name="color_333333">#333333</color>

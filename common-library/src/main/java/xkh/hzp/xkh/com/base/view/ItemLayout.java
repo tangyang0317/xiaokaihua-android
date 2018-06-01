@@ -73,14 +73,14 @@ public class ItemLayout extends LinearLayout {
             leftIconImg.setVisibility(VISIBLE);
             leftIconImg.setImageResource(leftIcon);
         } else {
-            leftIconImg.setVisibility(INVISIBLE);
+            leftIconImg.setVisibility(GONE);
         }
 
         if (rightIcon != -1) {
             rightIconImg.setVisibility(VISIBLE);
             rightIconImg.setImageResource(rightIcon);
         } else {
-            rightIconImg.setVisibility(INVISIBLE);
+            rightIconImg.setVisibility(GONE);
         }
 
         if (TextUtils.isEmpty(leftTxt)) {

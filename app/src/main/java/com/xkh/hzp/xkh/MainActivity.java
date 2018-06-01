@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh;
 
+import android.Manifest;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -13,8 +14,13 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xkh.hzp.xkh.fragment.FragmentFactory;
 
+import io.reactivex.functions.Consumer;
+import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 
 /**
@@ -42,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void initView() {
         hideToolbar();
+        requestPermissions();
         indexRadioGroup = findViewById(R.id.indexRadioGroup);
         contentBgLayout = findViewById(R.id.contentBgLayout);
         if (contentBgLayout.getForeground() == null) {
@@ -49,6 +56,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         contentBgLayout.getForeground().setAlpha(0);
         initFragment(0);
+    }
+
+    private void requestPermissions() {
+        RxPermissions rxPermission = new RxPermissions(MainActivity.this);
+        rxPermission
+                .requestEach(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.READ_CALL_LOG,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.SEND_SMS)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            // 用户已经同意该权限
+                            Logger.d(permission.name + " is granted.");
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                            Logger.d(permission.name + " is denied. More info should be provided.");
+                        } else {
+                            // 用户拒绝了该权限，并且选中『不再询问』
+                            Logger.d(permission.name + " is denied.");
+                        }
+                    }
+                });
+
+
     }
 
 
@@ -64,8 +104,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                     firstTime = secondTime;//更新firstTime
                     return true;
-                } else {                                                    //两次按键小于2秒时，退出应用
+                } else {
+                    //两次按键小于2秒时，退出应用
                     System.exit(0);
+                    AppManager.getAppManager().AppExit(this);
                 }
                 break;
         }

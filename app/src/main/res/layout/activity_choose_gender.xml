@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ffffff"
     android:orientation="vertical">
 
     <TextView
@@ -32,7 +31,8 @@
             android:layout_marginLeft="95dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="校花" />
+            android:text="校花"
+            android:textColor="@color/color_ff5555" />
 
         <ImageView
             android:id="@+id/activity_medetail_male_iv"
@@ -50,7 +50,8 @@
             android:layout_marginLeft="260dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="校草" />
+            android:text="校草"
+            android:textColor="@color/color_666666" />
     </RelativeLayout>
 
     <Button
@@ -64,6 +65,6 @@
         android:gravity="center"
         android:text="下一步"
         android:textColor="#fff" />
-    
+
 
 </LinearLayout>

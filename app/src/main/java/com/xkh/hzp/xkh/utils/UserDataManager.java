@@ -1,6 +1,7 @@
 package com.xkh.hzp.xkh.utils;
 
 import com.xkh.hzp.xkh.entity.WebUserBean;
+import com.xkh.hzp.xkh.entity.result.UserInfoResult;
 
 import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -36,7 +37,10 @@ public class UserDataManager {
      * @return
      */
     public String getUserId() {
-        return String.valueOf(getLoginUser().getUid());
+        if (getLoginUser() != null) {
+            return String.valueOf(getLoginUser().getUid());
+        }
+        return "";
     }
 
     /***
@@ -47,5 +51,21 @@ public class UserDataManager {
         SharedprefrenceHelper.getIns(Global.app).saveObject("loginUser", webUserBean);
     }
 
+
+    /***
+     * 保存当前登陆用户信息
+     * @param userInfoResult
+     */
+    public void saveUserInfo(UserInfoResult userInfoResult) {
+        SharedprefrenceHelper.getIns(Global.app).saveObject("userInfo", userInfoResult);
+    }
+
+
+    /***
+     * 获取当前登陆的用户信息
+     */
+    public UserInfoResult getUserInfo() {
+        return (UserInfoResult) SharedprefrenceHelper.getIns(Global.app).readObject("userInfo");
+    }
 
 }

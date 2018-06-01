@@ -18,6 +18,18 @@
             android:src="@drawable/ic_launcher_round" />
 
         <TextView
+            android:id="@+id/mineLoginTxt"
+            android:layout_width="105dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_btn_mine_login_btn"
+            android:gravity="center"
+            android:text="登陆/注册"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/userNickNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,14 +52,15 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/view_horizontal_space" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
         android:id="@+id/userMsgItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
+        android:layout_marginTop="@dimen/dp6"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@drawable/ic_launcher_round"
+        app:leftIcon="@mipmap/icon_message_black"
         app:leftTitleTxt="我的消息" />
 
     <include layout="@layout/view_line_horientol" />
@@ -56,8 +69,9 @@
         android:id="@+id/joinTalentItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@drawable/ic_launcher_round"
+        app:leftIcon="@mipmap/icon_join_us"
         app:leftTitleTxt="加入达人" />
 
     <include layout="@layout/view_line_horientol" />
@@ -66,18 +80,20 @@
         android:id="@+id/businessConperationItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@drawable/ic_launcher_round"
+        app:leftIcon="@mipmap/icon_business_cooperation"
         app:leftTitleTxt="商务合作" />
 
-    <include layout="@layout/view_horizontal_space" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
         android:id="@+id/updateInfoItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
+        android:layout_marginTop="@dimen/dp6"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@drawable/ic_launcher_round"
+        app:leftIcon="@mipmap/icon_modify_info"
         app:leftTitleTxt="修改资料" />
 
     <include layout="@layout/view_line_horientol" />
@@ -86,8 +102,11 @@
         android:id="@+id/settingItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp50"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@drawable/ic_launcher_round"
+        app:leftIcon="@mipmap/icon_setting"
         app:leftTitleTxt="设置" />
+
+    <include layout="@layout/view_line_horientol" />
 
 </LinearLayout>

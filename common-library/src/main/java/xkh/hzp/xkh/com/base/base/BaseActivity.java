@@ -37,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView toolBarRightImg;
     private LinearLayout baseContentLayout;
     protected ImmersionBar mImmersionBar;
+    protected LinearLayout baseContainerLayout;
 
     public static void lunchActivity(Activity activity, Bundle bundle, Class tClass) {
         Intent intent = new Intent(activity, tClass);
@@ -51,7 +52,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getBaseContentView());
         initBaseControllerView();
+        AppManager.getAppManager().addActivity(this);
     }
+
 
     @Override
     protected void onResume() {
@@ -83,6 +86,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         mImmersionBar.statusBarDarkFont(true, 0.5f).init();
     }
 
+    protected void setBaseContainerBg() {
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_f3f5fa));
+    }
+
     /**
      * 是否可以使用沉浸式
      * Is immersion bar enabled boolean.
@@ -102,6 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolBarRightTxt = findViewById(R.id.toolBarRightTxt);
         toolBarRightImg = findViewById(R.id.toolBarRightImg);
         baseContentLayout = findViewById(R.id.baseContentLayout);
+        baseContainerLayout = findViewById(R.id.baseContainerLayout);
         setTitleNavigationIcon(R.drawable.icon_back);
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
         //设置沉浸式菜单栏
@@ -109,6 +117,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isImmersionBarEnabled()) {
             initImmersionBar();
         }
+        setBaseContainerBg();
         initView();
         setListenner();
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {

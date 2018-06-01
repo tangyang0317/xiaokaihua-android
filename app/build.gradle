@@ -46,4 +46,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

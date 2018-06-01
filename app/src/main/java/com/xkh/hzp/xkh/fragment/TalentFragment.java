@@ -20,12 +20,16 @@ import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.view.EmptyView;
+import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
 
 /**
  * @packageName com.xkh.hzp.xkh.fragment
@@ -62,6 +66,11 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         talentClassAdapter = new TalentClassAdapter();
         recommendTalentRecycleView.setAdapter(talentClassAdapter);
         talentAdapter = new TalentAdapter();
+        EmptyView emptyView = new EmptyView(getActivity());
+        emptyView.setOperateBtnVisiable(false);
+        talentAdapter.setEmptyView(emptyView);
+        talentAdapter.setOnLoadMoreListener(this, talentRecyclerView);
+        talentAdapter.setLoadMoreView(new XkhLoadMoreView());
         talentAdapter.addHeaderView(headView);
         talentRecyclerView.setAdapter(talentAdapter);
         initHeaderData();
@@ -92,17 +101,21 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                     List<TalentResult> talentResults = (List<TalentResult>) extra.get("result");
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
-                            talentSwipeRefreshLayout.setRefreshing(false);
-                            talentAdapter.setEnableLoadMore(true);
-                            talentAdapter.setNewData(talentResults);
-                            talentAdapter.notifyDataSetChanged();
+                            if (talentResults.size() < 10) {
+                                talentSwipeRefreshLayout.setRefreshing(false);
+                                talentClassAdapter.loadMoreEnd();
+                                talentAdapter.setNewData(talentResults);
+                            } else {
+                                talentSwipeRefreshLayout.setRefreshing(false);
+                                talentAdapter.setEnableLoadMore(true);
+                                talentAdapter.setNewData(talentResults);
+                            }
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
                             talentSwipeRefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
                             talentAdapter.addData(talentResults);
-                            talentAdapter.notifyDataSetChanged();
                         } else {
                             talentSwipeRefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
@@ -158,7 +171,95 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+        talentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                TalentResult talentResult = (TalentResult) adapter.getItem(position);
+                switch (view.getId()) {
+                    case R.id.isAttentionTxt:
+                        if ("focus".equals(talentResult.getStatus())) {
+                            //取消关注
+                            cancleFocusTalent(talentResult);
+                        } else {
+                            focusTalent(talentResult);
+                            //添加关注
+                        }
+                        break;
+                }
+            }
+        });
     }
+
+    private void updateListData(TalentResult talentResult) {
+        if (talentResult != null) {
+            if (talentAdapter.getData() != null && talentAdapter.getData().size() > 0) {
+                for (int i = 0; i < talentAdapter.getData().size(); i++) {
+                    if (talentAdapter.getData().get(i).getUserId() == talentResult.getUserId()) {
+                        if ("focus".equals(talentResult.getStatus())) {
+                            talentAdapter.getData().get(i).setStatus("take_off");
+                        } else {
+                            talentAdapter.getData().get(i).setStatus("focus");
+                        }
+                    }
+                }
+                talentAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+
+    /**
+     * 关注
+     *
+     * @param talentUserId
+     */
+    private void focusTalent(final TalentResult talentUserId) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("beFocusUserId", String.valueOf(talentUserId.getUserId()));
+        param.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().post(UrlConfig.foucsTalent, param, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    Toasty.info(getActivity(), "关注成功").show();
+                    updateListData(talentUserId);
+                }
+            }
+        });
+    }
+
+    /**
+     * 取消关注
+     *
+     * @param talentUserId
+     */
+    private void cancleFocusTalent(final TalentResult talentUserId) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("beFocusUserId", String.valueOf(talentUserId.getUserId()));
+        param.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().post(UrlConfig.cancleFoucsTalent, param, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    Toasty.info(getActivity(), "取消关注成功").show();
+                    updateListData(talentUserId);
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onRefresh() {

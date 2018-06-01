@@ -8,7 +8,7 @@
         android:id="@+id/spaceView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp10"
-        android:background="@color/color_dadada" />
+        android:background="@color/color_f3f5fa" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,10 +40,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/shape_attention"
-            android:paddingBottom="@dimen/dp4"
-            android:paddingLeft="@dimen/dp15"
-            android:paddingRight="@dimen/dp15"
-            android:paddingTop="@dimen/dp4"
+            android:paddingBottom="@dimen/dp2"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:paddingTop="@dimen/dp2"
             android:text="+关注"
             android:textColor="@color/color_ff5555" />
 

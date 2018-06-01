@@ -361,6 +361,34 @@
             android:name=".activity.UserSignActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PasswordManagerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AboutXkhActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.WebActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ModifyPasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.FindPasswordActivity"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name=".activity.UpdateGenderActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

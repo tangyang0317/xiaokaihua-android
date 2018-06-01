@@ -1,5 +1,7 @@
 package com.xkh.hzp.xkh.http;
 
+import com.xkh.hzp.xkh.config.UrlConfig;
+
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -17,15 +19,16 @@ public class ReceiverCookieInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
-
-        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-            HashSet<String> cookies = new HashSet<>();
-            for (String header : originalResponse.headers("Set-Cookie")) {
-                cookies.add(header);
+        if (originalResponse.request().url().toString().equals(UrlConfig.register) || originalResponse.request().url().toString().equals(UrlConfig.login)) {
+            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+                SharedprefrenceHelper.getIns(Global.app).remove("cookie");
+                HashSet<String> cookies = new HashSet<>();
+                for (String header : originalResponse.headers("Set-Cookie")) {
+                    cookies.add(header);
+                }
+                SharedprefrenceHelper.getIns(Global.app).saveObject("cookie", cookies);
             }
-            SharedprefrenceHelper.getIns(Global.app).saveObject("cookie", cookies);
         }
-
         return originalResponse;
     }
 }

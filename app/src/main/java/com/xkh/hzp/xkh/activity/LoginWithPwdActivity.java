@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.WebUserBean;
 import com.xkh.hzp.xkh.http.ABHttp;
@@ -25,6 +26,7 @@ import com.xkh.hzp.xkh.utils.UserDataManager;
 import java.util.HashMap;
 
 import es.dmoral.toasty.Toasty;
+import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 
 /**
@@ -41,8 +43,8 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
     private Button btnLogin;
     private TextView tvFotget;
     private TextView btnToLogin;
-    private TextView tvOrder;
     private RelativeLayout passwordLayout;
+    private TextView serviceTxt, yisizhengceTxt, tvOrder;
 
     @Override
     public int getLayoutId() {
@@ -54,6 +56,13 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         super.initImmersionBar();
         mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
     }
+
+    @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -67,6 +76,8 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         btnToLogin = findViewById(R.id.activity_login_toLogin);
         passwordLayout = findViewById(R.id.ll_passwd);
         tvOrder = findViewById(R.id.tvOrder);
+        serviceTxt = findViewById(R.id.activity_login_tv_service);
+        yisizhengceTxt = findViewById(R.id.activity_login_tv_zhichi);
         etUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean b) {
@@ -139,8 +150,9 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         btnLogin.setOnClickListener(this);
         tvFotget.setOnClickListener(this);
         btnToLogin.setOnClickListener(this);
-        findViewById(R.id.activity_login_tv_service).setOnClickListener(this);
-        findViewById(R.id.activity_login_tv_zhichi).setOnClickListener(this);
+        serviceTxt.setOnClickListener(this);
+        yisizhengceTxt.setOnClickListener(this);
+        tvOrder.setOnClickListener(this);
     }
 
     /***
@@ -159,13 +171,9 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         }
 
         HashMap map = new HashMap();
-        map.put("authCode", null);
-        map.put("deviceType", null);
-        map.put("location", null);
         map.put("password", password);
-        map.put("phone", account);
-        map.put("uniqueId", null);
-
+        map.put("account", account);
+        map.put("loginType", "account");
         ABHttp.getIns().postJSON(UrlConfig.login, new Gson().toJson(map), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -174,12 +182,25 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public boolean onFailure(String code, String msg) {
+                Toasty.info(LoginWithPwdActivity.this, msg).show();
+                return super.onFailure(code, msg);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean isSuccess, HashMap<String, Object> extra) {
-                showToast(msg);
-                if (ABHttp.CODE_SUCCESS.equals(code)) {
-                    WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
+                Toasty.info(LoginWithPwdActivity.this, msg).show();
+                if (isSuccess) {
+                    final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
+                        hideKeyBoard();
+                        AppManager.getAppManager().finishActivity(LoginActivity.class);
                         LoginWithPwdActivity.this.finish();
                     }
                 }
@@ -189,12 +210,20 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-
     @Override
     public void onClick(View view) {
-
         if (view == btnLogin) {
             loginWithPwd();
+        } else if (view == tvOrder) {
+            WebActivity.launchWebActivity(this, Config.shequguifan, "社区规范", "last");
+        } else if (view == serviceTxt) {
+            WebActivity.launchWebActivity(this, Config.yonghuxieyi, "服务条款", "last");
+        } else if (view == yisizhengceTxt) {
+            WebActivity.launchWebActivity(this, Config.yinsizhengce, "隐私政策", "last");
+        } else if (view == ivBack) {
+            this.finish();
+        } else if (view == tvFotget) {
+            FindPasswordActivity.lunchActivity(LoginWithPwdActivity.this, null, FindPasswordActivity.class);
         }
 
     }

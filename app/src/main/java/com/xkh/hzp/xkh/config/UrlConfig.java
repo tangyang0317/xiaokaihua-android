@@ -8,8 +8,10 @@ package com.xkh.hzp.xkh.config;
  **/
 public class UrlConfig {
 
-    public static final String USER_BASE_URL = "http://192.168.2.131:9091";
-    public static final String DYNAMIC_BASE_URL = "http://192.168.2.130:8002";
+    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
+    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
+    //    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
+//    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
     public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";
     public static final String login = USER_BASE_URL + "/uc/login/in";
@@ -26,4 +28,9 @@ public class UrlConfig {
     public static final String publishDynamic = DYNAMIC_BASE_URL + "/dynamic/apply";
     public static final String queryHotLable = DYNAMIC_BASE_URL + "/hotLabel";
     public static final String queryTalentList = DYNAMIC_BASE_URL + "/talent";
+    public static final String userInfo = USER_BASE_URL + "/uc/user/modify";
+    public static final String queryuserInfo = USER_BASE_URL + "/inner/uc/user/_getOne";
+    public static final String foucsTalent = DYNAMIC_BASE_URL + "/focus";
+    public static final String cancleFoucsTalent = DYNAMIC_BASE_URL + "/focus/cancel";
+
 }

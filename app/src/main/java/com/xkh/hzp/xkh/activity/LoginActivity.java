@@ -1,6 +1,7 @@
 package com.xkh.hzp.xkh.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,13 +17,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.socialize.UMShareAPI;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.WebUserBean;
 import com.xkh.hzp.xkh.entity.result.RegisterResult;
+import com.xkh.hzp.xkh.entity.result.UserInfoResult;
+import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.UserDataManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -54,6 +60,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /****用户是否注册***/
     private boolean isRegister = false;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -63,6 +70,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void initImmersionBar() {
         super.initImmersionBar();
         mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
+    }
+
+
+    @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
     }
 
     @Override
@@ -81,7 +95,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvService = findViewById(R.id.activity_login_tv_service);
         tvZhichi = findViewById(R.id.activity_login_tv_zhichi);
         tvOrder = findViewById(R.id.tvOrder);
-
         tvOrder.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         tvToLogin.setOnClickListener(this);
@@ -216,10 +229,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
             case R.id.activity_login_tv_service:
+                WebActivity.launchWebActivity(this, Config.yonghuxieyi, "服务条款", "last");
                 break;
             case R.id.activity_login_tv_zhichi:
+                WebActivity.launchWebActivity(this, Config.yinsizhengce, "隐私政策", "last");
                 break;
             case R.id.tvOrder:
+                WebActivity.launchWebActivity(this, Config.shequguifan, "社区规范", "last");
                 break;
             case R.id.activity_login_toLogin:
                 LoginWithPwdActivity.lunchActivity(LoginActivity.this, null, LoginWithPwdActivity.class);
@@ -255,12 +271,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Toasty.warning(this, "请输入4位数字验证码").show();
             return;
         }
-
         HashMap<String, String> params = new HashMap<>();
         params.put("authCode", sms);
         params.put("phone", account);
         params.put("source", "android-app");
-
         ABHttp.getIns().postJSON(UrlConfig.register, JsonUtils.toJson(params), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -280,8 +294,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         webUserBean.setUid(registerResult.getId());
                         webUserBean.setLoginType(registerResult.getLoginType());
                         UserDataManager.getInstance().putLoginUser(webUserBean);
-                        SettingPasswordActivity.lunchActivity(LoginActivity.this, null, SettingPasswordActivity.class);
                         hideKeyBoard();
+                        ChooseGenderActivity.lunchActivity(LoginActivity.this, null, ChooseGenderActivity.class);
                         LoginActivity.this.finish();
                     }
                 }
@@ -332,20 +346,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Toasty.warning(this, "请输入11位手机号码").show();
             return;
         }
-
         if (TextUtils.isEmpty(sms) || sms.length() != 4) {
             Toasty.warning(this, "请输入4位数字验证码").show();
             return;
         }
-
         HashMap map = new HashMap();
         map.put("authCode", sms);
         map.put("loginType", "code");
-        map.put("deviceType", null);
-        map.put("location", null);
-        map.put("password", null);
-        map.put("phone", account);
-        map.put("uniqueId", null);
+        map.put("account", account);
         ABHttp.getIns().postJSON(UrlConfig.login, new Gson().toJson(map), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -356,11 +364,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean isSuccess, HashMap<String, Object> extra) {
                 showToast(msg);
-                if (ABHttp.CODE_SUCCESS.equals(code)) {
-                    WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
+                if (isSuccess) {
+                    final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
-                        UserDataManager.getInstance().putLoginUser(loginInfoBean);
                         hideKeyBoard();
+                        UserDataManager.getInstance().putLoginUser(loginInfoBean);
                         LoginActivity.this.finish();
                     }
                 }

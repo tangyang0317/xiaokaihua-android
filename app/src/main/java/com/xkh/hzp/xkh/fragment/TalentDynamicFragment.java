@@ -46,6 +46,11 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
             for (int k = 0; k < i + 1; k++) {
                 stringList.add("");
             }
+            if (i % 2 == 0) {
+                dynamicBean.setDynamicType("image");
+            } else {
+                dynamicBean.setDynamicType("video");
+            }
             dynamicBean.setImgList(stringList);
             list.add(dynamicBean);
         }
@@ -62,6 +67,23 @@ public class TalentDynamicFragment extends FragmentPagerFragment {
 
     @Override
     public void setListernner() {
+        dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.dynamicUserHeadImg:
+                        break;
+                    case R.id.sharedLayout:
+                        break;
+                    case R.id.componentLayout:
+                        break;
+                    case R.id.dynamicContentTxt:
+                        break;
+                    case R.id.dynamicImgContentLayout:
+                        break;
+                }
+            }
+        });
 
         dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

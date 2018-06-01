@@ -18,7 +18,6 @@ public class WebUserBean implements Serializable {
      * loginToken : Olh9tnEL102797
      * success : true
      */
-
     private long uid;
     private String loginId;
     private String loginType;

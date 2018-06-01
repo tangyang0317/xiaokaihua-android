@@ -14,6 +14,7 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import xkh.hzp.xkh.com.base.utils.DimentUtils;
 
@@ -31,6 +32,12 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, DynamicBean item) {
+        helper.addOnClickListener(R.id.dynamicUserHeadImg);
+        helper.addOnClickListener(R.id.sharedLayout);
+        helper.addOnClickListener(R.id.componentLayout);
+        helper.addOnClickListener(R.id.goodLayout);
+        helper.addOnClickListener(R.id.dynamicContentTxt);
+        helper.addOnClickListener(R.id.dynamicImgContentLayout);
         ImageView dynamicUserHeadImg = helper.getView(R.id.dynamicUserHeadImg);
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
@@ -39,12 +46,31 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         LinearLayout sharedLayout = helper.getView(R.id.sharedLayout);
         LinearLayout componentLayout = helper.getView(R.id.componentLayout);
         LinearLayout goodLayout = helper.getView(R.id.goodLayout);
-        int screenWidth = DimentUtils.getScreenWidth(mContext);
+        if ("image".equals(item.getDynamicType())) {
+            generatorImg(dynamicImgContentLayout, item.getImgList());
+        } else if ("video".equals(item.getDynamicType())) {
+            if (dynamicImgContentLayout.getChildCount() > 0) {
+                dynamicImgContentLayout.removeAllViews();
+            }
+            View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_dynamic_video, null);
+            ImageView videoFaceImg = view.findViewById(R.id.videoFaceImg);
+            ImageView videoPlayIconImg = view.findViewById(R.id.videoPlayIconImg);
+            int screenWidth = DimentUtils.getScreenWidth(mContext);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth - DimentUtils.dip2px(mContext, 30), screenWidth / 2);
+            videoFaceImg.setLayoutParams(layoutParams);
+            dynamicImgContentLayout.addView(view);
+        }
+
+    }
+
+
+    private void generatorImg(LinearLayout dynamicImgContentLayout, List<String> imgList) {
         if (dynamicImgContentLayout.getChildCount() > 0) {
             dynamicImgContentLayout.removeAllViews();
         }
-        if (item.getImgList() != null && item.getImgList().size() > 0) {
-            if (item.getImgList().size() == 1) {
+        int screenWidth = DimentUtils.getScreenWidth(mContext);
+        if (imgList != null && imgList.size() > 0) {
+            if (imgList.size() == 1) {
                 ImageView oneImg = new ImageView(mContext);
                 int width = screenWidth - DimentUtils.dip2px(mContext, 30);
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, width / 2);
@@ -52,7 +78,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 oneImg.setScaleType(ImageView.ScaleType.FIT_XY);
                 oneImg.setImageResource(R.drawable.example);
                 dynamicImgContentLayout.addView(oneImg);
-            } else if (item.getImgList().size() == 2) {
+            } else if (imgList.size() == 2) {
                 ImageView twoImg1 = new ImageView(mContext);
                 int widthForTwo = (screenWidth - DimentUtils.dip2px(mContext, 32)) / 2;
                 ViewGroup.LayoutParams layoutParams2 = new ViewGroup.LayoutParams(widthForTwo, widthForTwo);
@@ -68,7 +94,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 twoImg2.setScaleType(ImageView.ScaleType.FIT_XY);
                 twoImg2.setImageResource(R.drawable.example);
                 dynamicImgContentLayout.addView(twoImg2);
-            } else if (item.getImgList().size() == 3) {
+            } else if (imgList.size() == 3) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_dynamic_img_three, null);
                 ImageView threeImg1 = view.findViewById(R.id.oneImg);
                 ImageView threeImg2 = view.findViewById(R.id.twoImg);
@@ -87,7 +113,6 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 threeImg2.setScaleType(ImageView.ScaleType.FIT_XY);
                 threeImg2.setImageResource(R.drawable.example);
 
-
                 RelativeLayout.LayoutParams three3LayoutParams = new RelativeLayout.LayoutParams((screenWidth - DimentUtils.dip2px(mContext, 32)) / 5 * 2, (screenWidth - DimentUtils.dip2px(mContext, 32)) / 5 * 2);
                 three3LayoutParams.setMargins(DimentUtils.dip2px(mContext, 2), DimentUtils.dip2px(mContext, 2), 0, 0);
                 three3LayoutParams.addRule(RelativeLayout.RIGHT_OF, threeImg1.getId());
@@ -96,7 +121,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 threeImg3.setScaleType(ImageView.ScaleType.FIT_XY);
                 threeImg3.setImageResource(R.drawable.example);
                 dynamicImgContentLayout.addView(view);
-            } else if (item.getImgList().size() == 4) {
+            } else if (imgList.size() == 4) {
                 View view1 = LayoutInflater.from(mContext).inflate(R.layout.view_item_dynamic_img_four, null);
                 ImageView fourImg1 = view1.findViewById(R.id.oneImg);
                 ImageView fourImg2 = view1.findViewById(R.id.twoImg);
@@ -125,7 +150,6 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 fourImg3.setScaleType(ImageView.ScaleType.FIT_XY);
                 fourImg3.setImageResource(R.drawable.example);
 
-
                 RelativeLayout.LayoutParams four4LayoutParams = new RelativeLayout.LayoutParams(width2, width2);
                 four4LayoutParams.setMargins(DimentUtils.dip2px(mContext, 2), DimentUtils.dip2px(mContext, 2), 0, 0);
                 four4LayoutParams.addRule(RelativeLayout.BELOW, fourImg1.getId());
@@ -136,6 +160,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 dynamicImgContentLayout.addView(view1);
             }
         }
-
     }
+
+
 }

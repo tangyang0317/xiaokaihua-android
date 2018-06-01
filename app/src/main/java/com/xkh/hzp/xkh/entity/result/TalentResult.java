@@ -1,7 +1,5 @@
 package com.xkh.hzp.xkh.entity.result;
 
-import java.util.List;
-
 /**
  * @packageName com.xkh.hzp.xkh.entity.result
  * @FileName TalentResult
@@ -12,18 +10,21 @@ public class TalentResult {
 
 
     /**
-     * imgUrl : string
-     * nickname : string
-     * signatureName : ["string"]
-     * status : string
-     * userId : 0
+     * <p>
+     * "userId": 1006622,
+     * "nickname": "我是校花达人",
+     * "imgUrl": "cdn.007fenqi.com/icon_female_selected.png",
+     * "status": null,
+     * "signatureName": "学院风,欧美风",
+     * "headPortrait": "string"
      */
 
     private String imgUrl;
     private String nickname;
     private String status;
-    private int userId;
-    private List<String> signatureName;
+    private long userId;
+    private String headPortrait;
+    private String signatureName;
 
     public String getImgUrl() {
         return imgUrl;
@@ -41,27 +42,35 @@ public class TalentResult {
         this.nickname = nickname;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
+
+    public String getSignatureName() {
+        return signatureName;
+    }
+
+    public void setSignatureName(String signatureName) {
+        this.signatureName = signatureName;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public List<String> getSignatureName() {
-        return signatureName;
-    }
-
-    public void setSignatureName(List<String> signatureName) {
-        this.signatureName = signatureName;
     }
 }

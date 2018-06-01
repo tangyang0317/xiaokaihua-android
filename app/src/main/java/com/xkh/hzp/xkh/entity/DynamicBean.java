@@ -12,6 +12,7 @@ public class DynamicBean {
 
     private String title;
     private List<String> imgList;
+    private String dynamicType;
 
     public String getTitle() {
         return title;
@@ -27,5 +28,13 @@ public class DynamicBean {
 
     public void setImgList(List<String> imgList) {
         this.imgList = imgList;
+    }
+
+    public String getDynamicType() {
+        return dynamicType;
+    }
+
+    public void setDynamicType(String dynamicType) {
+        this.dynamicType = dynamicType;
     }
 }

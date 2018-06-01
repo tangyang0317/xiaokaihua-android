@@ -1,13 +1,15 @@
 package com.xkh.hzp.xkh;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -15,8 +17,6 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.umeng.socialize.PlatformConfig;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.dblite.DataBaseHelper;
-import com.xkh.hzp.xkh.http.AddCookieInterceptor;
-import com.xkh.hzp.xkh.http.ReceiverCookieInterceptor;
 import com.xkh.hzp.xkh.module.ModulesManager;
 import com.xkh.hzp.xkh.module.TutuModule;
 import com.xkh.hzp.xkh.module.UmengModule;
@@ -26,7 +26,6 @@ import org.lasque.tusdk.core.TuSdk;
 
 import java.util.concurrent.TimeUnit;
 
-import es.dmoral.toasty.Toasty;
 import okhttp3.OkHttpClient;
 import xkh.hzp.xkh.com.base.Global;
 
@@ -72,12 +71,11 @@ public class App extends Application {
      * 初始化http模块
      */
     private void initHttpMudel() {
+        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Global.app));
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new AddCookieInterceptor())
-                .addInterceptor(new ReceiverCookieInterceptor())
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)
-                //其他配置
+                .cookieJar(cookieJar)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
     }

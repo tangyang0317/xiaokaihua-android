@@ -153,4 +153,6 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/view_line_horientol" />
+
 </LinearLayout>

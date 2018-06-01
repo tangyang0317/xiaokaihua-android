@@ -8,10 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.MainActivity;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.result.UserInfoResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
@@ -46,6 +54,5 @@ public class LoadingActivity extends AppCompatActivity {
             }
         }, 2000);
     }
-
 
 }

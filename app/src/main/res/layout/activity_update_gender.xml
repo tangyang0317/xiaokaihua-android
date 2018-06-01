@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="70dp"
+        android:text="选择你的性别" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40">
+
+        <ImageView
+            android:id="@+id/activity_medetail_female_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:src="@mipmap/icon_female_selected" />
+
+        <TextView
+            android:id="@+id/activity_medetail_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_medetail_female_iv"
+            android:layout_marginLeft="95dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="校花" />
+
+        <ImageView
+            android:id="@+id/activity_medetail_male_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="54dp"
+            android:layout_toRightOf="@+id/activity_medetail_female_iv"
+            android:src="@mipmap/icon_male" />
+
+        <TextView
+            android:id="@+id/activity_medetail_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_medetail_male_iv"
+            android:layout_marginLeft="260dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="校草" />
+    </RelativeLayout>
+    
+
+</LinearLayout>

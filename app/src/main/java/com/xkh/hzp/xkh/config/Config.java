@@ -13,6 +13,12 @@ public class Config {
     public static final int CHOOSE_VIDEO_CODE = 10000;
 
     public static final String QI_NIU_DOMAIN = "http://xkh-cdn.007fenqi.com";
+    //用户协议H5url
+    public static String yonghuxieyi = "http://xkh-h5.007fenqi.com/agree/register";
+    //社区规范H5url
+    public static String shequguifan = "http://xkh-h5.007fenqi.com/agree/articles";
+    //隐私政策H5url
+    public static String yinsizhengce = "http://xkh-h5.007fenqi.com/agree/privacy";
     /**
      * 七牛上传视频token
      **/
