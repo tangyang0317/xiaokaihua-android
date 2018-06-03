@@ -44,6 +44,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
+        View dividerView = helper.getView(R.id.dividerView);
         LinearLayout dynamicImgContentLayout = helper.getView(R.id.dynamicImgContentLayout);
         LinearLayout sharedLayout = helper.getView(R.id.sharedLayout);
         LinearLayout componentLayout = helper.getView(R.id.componentLayout);

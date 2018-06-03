@@ -239,6 +239,6 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = FragmentFactory.createFragment(i);
         transaction.replace(R.id.mainContainerFrameLayout, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 }

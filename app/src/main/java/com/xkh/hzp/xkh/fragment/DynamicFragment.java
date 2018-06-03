@@ -23,6 +23,7 @@ import com.xkh.hzp.xkh.entity.result.BannerResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -48,9 +49,8 @@ import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
  * @Author tangyang
  * @DATE 2018/4/28
  **/
-public class DynamicFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class DynamicFragment extends BaseFragment implements View.OnClickListener {
 
-    private SwipeRefreshLayout dynamicSwipRefreshLayout;
     private ScrollableLayout scrollableLayout;
     private LinearLayout searchLayout;
     private Banner sampleHeaderView;
@@ -66,11 +66,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    @Override
-    public void onRefresh() {
-
-    }
-
     private interface CurrentFragment {
         @Nullable
         FragmentPagerFragment currentFragment();
@@ -84,14 +79,12 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void initView(View contentView) {
-        dynamicSwipRefreshLayout = contentView.findViewById(R.id.dynamicSwipRefreshLayout);
         scrollableLayout = contentView.findViewById(R.id.scrollable_layout);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
         viewPager = contentView.findViewById(R.id.view_pager);
         tabsLayout = contentView.findViewById(R.id.tabs);
         searchLayout = contentView.findViewById(R.id.searchLayout);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
-        dynamicSwipRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         MineFragmentPagerAdapter dynimicPagerAdapter = new MineFragmentPagerAdapter(getChildFragmentManager(), items());
         viewPager.setAdapter(dynimicPagerAdapter);
         tabsLayout.setViewPager(viewPager);
@@ -129,38 +122,20 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-
-        final List<ButtonData> buttonDatas = new ArrayList<>();
-        int[] drawable = {R.mipmap.icon_publish_dynamic, R.mipmap.icon_vedio, R.mipmap.icon_img_text};
-        for (int i = 0; i < 3; i++) {
-            //最后一个参数表示padding
-            ButtonData buttonData = ButtonData.buildIconButton(getActivity(), drawable[i], 0);
-            buttonData.setBackgroundColorId(getActivity(), R.color.colorAccent);
-            buttonDatas.add(buttonData);
+        if (UserDataManager.getInstance().getUserInfo() != null && "talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            bottomMenuButton.setVisibility(View.VISIBLE);
+            final List<ButtonData> buttonDatas = new ArrayList<>();
+            int[] drawable = {R.mipmap.icon_publish_dynamic, R.mipmap.icon_vedio, R.mipmap.icon_img_text};
+            for (int i = 0; i < 3; i++) {
+                //最后一个参数表示padding
+                ButtonData buttonData = ButtonData.buildIconButton(getActivity(), drawable[i], 0);
+                buttonData.setBackgroundColorId(getActivity(), R.color.colorAccent);
+                buttonDatas.add(buttonData);
+            }
+            bottomMenuButton.setButtonDatas(buttonDatas);
+        } else {
+            bottomMenuButton.setVisibility(View.GONE);
         }
-        bottomMenuButton.setButtonDatas(buttonDatas);
-
-        bottomMenuButton.setButtonEventListener(new ButtonEventListener() {
-            @Override
-            public void onButtonClicked(int index) {
-
-                if (index == 1) {
-                    PublishVideoActivity.lunchActivity(getActivity(), null, PublishVideoActivity.class);
-                } else if (index == 2) {
-                    PublishPictureTextActvity.lunchActivity(getActivity(), null, PublishPictureTextActvity.class);
-                }
-            }
-
-            @Override
-            public void onExpand() {
-            }
-
-            @Override
-            public void onCollapse() {
-            }
-        });
-
-
         initData();
     }
 
@@ -205,6 +180,27 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 }
             }
         });
+
+        bottomMenuButton.setButtonEventListener(new ButtonEventListener() {
+            @Override
+            public void onButtonClicked(int index) {
+
+                if (index == 1) {
+                    PublishVideoActivity.lunchActivity(getActivity(), null, PublishVideoActivity.class);
+                } else if (index == 2) {
+                    PublishPictureTextActvity.lunchActivity(getActivity(), null, PublishPictureTextActvity.class);
+                }
+            }
+
+            @Override
+            public void onExpand() {
+            }
+
+            @Override
+            public void onCollapse() {
+            }
+        });
+
     }
 
 
@@ -246,8 +242,8 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     }
 
     private static List<MineFragmentPagerAdapter.Item> items() {
-        final List<MineFragmentPagerAdapter.Item> items = new ArrayList<>(4);
-        items.add(new MineFragmentPagerAdapter.Item("动态",
+        final List<MineFragmentPagerAdapter.Item> items = new ArrayList<>(3);
+        items.add(new MineFragmentPagerAdapter.Item("达人动态",
                 new MineFragmentPagerAdapter.Provider() {
                     @Override
                     public Fragment provide() {
@@ -260,7 +256,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 new MineFragmentPagerAdapter.Provider() {
                     @Override
                     public Fragment provide() {
-                        return new TalentDynamicFragment();
+                        return new VideoFragment();
                     }
                 }
         ));
@@ -269,7 +265,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 new MineFragmentPagerAdapter.Provider() {
                     @Override
                     public Fragment provide() {
-                        return new TalentDynamicFragment();
+                        return new AttentionFragment();
                     }
                 }
         ));

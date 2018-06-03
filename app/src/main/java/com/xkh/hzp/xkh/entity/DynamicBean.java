@@ -37,6 +37,7 @@ public class DynamicBean {
     private long updateTime;
     private String status;
     private String dynamicType;
+    private String faceImgUrl;
     private List<String> annexUrlList;
 
     public int getDynamicId() {
@@ -133,5 +134,13 @@ public class DynamicBean {
 
     public void setDynamicType(String dynamicType) {
         this.dynamicType = dynamicType;
+    }
+
+    public String getFaceImgUrl() {
+        return faceImgUrl;
+    }
+
+    public void setFaceImgUrl(String faceImgUrl) {
+        this.faceImgUrl = faceImgUrl;
     }
 }

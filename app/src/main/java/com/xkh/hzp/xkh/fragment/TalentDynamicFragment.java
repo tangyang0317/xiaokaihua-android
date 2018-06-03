@@ -18,6 +18,7 @@ import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +59,7 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
         dynamicAdapter.setLoadMoreView(new XkhLoadMoreView());
         dynamicAdapter.setOnLoadMoreListener(this, dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setAdapter(dynamicAdapter);
+        pageNum = 1;
         initData(pageNum, pageSize);
     }
 
@@ -70,7 +72,7 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
         HashMap<String, String> params = new HashMap<>();
         params.put("pageNum", String.valueOf(pageNum));
         params.put("pageSize", String.valueOf(pageSize));
-        params.put("dynamicSearchType", "image");
+        params.put("searchUserId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().get(UrlConfig.dynamicList, params, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -132,10 +134,11 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
         dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position % 2 == 0) {
-                    VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
-                } else {
+                DynamicBean dynamicBean = (DynamicBean) adapter.getItem(position);
+                if ("image".equals(dynamicBean.getDynamicType())) {
                     GraphicDynamicDetailsActivity.lunchActivity(getActivity(), null, GraphicDynamicDetailsActivity.class);
+                } else if ("video".equals(dynamicBean.getDynamicType())) {
+                    VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
                 }
             }
         });

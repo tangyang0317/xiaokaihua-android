@@ -76,6 +76,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         talentAdapter.addHeaderView(headView);
         talentRecyclerView.setAdapter(talentAdapter);
         initHeaderData();
+        pageNum = 1;
         initTalentData(pageNum, pageSize);
     }
 

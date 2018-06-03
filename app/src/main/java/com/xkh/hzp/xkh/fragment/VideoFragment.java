@@ -1,10 +1,27 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
+import com.xkh.hzp.xkh.activity.VideoDynamicDetailsActivity;
+import com.xkh.hzp.xkh.adapter.DynamicVideoAdapter;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.DynamicBean;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+
+import java.util.HashMap;
+import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.view.EmptyView;
+import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
 
 /**
  * @packageName com.xkh.hzp.xkh.fragment
@@ -12,7 +29,12 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
  * @Author tangyang
  * @DATE 2018/5/4
  **/
-public class VideoFragment extends BaseFragment {
+public class VideoFragment extends FragmentPagerFragment implements BaseQuickAdapter.RequestLoadMoreListener {
+
+    private RecyclerView dynamicObservableRecyclerView;
+    private int pageNum = 1, pageSize = 10;
+    DynamicVideoAdapter dynamicVideoAdapter;
+
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_dynamic_index;
@@ -20,11 +42,122 @@ public class VideoFragment extends BaseFragment {
 
     @Override
     public void initView(View contentView) {
-
+        dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
+        dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dynamicObservableRecyclerView.setHasFixedSize(true);
+        dynamicVideoAdapter = new DynamicVideoAdapter();
+        EmptyView emptyView = new EmptyView(getActivity());
+        emptyView.setOperateBtnVisiable(false);
+        emptyView.setNodataTitle("还没有视频动态哇");
+        emptyView.setNodataImageSource(R.mipmap.note_empty);
+        dynamicVideoAdapter.setEmptyView(emptyView);
+        dynamicVideoAdapter.setLoadMoreView(new XkhLoadMoreView());
+        dynamicVideoAdapter.setOnLoadMoreListener(this, dynamicObservableRecyclerView);
+        dynamicObservableRecyclerView.setAdapter(dynamicVideoAdapter);
+        /*****这个很重要*****/
+        pageNum = 1;
+        initData(pageNum, pageSize);
     }
+
+
+    /***
+     * 加载动态列表数据
+     * @param pageNum
+     * @param pageSize
+     */
+    private void initData(final int pageNum, int pageSize) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("pageNum", String.valueOf(pageNum));
+        params.put("pageSize", String.valueOf(pageSize));
+        params.put("dynamicSearchType", "image");
+        ABHttp.getIns().get(UrlConfig.dynamicList, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<List<DynamicBean>>() {
+                }.getType());
+
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    List<DynamicBean> talentResults = (List<DynamicBean>) extra.get("result");
+                    if (pageNum == 1) {
+                        if (talentResults != null && talentResults.size() > 0) {
+                            if (talentResults.size() < 10) {
+                                dynamicVideoAdapter.loadMoreEnd();
+                                dynamicVideoAdapter.setNewData(talentResults);
+                            } else {
+                                dynamicVideoAdapter.setEnableLoadMore(true);
+                                dynamicVideoAdapter.setNewData(talentResults);
+                            }
+                        }
+                    } else {
+                        if (talentResults != null && talentResults.size() > 0) {
+                            dynamicVideoAdapter.loadMoreComplete();
+                            dynamicVideoAdapter.addData(talentResults);
+                        } else {
+                            dynamicVideoAdapter.loadMoreComplete();
+                            dynamicVideoAdapter.loadMoreEnd();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     @Override
     public void setListernner() {
+        dynamicVideoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.dynamicUserHeadImg:
+                        break;
+                    case R.id.sharedLayout:
+                        break;
+                    case R.id.componentLayout:
+                        break;
+                    case R.id.dynamicContentTxt:
+                        break;
+                    case R.id.dynamicImgContentLayout:
+                        break;
+                }
+            }
+        });
 
+        dynamicVideoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DynamicBean dynamicBean = (DynamicBean) adapter.getItem(position);
+                if ("image".equals(dynamicBean.getDynamicType())) {
+                    GraphicDynamicDetailsActivity.lunchActivity(getActivity(), null, GraphicDynamicDetailsActivity.class);
+                } else if ("video".equals(dynamicBean.getDynamicType())) {
+                    VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        pageNum++;
+        initData(pageNum, pageSize);
+    }
+
+
+    @Override
+    public boolean canScrollVertically(int direction) {
+        return dynamicObservableRecyclerView != null && dynamicObservableRecyclerView.canScrollVertically(direction);
+    }
+
+    @Override
+    public void onFlingOver(int y, long duration) {
+        if (dynamicObservableRecyclerView != null) {
+            dynamicObservableRecyclerView.smoothScrollBy(0, y);
+        }
     }
 }

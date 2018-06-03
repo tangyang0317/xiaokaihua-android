@@ -106,14 +106,18 @@
 
             <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
                 android:id="@+id/talentMinePagerSlidingTabStrip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp45"
                 android:layout_gravity="center_horizontal"
-                app:pstsIndicatiorWidth="@dimen/dp30"
-                app:pstsIndicatorColor="@color/color_ff5555"
-                app:pstsIndicatorHeight="1dp"
+                android:layout_marginLeft="@dimen/dp40"
+                android:layout_marginRight="@dimen/dp40"
+                app:pstsDividerColor="@android:color/transparent"
+                app:pstsIndicatiorWidth="@dimen/dp40"
+                app:pstsIndicatorColor="@color/color_e80036"
+                app:pstsIndicatorHeight="@dimen/dp2"
+                app:pstsShouldExpand="true"
                 app:pstsTextColor="@color/color_666666"
-                app:selectedTabTextColor="@color/color_ff5555" />
+                app:selectedTabTextColor="@color/color_1f1f1f" />
 
 
             <View
