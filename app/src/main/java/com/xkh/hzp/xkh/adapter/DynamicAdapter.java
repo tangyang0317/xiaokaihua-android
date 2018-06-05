@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.DynamicBean;
+import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -64,8 +65,8 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             dynamicImgContentLayout.addView(view);
         }
 
-        Glide.with(mContext).load(item.getHeadPortrait()).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
-        dynamicUserNickNameTxt.setText(item.getNickname());
+        Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
+        dynamicUserNickNameTxt.setText(item.getName());
         dynamicContentTxt.setText(item.getWordDescription());
         dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getUpdateTime()));
     }

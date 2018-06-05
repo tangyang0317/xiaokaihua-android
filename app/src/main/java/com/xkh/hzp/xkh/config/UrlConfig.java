@@ -31,5 +31,9 @@ public class UrlConfig {
     public static final String foucsTalent = DYNAMIC_BASE_URL + "/focus";
     public static final String cancleFoucsTalent = DYNAMIC_BASE_URL + "/focus/cancel";
     public static final String dynamicList = DYNAMIC_BASE_URL + "/dynamic";
+    public static final String queryTalentInfo = DYNAMIC_BASE_URL + "/talentAttr/queryTalentAttrByUserId";
+    public static final String searchDynamic = DYNAMIC_BASE_URL + "/search/dynamic";
+    public static final String searchUser = DYNAMIC_BASE_URL + "/search/user";
+    public static final String queryDynamicById = DYNAMIC_BASE_URL + "/dynamic";
 
 }

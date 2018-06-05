@@ -1,6 +1,5 @@
 package com.xkh.hzp.xkh.activity;
 
-import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
@@ -72,9 +71,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.activity_search_btn_edit:
-                Intent intent = new Intent(this, SearchHistoryActivty.class);
-                intent.putExtra("searchKey", editText.getText().toString().trim());
-                startActivity(intent);
                 finish();
                 break;
         }

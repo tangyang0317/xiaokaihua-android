@@ -36,7 +36,7 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
 
     private RecyclerView dynamicObservableRecyclerView;
     private DynamicAdapter dynamicAdapter;
-    private RecommondAttentionAdapter recommondAttentionAdapter;
+    //    private RecommondAttentionAdapter recommondAttentionAdapter;
     private int pageNum = 1, pageSize = 10;
 
     @Override
@@ -50,16 +50,17 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicObservableRecyclerView.setHasFixedSize(true);
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.view_attention_header, null);
-        RecyclerView recommendTalentRecycleView = headView.findViewById(R.id.recommendTalentRecycleView);
-        LinearLayoutManager headerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recommendTalentRecycleView.setLayoutManager(headerLayoutManager);
-        recommondAttentionAdapter = new RecommondAttentionAdapter();
-        recommendTalentRecycleView.setAdapter(recommondAttentionAdapter);
-
+        /**   推荐关注这一期不要
+         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.view_attention_header, null);
+         RecyclerView recommendTalentRecycleView = headView.findViewById(R.id.recommendTalentRecycleView);
+         LinearLayoutManager headerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+         recommendTalentRecycleView.setLayoutManager(headerLayoutManager);
+         recommondAttentionAdapter = new RecommondAttentionAdapter();
+         recommendTalentRecycleView.setAdapter(recommondAttentionAdapter);
+         dynamicAdapter.addHeaderView(headView);
+         **/
 
         dynamicAdapter = new DynamicAdapter();
-        dynamicAdapter.addHeaderView(headView);
         dynamicAdapter.setLoadMoreView(new XkhLoadMoreView());
         EmptyView emptyView = new EmptyView(getActivity());
         emptyView.setNodataImageSource(R.mipmap.note_empty);
@@ -69,20 +70,20 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
         dynamicObservableRecyclerView.setAdapter(dynamicAdapter);
         pageNum = 1;
         initData(pageNum, pageSize);
-        initHeaderData();
+//        initHeaderData();
     }
 
-    /***
-     * 查询推荐达人
-     */
-    private void initHeaderData() {
-        List<RecommondTalentResult> recommondTalentResults = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            RecommondTalentResult recommondTalentResult = new RecommondTalentResult();
-            recommondTalentResults.add(recommondTalentResult);
-        }
-        recommondAttentionAdapter.setNewData(recommondTalentResults);
-    }
+//    /***
+//     * 查询推荐达人
+//     */
+//    private void initHeaderData() {
+//        List<RecommondTalentResult> recommondTalentResults = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            RecommondTalentResult recommondTalentResult = new RecommondTalentResult();
+//            recommondTalentResults.add(recommondTalentResult);
+//        }
+//        recommondAttentionAdapter.setNewData(recommondTalentResults);
+//    }
 
 
     /***

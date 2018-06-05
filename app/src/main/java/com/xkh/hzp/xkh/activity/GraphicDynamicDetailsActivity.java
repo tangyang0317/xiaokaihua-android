@@ -1,7 +1,9 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.NestedScrollView;
@@ -15,19 +17,31 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.CommentExpandAdapter;
+import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.CommentBean;
 import com.xkh.hzp.xkh.entity.CommentDetailBean;
+import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.entity.ReplyDetailBean;
+import com.xkh.hzp.xkh.entity.result.DynamicDetailsResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.view.CommentExpandableListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.DimentUtils;
-import xkh.hzp.xkh.com.base.utils.SoftKeyboardUtil;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -38,6 +52,8 @@ import xkh.hzp.xkh.com.base.utils.SoftKeyboardUtil;
 
 public class GraphicDynamicDetailsActivity extends BaseActivity implements View.OnClickListener {
 
+    private ImageView userHeadImg;
+    private TextView userNickNameTxt, userIsAttentionTxt, dynamicContentTxt;
     private LinearLayout contentEditLayout, vgBottomInfo;
     private RelativeLayout detailsShareLayout, detailsCommentLayout, detailsPraiseLayout;
     private EditText etComment;
@@ -50,6 +66,16 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     private CommentBean commentBean;
     private BottomSheetDialog bottomSheetDialog;
 
+    public static void lanuchActivity(Activity activity, String dynamicId) {
+        Intent intent = new Intent(activity, GraphicDynamicDetailsActivity.class);
+        intent.putExtra("dynamicId", dynamicId);
+        activity.startActivity(intent);
+    }
+
+    private String getDynamicId() {
+        return getIntent().getStringExtra("dynamicId");
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_graphic_dynamic_details;
@@ -58,6 +84,10 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     @Override
     public void initView() {
         setToolbarTitleTv("动态详情");
+        userNickNameTxt = findViewById(R.id.userNickNameTxt);
+        userIsAttentionTxt = findViewById(R.id.userIsAttentionTxt);
+        dynamicContentTxt = findViewById(R.id.dynamicContentTxt);
+        userHeadImg = findViewById(R.id.userHeadImg);
         graphicDetailsNestedScrollView = findViewById(R.id.graphicDetailsNestedScrollView);
         contentEditLayout = findViewById(R.id.contentEditLayout);
         vgBottomInfo = findViewById(R.id.vgBottomInfo);
@@ -68,19 +98,6 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         btnSend = findViewById(R.id.btnSend);
         commentExpandableListView = findViewById(R.id.commentExpandableListView);
         dynamicDetailsImgLayout = findViewById(R.id.dynamicDetailsImgLayout);
-        List<String> imgList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            imgList.add("");
-        }
-        for (int i = 0; i < imgList.size(); i++) {
-            ImageView dynamicDetailsImg = (ImageView) LayoutInflater.from(this).inflate(R.layout.view_item_dynamic_details_img, null);
-            int margin = DimentUtils.dip2px(this, 15);
-            LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(DimentUtils.getScreenWidth(this) - margin * 2, DimentUtils.dip2px(this, 200));
-            layoutParams1.setMargins(margin, margin, margin, 0);
-            dynamicDetailsImg.setLayoutParams(layoutParams1);
-            dynamicDetailsImg.setImageResource(R.drawable.example);
-            dynamicDetailsImgLayout.addView(dynamicDetailsImg);
-        }
         commentsList = generateTestData();
         commentExpandAdapter = new CommentExpandAdapter(this, commentsList);
         commentExpandableListView.setAdapter(commentExpandAdapter);
@@ -117,6 +134,65 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             }
         });
 
+        queryDynamicDetails();
+    }
+
+    /**
+     * 根据动态Id查询动态详情
+     */
+    private void queryDynamicDetails() {
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        params.put("dynamicId", getDynamicId());
+        ABHttp.getIns().restfulGet(UrlConfig.queryDynamicById, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<DynamicDetailsResult>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    DynamicDetailsResult dynamicBean = (DynamicDetailsResult) extra.get("result");
+                    if (dynamicBean != null) {
+                        setUIData(dynamicBean);
+                    }
+                }
+            }
+        });
+    }
+
+
+    /****
+     * 绑定UI数据
+     * @param dynamicBean
+     */
+    private void setUIData(DynamicDetailsResult dynamicBean) {
+        if (dynamicBean.getUcUser() != null) {
+            Glide.with(this).load(dynamicBean.getUcUser().getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(userHeadImg);
+            userNickNameTxt.setText(dynamicBean.getUcUser().getName());
+        }
+
+        if (dynamicBean.getXkhTalentDynamic() != null) {
+            dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
+//            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+//            Date date = new Date(dynamicBean.getXkhTalentDynamic().getUpdateTime());
+//            dynamicDateTxt.setText(sdf.format(date));
+        }
+
+        if (dynamicBean.getXkhTalentDynamicAnnexList() != null && dynamicBean.getXkhTalentDynamicAnnexList().size() > 0) {
+            for (int i = 0; i < dynamicBean.getXkhTalentDynamicAnnexList().size(); i++) {
+                ImageView dynamicDetailsImg = (ImageView) LayoutInflater.from(this).inflate(R.layout.view_item_dynamic_details_img, null);
+                int margin = DimentUtils.dip2px(this, 15);
+                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(DimentUtils.getScreenWidth(this) - margin * 2, DimentUtils.dip2px(this, 200));
+                layoutParams1.setMargins(margin, margin, margin, 0);
+                dynamicDetailsImg.setLayoutParams(layoutParams1);
+                Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(dynamicDetailsImg);
+                dynamicDetailsImgLayout.addView(dynamicDetailsImg);
+            }
+        }
     }
 
 

@@ -12,12 +12,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
+import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
 import com.xkh.hzp.xkh.event.LogoutEvent;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
@@ -26,6 +31,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
@@ -111,9 +118,46 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             }
         });
 
+        queryUserInfo();
         setUserInfoData();
 
     }
+
+
+    /***
+     *查询用户信息
+     */
+    private void queryUserInfo() {
+        String userId = UserDataManager.getInstance().getUserId();
+        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        hashMap.put("userId", userId);
+        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<UserInfoResult>() {
+                }.getType());
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                setUserInfoData();
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    final UserInfoResult userInfoResult = (UserInfoResult) extra.get("result");
+                    if (userInfoResult != null) {
+                        UserDataManager.getInstance().saveUserInfo(userInfoResult);
+                    }
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onDestroy() {
@@ -156,7 +200,6 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
         talentMineSettingImg.setOnClickListener(this);
         talentMineEditImg.setOnClickListener(this);
         talentMineMsgImg.setOnClickListener(this);
-
     }
 
     @Override

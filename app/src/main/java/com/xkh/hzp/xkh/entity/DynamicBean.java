@@ -28,7 +28,7 @@ public class DynamicBean {
 
     private int dynamicId;
     private int userId;
-    private String nickname;
+    private String name;
     private String headPortrait;
     private String wordDescription;
     private int viewNumber;
@@ -54,14 +54,6 @@ public class DynamicBean {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getHeadPortrait() {
@@ -142,5 +134,13 @@ public class DynamicBean {
 
     public void setFaceImgUrl(String faceImgUrl) {
         this.faceImgUrl = faceImgUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

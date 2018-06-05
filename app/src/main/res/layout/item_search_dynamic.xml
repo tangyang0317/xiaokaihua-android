@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/color_ffffff">
+
+    <RelativeLayout
+        android:id="@+id/noteFaceImgLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/searchNoteUserImg"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_margin="@dimen/dp_10"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_female_selected" />
+
+        <ImageView
+            android:id="@+id/searchNoteVedioFlagImg"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_media_play" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/searchNoteContentTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_toRightOf="@id/noteFaceImgLayout"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/dp6"
+        android:maxLines="2"
+        android:text="男士护"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14" />
+
+    <View
+        android:id="@+id/searchNoteItemLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/color_dadada" />
+
+</RelativeLayout>

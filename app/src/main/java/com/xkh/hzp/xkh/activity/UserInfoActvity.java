@@ -69,8 +69,11 @@ public class UserInfoActvity extends BaseActivity implements View.OnClickListene
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+
+
         setUserInfoData();
     }
+
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)

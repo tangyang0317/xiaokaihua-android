@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
@@ -40,6 +41,7 @@ import java.util.LinkedHashMap;
 import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
  * Created by tangyang on 18/4/21.
@@ -88,6 +90,13 @@ public class MainActivity extends BaseActivity {
                 super.setupEntity(entity);
                 entity.putField("result", new TypeToken<UserInfoResult>() {
                 }.getType());
+            }
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                /***未登陆或者单点登陆，账号被挤掉****/
+                SharedprefrenceHelper.getIns(MainActivity.this).clear();
             }
 
             @Override

@@ -136,7 +136,7 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DynamicBean dynamicBean = (DynamicBean) adapter.getItem(position);
                 if ("image".equals(dynamicBean.getDynamicType())) {
-                    GraphicDynamicDetailsActivity.lunchActivity(getActivity(), null, GraphicDynamicDetailsActivity.class);
+                    GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                 } else if ("video".equals(dynamicBean.getDynamicType())) {
                     VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
                 }
