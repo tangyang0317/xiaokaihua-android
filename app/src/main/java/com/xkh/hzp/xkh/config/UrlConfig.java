@@ -31,9 +31,15 @@ public class UrlConfig {
     public static final String foucsTalent = DYNAMIC_BASE_URL + "/focus";
     public static final String cancleFoucsTalent = DYNAMIC_BASE_URL + "/focus/cancel";
     public static final String dynamicList = DYNAMIC_BASE_URL + "/dynamic";
-    public static final String queryTalentInfo = DYNAMIC_BASE_URL + "/talentAttr/queryTalentAttrByUserId";
+    public static final String queryTalentInfo = DYNAMIC_BASE_URL + "/talent";
     public static final String searchDynamic = DYNAMIC_BASE_URL + "/search/dynamic";
     public static final String searchUser = DYNAMIC_BASE_URL + "/search/user";
     public static final String queryDynamicById = DYNAMIC_BASE_URL + "/dynamic";
-
+    public static final String dynamciPraised = DYNAMIC_BASE_URL + "/dynamic/patch/like";
+    public static final String dynamciUnPraised = DYNAMIC_BASE_URL + "/dynamic/patch/like/cancel";
+    public static final String dynamicComment = DYNAMIC_BASE_URL + "/comment";
+    public static final String commentPraised = DYNAMIC_BASE_URL + "/comment/patch/like";
+    public static final String commentUnPraised = DYNAMIC_BASE_URL + "/comment/patch/like/cancel";
+    public static final String commentReply = DYNAMIC_BASE_URL + "/comment/reply";
+    public static final String commentDelete = DYNAMIC_BASE_URL + "/comment/delete";
 }

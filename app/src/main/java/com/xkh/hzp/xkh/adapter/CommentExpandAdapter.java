@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,10 +15,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.CommentDetailBean;
 import com.xkh.hzp.xkh.entity.ReplyDetailBean;
+import com.xkh.hzp.xkh.entity.result.CommentResult;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,17 +39,21 @@ import java.util.List;
 
 public class CommentExpandAdapter extends BaseExpandableListAdapter {
     private static final String TAG = "CommentExpandAdapter";
-    private List<CommentDetailBean> commentBeanList;
-    private List<ReplyDetailBean> replyBeanList;
+    private List<CommentResult> commentBeanList;
+    private List<CommentResult.ReplyResult> replyBeanList;
     private Context context;
     private int pageIndex = 1;
 
-    public CommentExpandAdapter(Context context, List<CommentDetailBean> commentBeanList) {
+    public CommentExpandAdapter(Context context, List<CommentResult> commentBeanList) {
         this.context = context;
         this.commentBeanList = commentBeanList;
     }
 
-    public void setNewData(List<CommentDetailBean> newCommentBeanList) {
+    /***
+     * 设置新数据
+     * @param newCommentBeanList
+     */
+    public void setNewData(List<CommentResult> newCommentBeanList) {
         if (newCommentBeanList != null) {
             if (commentBeanList != null) {
                 commentBeanList.clear();
@@ -50,7 +65,19 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         } else {
             throw new IllegalArgumentException("新数据为kong!");
         }
+    }
 
+    /***
+     * 添加新数据
+     * @param newCommentResult
+     */
+    public void addData(List<CommentResult> newCommentResult) {
+        if (newCommentResult != null) {
+            commentBeanList.addAll(newCommentResult);
+            notifyDataSetChanged();
+        } else {
+            throw new IllegalArgumentException("新数据为kong!");
+        }
     }
 
     @Override
@@ -60,12 +87,11 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        if (commentBeanList.get(i).getReplyList() == null) {
+        if (commentBeanList.get(i).getReplyResults() == null) {
             return 0;
         } else {
-            return commentBeanList.get(i).getReplyList().size() > 0 ? commentBeanList.get(i).getReplyList().size() : 0;
+            return commentBeanList.get(i).getReplyResults().size() > 0 ? commentBeanList.get(i).getReplyResults().size() : 0;
         }
-
     }
 
     @Override
@@ -75,7 +101,7 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int i, int i1) {
-        return commentBeanList.get(i).getReplyList().get(i1);
+        return commentBeanList.get(i).getReplyResults().get(i1);
     }
 
     @Override
@@ -93,12 +119,9 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    boolean isLike = false;
-
     @Override
     public View getGroupView(final int groupPosition, boolean isExpand, View convertView, ViewGroup viewGroup) {
         final GroupHolder groupHolder;
-
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.view_item_comment_layout, viewGroup, false);
             groupHolder = new GroupHolder(convertView);
@@ -106,23 +129,30 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         } else {
             groupHolder = (GroupHolder) convertView.getTag();
         }
-        Glide.with(context).load(R.drawable.ic_launcher_round)
+        Glide.with(context).load(commentBeanList.get(groupPosition).getCommentResult().getHeadPortrait())
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .error(R.mipmap.ic_launcher)
-                .centerCrop()
+                .error(R.mipmap.icon_female_selected)
+                .transform(new GlideCircleTransform(context))
                 .into(groupHolder.userHeadImg);
-        groupHolder.userNameTxt.setText(commentBeanList.get(groupPosition).getNickName());
-        groupHolder.commentTimeTxt.setText(commentBeanList.get(groupPosition).getCreateDate());
-        groupHolder.commentContentTxt.setText(commentBeanList.get(groupPosition).getContent());
+        if ("normal".equals(commentBeanList.get(groupPosition).getCommentResult().getStatus())) {
+            groupHolder.praisedImg.setImageResource(R.mipmap.icon_praised);
+        } else {
+            groupHolder.praisedImg.setImageResource(R.mipmap.icon_unpraised);
+        }
+        groupHolder.itemPraisedCountTxt.setText("" + commentBeanList.get(groupPosition).getCommentResult().getLikeNumber());
+        groupHolder.userNameTxt.setText(commentBeanList.get(groupPosition).getCommentResult().getName());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        groupHolder.commentTimeTxt.setText(sdf.format(commentBeanList.get(groupPosition).getCommentResult().getCreateTime()));
+        groupHolder.commentContentTxt.setText(commentBeanList.get(groupPosition).getCommentResult().getComment());
         groupHolder.praisedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLike) {
-                    isLike = false;
-                    groupHolder.praisedImg.setImageResource(R.mipmap.icon_unpraised);
+                if ("normal".equals(commentBeanList.get(groupPosition).getCommentResult().getStatus())) {
+                    //取消点赞
+                    commentCancleLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg);
                 } else {
-                    isLike = true;
-                    groupHolder.praisedImg.setImageResource(R.mipmap.icon_praised);
+                    //点赞
+                    commentLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg);
                 }
             }
         });
@@ -140,16 +170,20 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         } else {
             childHolder = (ChildHolder) convertView.getTag();
         }
-
-        String replyUser = commentBeanList.get(groupPosition).getReplyList().get(childPosition).getNickName();
+        String replyUser = commentBeanList.get(groupPosition).getReplyResults().get(childPosition).getReplyUserName();
         if (!TextUtils.isEmpty(replyUser)) {
             childHolder.itemReplyUserNameTxt.setText(replyUser + ":");
         } else {
             childHolder.itemReplyUserNameTxt.setText("无名" + ":");
         }
 
-        childHolder.itemReplyContentTxt.setText(commentBeanList.get(groupPosition).getReplyList().get(childPosition).getContent());
+        if (childPosition == getChildrenCount(groupPosition) - 1) {
+            childHolder.replySpaceView.setVisibility(View.VISIBLE);
+        } else {
+            childHolder.replySpaceView.setVisibility(View.GONE);
+        }
 
+        childHolder.itemReplyContentTxt.setText(commentBeanList.get(groupPosition).getReplyResults().get(childPosition).getReplyContent());
         return convertView;
     }
 
@@ -160,7 +194,7 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 
     private class GroupHolder {
         private ImageView userHeadImg, praisedImg;
-        private TextView userNameTxt, commentContentTxt, commentTimeTxt;
+        private TextView userNameTxt, commentContentTxt, commentTimeTxt, itemPraisedCountTxt;
 
         public GroupHolder(View view) {
             userHeadImg = view.findViewById(R.id.itemCommentUserHeadImg);
@@ -168,15 +202,18 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
             userNameTxt = view.findViewById(R.id.itemCommentUserNameTxt);
             commentContentTxt = view.findViewById(R.id.itemCommentContentTxt);
             commentTimeTxt = view.findViewById(R.id.itemCommentTimeTxt);
+            itemPraisedCountTxt = view.findViewById(R.id.itemPraisedCountTxt);
         }
     }
 
     private class ChildHolder {
         private TextView itemReplyUserNameTxt, itemReplyContentTxt;
+        private View replySpaceView;
 
         public ChildHolder(View view) {
             itemReplyUserNameTxt = view.findViewById(R.id.itemReplyUserNameTxt);
             itemReplyContentTxt = view.findViewById(R.id.itemReplyContentTxt);
+            replySpaceView = view.findViewById(R.id.replySpaceView);
         }
     }
 
@@ -187,16 +224,52 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
      *
      * @param commentDetailBean 新的评论数据
      */
-    public void addTheCommentData(CommentDetailBean commentDetailBean) {
+    public void addTheCommentData(CommentResult commentDetailBean) {
         if (commentDetailBean != null) {
-
-            commentBeanList.add(commentDetailBean);
+            commentBeanList.add(0, commentDetailBean);
             notifyDataSetChanged();
         } else {
             throw new IllegalArgumentException("评论数据为空!");
         }
-
     }
+
+    /***
+     * 删除评论
+     * @param groupPosition
+     */
+    public void deleteTheCommentData(int groupPosition) {
+        commentBeanList.remove(groupPosition);
+        notifyDataSetChanged();
+    }
+
+    /***
+     * 删除回复
+     * @param groupPosition
+     * @param childPosition
+     */
+    public void deleteTheReply(int groupPosition, int childPosition) {
+        List<CommentResult.ReplyResult> replyResults = commentBeanList.get(groupPosition).getReplyResults();
+        if (replyResults != null) {
+            replyResults.remove(childPosition);
+            for (int i = 0; i < replyResults.size(); i++) {
+                if (replyResults.get(i).getParentId() != 0) {
+                    replyResults.remove(i);
+                }
+            }
+            notifyDataSetChanged();
+        }
+    }
+
+
+    /***
+     * 获取评论的内容
+     * @param groupPosition
+     * @return
+     */
+    public CommentResult.CommentResultBean getCommentData(int groupPosition) {
+        return commentBeanList.get(groupPosition).getCommentResult();
+    }
+
 
     /**
      * by moos on 2018/04/20
@@ -204,22 +277,22 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
      *
      * @param replyDetailBean 新的回复数据
      */
-    public void addTheReplyData(ReplyDetailBean replyDetailBean, int groupPosition) {
+    public void addTheReplyData(CommentResult.ReplyResult replyDetailBean, int groupPosition) {
         if (replyDetailBean != null) {
             Log.e(TAG, "addTheReplyData: >>>>该刷新回复列表了:" + replyDetailBean.toString());
-            if (commentBeanList.get(groupPosition).getReplyList() != null) {
-                commentBeanList.get(groupPosition).getReplyList().add(replyDetailBean);
+            if (commentBeanList.get(groupPosition).getReplyResults() != null) {
+                commentBeanList.get(groupPosition).getReplyResults().add(replyDetailBean);
             } else {
-                List<ReplyDetailBean> replyList = new ArrayList<>();
+                List<CommentResult.ReplyResult> replyList = new ArrayList<>();
                 replyList.add(replyDetailBean);
-                commentBeanList.get(groupPosition).setReplyList(replyList);
+                commentBeanList.get(groupPosition).setReplyResults(replyList);
             }
             notifyDataSetChanged();
         } else {
             throw new IllegalArgumentException("回复数据为空!");
         }
-
     }
+
 
     /**
      * by moos on 2018/04/20
@@ -228,16 +301,83 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
      * @param replyBeanList 所有回复数据
      * @param groupPosition 当前的评论
      */
-    private void addReplyList(List<ReplyDetailBean> replyBeanList, int groupPosition) {
-        if (commentBeanList.get(groupPosition).getReplyList() != null) {
-            commentBeanList.get(groupPosition).getReplyList().clear();
-            commentBeanList.get(groupPosition).getReplyList().addAll(replyBeanList);
+    private void addReplyList(List<CommentResult.ReplyResult> replyBeanList, int groupPosition) {
+        if (commentBeanList.get(groupPosition).getReplyResults() != null) {
+            commentBeanList.get(groupPosition).getReplyResults().clear();
+            commentBeanList.get(groupPosition).getReplyResults().addAll(replyBeanList);
         } else {
-
-            commentBeanList.get(groupPosition).setReplyList(replyBeanList);
+            commentBeanList.get(groupPosition).setReplyResults(replyBeanList);
         }
-
         notifyDataSetChanged();
     }
+
+    /***
+     * 评论点赞
+     * @param commentId
+     * @param groupPosition
+     * @param praisedImg
+     */
+    public void commentLike(long commentId, final int groupPosition, final ImageView praisedImg) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("commentId", String.valueOf(commentId));
+        params.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().post(UrlConfig.commentPraised, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Integer.TYPE);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    if (success) {
+                        commentBeanList.get(groupPosition).getCommentResult().setStatus("normal");
+                        praisedImg.setImageResource(R.mipmap.icon_praised);
+                        ScaleAnimation viewShowAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
+                                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        viewShowAnimation.setDuration(500);
+                        praisedImg.startAnimation(viewShowAnimation);
+                    }
+                }
+            }
+        });
+
+    }
+
+    /***
+     * 取消评论点赞
+     * @param commentId
+     * @param groupPosition
+     * @param praisedImg
+     */
+    public void commentCancleLike(long commentId, final int groupPosition, final ImageView praisedImg) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("commentId", String.valueOf(commentId));
+        params.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().post(UrlConfig.commentUnPraised, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Integer.TYPE);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    commentBeanList.get(groupPosition).getCommentResult().setStatus(null);
+                    praisedImg.setImageResource(R.mipmap.icon_unpraised);
+                    ScaleAnimation viewShowAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
+                            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    viewShowAnimation.setDuration(500);
+                    praisedImg.startAnimation(viewShowAnimation);
+                }
+            }
+        });
+
+    }
+
 
 }

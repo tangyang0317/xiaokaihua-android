@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/color_ffffff">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,56 +42,42 @@
 
         </LinearLayout>
 
-        <ru.noties.scrollable.ScrollableLayout
-            android:id="@+id/scrollable_layout"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:scrollable_autoMaxScroll="true"
-            app:scrollable_defaultCloseUp="true">
+            android:layout_height="match_parent">
 
-            <com.youth.banner.Banner
-                android:id="@+id/headerBanner"
-                android:layout_width="match_parent"
-                android:layout_height="180dp" />
-
-            <LinearLayout
+            <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="@color/color_ffffff">
 
-                <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
-                    android:id="@+id/tabs"
+                <com.youth.banner.Banner
+                    android:id="@+id/headerBanner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp45"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/dp40"
-                    android:layout_marginRight="@dimen/dp40"
-                    app:pstsDividerColor="@android:color/transparent"
-                    app:pstsIndicatiorWidth="@dimen/dp40"
-                    app:pstsIndicatorColor="@color/color_e80036"
-                    app:pstsIndicatorHeight="@dimen/dp2"
-                    app:pstsShouldExpand="true"
-                    app:pstsTextColor="@color/color_666666"
-                    app:selectedTabTextColor="@color/color_1f1f1f" />
+                    android:layout_height="180dp"
+                    app:layout_scrollFlags="scroll|enterAlways" />
 
-                <View
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/dynamicTabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="0.75dp"
-                    android:layout_marginTop="@dimen/dp2"
-                    android:background="#dadada" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color_ffffff"
+                    app:tabIndicatorColor="@color/color_e80036"
+                    app:tabIndicatorHeight="@dimen/dp2"
+                    app:tabSelectedTextColor="@color/color_1f1f1f"
+                    app:tabTextColor="@color/color_666666" />
 
-            </LinearLayout>
+            </android.support.design.widget.AppBarLayout>
+
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
+                android:id="@+id/dynamicViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp45" />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-        </ru.noties.scrollable.ScrollableLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
     </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.xkh.hzp.xkh.adapter;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,14 +29,8 @@ public class SearchUserAdapter extends BaseQuickAdapter<SearchUserResult, BaseVi
         ImageView searchUserImg = helper.getView(R.id.searchUserImg);
         TextView searchUserNickNameTxt = helper.getView(R.id.searchUserNickNameTxt);
         TextView searchUserPublishNoteTxt = helper.getView(R.id.searchUserPublishNoteTxt);
-        View searchUserItemBottomLine = helper.getView(R.id.searchUserItemBottomLine);
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(searchUserImg);
         searchUserNickNameTxt.setText(item.getName());
         searchUserPublishNoteTxt.setText("动态·" + item.getNumber());
-        if (helper.getLayoutPosition() - getHeaderLayoutCount() == 0) {
-            searchUserItemBottomLine.setVisibility(View.INVISIBLE);
-        } else {
-            searchUserItemBottomLine.setVisibility(View.VISIBLE);
-        }
     }
 }

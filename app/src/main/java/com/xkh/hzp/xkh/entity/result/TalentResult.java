@@ -20,7 +20,7 @@ public class TalentResult {
      */
 
     private String imgUrl;
-    private String nickname;
+    private String name;
     private String status;
     private long userId;
     private String headPortrait;
@@ -34,13 +34,6 @@ public class TalentResult {
         this.imgUrl = imgUrl;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     public long getUserId() {
         return userId;
@@ -72,5 +65,13 @@ public class TalentResult {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

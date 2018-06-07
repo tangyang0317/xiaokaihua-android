@@ -1,6 +1,5 @@
 package com.xkh.hzp.xkh.adapter;
 
-import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,13 +38,19 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
+        ImageView praisedImg = helper.getView(R.id.praisedImg);
         ImageView videoDynamicFaceurlImg = helper.getView(R.id.videoDynamicFaceurlImg);
         LinearLayout sharedLayout = helper.getView(R.id.sharedLayout);
         LinearLayout componentLayout = helper.getView(R.id.componentLayout);
         LinearLayout goodLayout = helper.getView(R.id.goodLayout);
         View dividerView = helper.getView(R.id.dividerView);
-        Glide.with(mContext).load(item.getHeadPortrait()).placeholder(R.drawable.example).error(R.drawable.example).into(videoDynamicFaceurlImg);
-        Glide.with(mContext).load(item.getFaceImgUrl()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
+        if ("normal".equals(item.getLikeStatus())) {
+            praisedImg.setImageResource(R.mipmap.icon_praised);
+        } else {
+            praisedImg.setImageResource(R.mipmap.icon_unpraised);
+        }
+        Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.example).error(R.drawable.example).into(videoDynamicFaceurlImg);
+        Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
         dynamicContentTxt.setText(item.getWordDescription());
         dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getUpdateTime()));

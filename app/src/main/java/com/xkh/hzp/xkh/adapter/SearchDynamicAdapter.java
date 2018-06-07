@@ -42,12 +42,11 @@ public class SearchDynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseView
             searchNoteVedioFlagImg.setVisibility(View.GONE);
         }
         searchNoteContentTxt.setText(item.getWordDescription());
-        if (helper.getPosition() == getItemCount() - 1) {
+        if (helper.getPosition() == 0) {
             searchNoteItemLine.setVisibility(View.GONE);
         } else {
             searchNoteItemLine.setVisibility(View.VISIBLE);
         }
-
 
     }
 }

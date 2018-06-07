@@ -1,5 +1,7 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseFragment;
@@ -35,6 +38,22 @@ public class PeopleProfileFragment extends FragmentPagerFragment {
     private TextView talentSpecialtyTxt;
     private TagFlowLayout talentLableTagFlowLayout;
     private TalentPictureAdapter talentPictureAdapter;
+
+
+    public static Fragment getInstance(String talentUserId) {
+        PeopleProfileFragment peopleProfileFragment = new PeopleProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("talentUserId", talentUserId);
+        peopleProfileFragment.setArguments(bundle);
+        return peopleProfileFragment;
+    }
+
+    private String getTalentUserId() {
+        if (getArguments() != null) {
+            return getArguments().getString("talentUserId");
+        }
+        return "";
+    }
 
     @Override
     public int getFragmentLayoutId() {
@@ -67,13 +86,13 @@ public class PeopleProfileFragment extends FragmentPagerFragment {
      * 查询达人信息
      */
     private void queryTalentInfo() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("userId", UserDataManager.getInstance().getUserId());
-        ABHttp.getIns().get(UrlConfig.queryTalentInfo, params, new AbHttpCallback() {
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        params.put("userId", getTalentUserId());
+        ABHttp.getIns().restfulGet(UrlConfig.queryTalentInfo, params, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
-                entity.putField("result", new TypeToken<List<TalentInfoResultBean>>() {
+                entity.putField("result", new TypeToken<TalentInfoResultBean>() {
                 }.getType());
             }
 
@@ -81,9 +100,9 @@ public class PeopleProfileFragment extends FragmentPagerFragment {
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
-                    List<TalentInfoResultBean> talentInfoResultBean = (List<TalentInfoResultBean>) extra.get("result");
+                    TalentInfoResultBean talentInfoResultBean = (TalentInfoResultBean) extra.get("result");
                     if (talentInfoResultBean != null) {
-                        setTalentInfoUI(talentInfoResultBean.get(0));
+                        setTalentInfoUI(talentInfoResultBean);
                     }
                 }
             }

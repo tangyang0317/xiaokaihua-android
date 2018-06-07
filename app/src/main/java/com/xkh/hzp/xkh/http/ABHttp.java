@@ -61,7 +61,7 @@ public class ABHttp {
     public void get(final String url, HashMap<String, String> params, final AbHttpCallback httpCallback) {
         if (!isConnected()) {
             Logger.d("网络连接断开，请检查网络");
-            Toasty.error(Global.app, "网络连接断开，请检查网络");
+            Toasty.error(Global.app, "网络连接断开，请检查网络").show();
         }
         try {
             GetBuilder builder = OkHttpUtils.get().url(url);

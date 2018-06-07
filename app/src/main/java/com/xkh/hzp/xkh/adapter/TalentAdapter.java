@@ -32,7 +32,6 @@ import xkh.hzp.xkh.com.base.utils.DimentUtils;
  **/
 public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder> {
 
-
     public TalentAdapter() {
         super(R.layout.view_item_talent, new ArrayList<TalentResult>());
     }
@@ -40,6 +39,8 @@ public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder
     @Override
     protected void convert(BaseViewHolder helper, TalentResult item) {
         helper.addOnClickListener(R.id.isAttentionTxt);
+        helper.addOnClickListener(R.id.talentHeadImg);
+        helper.addOnClickListener(R.id.talentPicImg);
         View spaceView = helper.getView(R.id.spaceView);
         ImageView talentHeadImg = helper.getView(R.id.talentHeadImg);
         TextView talentNickNameTxt = helper.getView(R.id.talentNickNameTxt);
@@ -63,12 +64,9 @@ public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder
         } else {
             isAttentionTxt.setText("+ 关注");
         }
-
         Glide.with(mContext).load(item.getImgUrl()).transform(new GlideRoundTransform(mContext, 10)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(talentPicImg);
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(talentHeadImg);
-        talentHeadImg.setImageResource(R.drawable.ic_launcher_round);
-        talentNickNameTxt.setText(item.getNickname());
-        talentPicImg.setImageResource(R.drawable.example);
+        talentNickNameTxt.setText(item.getName());
         if (!TextUtils.isEmpty(item.getSignatureName())) {
             List<String> tags = Arrays.asList(item.getSignatureName().split(","));
             if (tags != null && tags.size() > 0) {

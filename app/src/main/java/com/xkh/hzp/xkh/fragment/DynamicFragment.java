@@ -2,6 +2,7 @@ package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,6 +18,7 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.PublishPictureTextActvity;
 import com.xkh.hzp.xkh.activity.PublishVideoActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
+import com.xkh.hzp.xkh.adapter.DynamicFragmentPagerAdapter;
 import com.xkh.hzp.xkh.adapter.MineFragmentPagerAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.BannerResult;
@@ -51,11 +53,10 @@ import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
  **/
 public class DynamicFragment extends BaseFragment implements View.OnClickListener {
 
-    private ScrollableLayout scrollableLayout;
     private LinearLayout searchLayout;
     private Banner sampleHeaderView;
-    private ViewPager viewPager;
-    private PagerSlidingTabStrip tabsLayout;
+    private ViewPager dynamicViewPager;
+    private TabLayout dynamicTabLayout;
     private SectorMenuButton bottomMenuButton;
     private List<BannerResult> bannerResultList;
 
@@ -66,12 +67,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private interface CurrentFragment {
-        @Nullable
-        FragmentPagerFragment currentFragment();
-    }
-
-
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_dynamic;
@@ -79,48 +74,15 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void initView(View contentView) {
-        scrollableLayout = contentView.findViewById(R.id.scrollable_layout);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
-        viewPager = contentView.findViewById(R.id.view_pager);
-        tabsLayout = contentView.findViewById(R.id.tabs);
+        dynamicViewPager = contentView.findViewById(R.id.dynamicViewPager);
+        dynamicTabLayout = contentView.findViewById(R.id.dynamicTabLayout);
         searchLayout = contentView.findViewById(R.id.searchLayout);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
-        MineFragmentPagerAdapter dynimicPagerAdapter = new MineFragmentPagerAdapter(getChildFragmentManager(), items());
-        viewPager.setAdapter(dynimicPagerAdapter);
-        tabsLayout.setViewPager(viewPager);
-        scrollableLayout.setDraggableView(tabsLayout);
-        final CurrentFragment currentFragment = new CurrentFragmentImpl(viewPager, getChildFragmentManager());
-        scrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate() {
-            @Override
-            public boolean canScrollVertically(int direction) {
-                final FragmentPagerFragment fragment = currentFragment.currentFragment();
-                return fragment != null && fragment.canScrollVertically(direction);
-            }
-        });
 
-        scrollableLayout.setOnFlingOverListener(new OnFlingOverListener() {
-            @Override
-            public void onFlingOver(int y, long duration) {
-                final FragmentPagerFragment fragment = currentFragment.currentFragment();
-                if (fragment != null) {
-                    fragment.onFlingOver(y, duration);
-                }
-            }
-        });
-
-        scrollableLayout.addOnScrollChangedListener(new OnScrollChangedListener() {
-
-            @Override
-            public void onScrollChanged(int y, int oldY, int maxY) {
-                final float tabsTranslationY;
-                if (y < maxY) {
-                    tabsTranslationY = .0F;
-                } else {
-                    tabsTranslationY = y - maxY;
-                }
-                tabsLayout.setTranslationY(tabsTranslationY);
-            }
-        });
+        DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
+        dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
+        dynamicTabLayout.setupWithViewPager(dynamicViewPager);
 
         if (UserDataManager.getInstance().getUserInfo() != null && "talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
             bottomMenuButton.setVisibility(View.VISIBLE);
@@ -201,76 +163,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-    }
-
-
-    private static class CurrentFragmentImpl implements CurrentFragment {
-        private final ViewPager mViewPager;
-        private final FragmentManager mFragmentManager;
-        private final FragmentPagerAdapter mAdapter;
-
-        CurrentFragmentImpl(ViewPager pager, FragmentManager manager) {
-            mViewPager = pager;
-            mFragmentManager = manager;
-            mAdapter = (FragmentPagerAdapter) pager.getAdapter();
-        }
-
-        @Override
-        @Nullable
-        public FragmentPagerFragment currentFragment() {
-            final FragmentPagerFragment out;
-            final int position = mViewPager.getCurrentItem();
-            if (position < 0
-                    || position >= mAdapter.getCount()) {
-                out = null;
-            } else {
-                final String tag = makeFragmentName(mViewPager.getId(), mAdapter.getItemId(position));
-                final Fragment fragment = mFragmentManager.findFragmentByTag(tag);
-                if (fragment != null) {
-                    out = (FragmentPagerFragment) fragment;
-                } else {
-                    // fragment is still not attached
-                    out = null;
-                }
-            }
-            return out;
-        }
-
-        private static String makeFragmentName(int viewId, long id) {
-            return "android:switcher:" + viewId + ":" + id;
-        }
-    }
-
-    private static List<MineFragmentPagerAdapter.Item> items() {
-        final List<MineFragmentPagerAdapter.Item> items = new ArrayList<>(3);
-        items.add(new MineFragmentPagerAdapter.Item("达人动态",
-                new MineFragmentPagerAdapter.Provider() {
-                    @Override
-                    public Fragment provide() {
-                        return new TalentDynamicFragment();
-                    }
-                }
-        ));
-        items.add(new MineFragmentPagerAdapter.Item(
-                "视频",
-                new MineFragmentPagerAdapter.Provider() {
-                    @Override
-                    public Fragment provide() {
-                        return new VideoFragment();
-                    }
-                }
-        ));
-        items.add(new MineFragmentPagerAdapter.Item(
-                "关注",
-                new MineFragmentPagerAdapter.Provider() {
-                    @Override
-                    public Fragment provide() {
-                        return new AttentionFragment();
-                    }
-                }
-        ));
-
-        return items;
     }
 
 

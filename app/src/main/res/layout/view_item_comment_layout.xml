@@ -4,6 +4,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:background="@drawable/shape_line" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -28,7 +33,7 @@
             android:layout_marginLeft="@dimen/dp10"
             android:layout_toRightOf="@id/itemCommentUserHeadImg"
             android:text="沐风"
-            android:textColor="#5B595A"
+            android:textColor="@color/color_333333"
             android:textSize="14sp" />
 
         <TextView
@@ -40,28 +45,51 @@
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@id/itemCommentUserNameTxt"
             android:text="1小时前"
-            android:textColor="#989898"
+            android:textColor="@color/color_666666"
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/itemCommentPraisedImg"
+            android:id="@+id/itemCommentImg"
+            android:layout_width="@dimen/dp15"
+            android:layout_height="@dimen/dp15"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/comment_img" />
+
+        <TextView
+            android:id="@+id/itemPraisedCountTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:scaleType="center"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp10"
+            android:layout_toLeftOf="@id/itemCommentImg"
+            android:text="500" />
+
+
+        <ImageView
+            android:id="@+id/itemCommentPraisedImg"
+            android:layout_width="@dimen/dp15"
+            android:layout_height="@dimen/dp15"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp4"
+            android:layout_toLeftOf="@id/itemPraisedCountTxt"
+            android:scaleType="fitXY"
             android:src="@mipmap/icon_unpraised" />
+
+
     </RelativeLayout>
 
     <TextView
         android:id="@+id/itemCommentContentTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp6"
+        android:layout_marginBottom="@dimen/dp15"
         android:layout_marginLeft="@dimen/dp50"
         android:layout_marginRight="24dp"
         android:layout_marginTop="@dimen/dp6"
         android:text="从前有座山，山里有座庙，庙里有个老和尚"
-        android:textColor="#484848"
+        android:textColor="@color/color_333333"
         android:textSize="14sp" />
 
 </LinearLayout>

@@ -74,7 +74,7 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
         publishDynamicParam.setAnnexUrl(imgList);
         publishDynamicParam.setDynamicType(dynamicType);
         publishDynamicParam.setWordDescription(dynamicTxt);
-        String userId = String.valueOf(UserDataManager.getInstance().getLoginUser().getUid());
+        String userId = String.valueOf(UserDataManager.getInstance().getUserId());
         ABHttp.getIns().postJSON(UrlConfig.publishDynamic + "?userId=" + userId, JsonUtils.toJson(publishDynamicParam), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -101,6 +101,7 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
                 loadingView.dismiss();
                 if (success) {
                     Toasty.info(PublishPictureTextActvity.this, "发布成功").show();
+                    hideKeyBoard();
                     PublishPictureTextActvity.this.finish();
                 } else {
                     Toasty.info(PublishPictureTextActvity.this, "发布失败").show();

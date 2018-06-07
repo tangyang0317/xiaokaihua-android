@@ -12,7 +12,8 @@ public class Config {
 
     public static final int CHOOSE_VIDEO_CODE = 10000;
 
-    public static final String QI_NIU_DOMAIN = "http://xkh-cdn.007fenqi.com";
+    public static final String QINIU_VIDEO_DOMAIN = "http://video.xkhstar.com/";
+    public static final String QINIU_IMAGE_DOMAIN = "http://images.xkhstar.com/";
     //用户协议H5url
     public static String yonghuxieyi = "http://xkh-h5.007fenqi.com/agree/register";
     //社区规范H5url

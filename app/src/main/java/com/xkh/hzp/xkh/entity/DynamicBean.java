@@ -37,8 +37,9 @@ public class DynamicBean {
     private long updateTime;
     private String status;
     private String dynamicType;
-    private String faceImgUrl;
+    private String faceUrl;
     private List<String> annexUrlList;
+    private String likeStatus;
 
     public int getDynamicId() {
         return dynamicId;
@@ -128,13 +129,6 @@ public class DynamicBean {
         this.dynamicType = dynamicType;
     }
 
-    public String getFaceImgUrl() {
-        return faceImgUrl;
-    }
-
-    public void setFaceImgUrl(String faceImgUrl) {
-        this.faceImgUrl = faceImgUrl;
-    }
 
     public String getName() {
         return name;
@@ -142,5 +136,21 @@ public class DynamicBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLikeStatus() {
+        return likeStatus;
+    }
+
+    public void setLikeStatus(String likeStatus) {
+        this.likeStatus = likeStatus;
+    }
+
+    public String getFaceUrl() {
+        return faceUrl;
+    }
+
+    public void setFaceUrl(String faceUrl) {
+        this.faceUrl = faceUrl;
     }
 }

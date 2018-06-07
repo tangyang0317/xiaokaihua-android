@@ -3,7 +3,9 @@ package com.xkh.hzp.xkh.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -28,19 +30,31 @@ import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
+import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.request.PublishDynamicParam;
+import com.xkh.hzp.xkh.http.ABHttp;
+import com.xkh.hzp.xkh.http.AbHttpCallback;
+import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.tuSDK.RichEditComponentSample;
 import com.xkh.hzp.xkh.tuSDK.TuMutipleHandle;
+import com.xkh.hzp.xkh.upload.OnUploadListener;
+import com.xkh.hzp.xkh.upload.UploadImageManager;
 import com.xkh.hzp.xkh.utils.GetPathFromUri;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.Views;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.http.Url;
 import xkh.hzp.xkh.com.base.AbDevice;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.view.UILoadingView;
 
 /**
@@ -64,6 +78,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
     private String videoLocalPath = "";
     private String faceImgUrl = null;
     private String dynamicContent = null;
+    private List<String> videoUrl = new ArrayList<>();
 
     private UILoadingView uiLoadingView = null;
 
@@ -82,7 +97,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
         }
 
         if (TextUtils.isEmpty(faceImgUrl)) {
-            Toasty.warning(PublishVideoActivity.this, "请选择需要上传的视频").show();
+            Toasty.warning(PublishVideoActivity.this, "请选择需要视频封面").show();
             return;
         }
 
@@ -92,8 +107,54 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
         }
 
         uiLoadingView = new UILoadingView(this, false, "正在上传视频");
+        getToken();
+    }
 
-        uploadVideo();
+
+    /***
+     * 发布动态
+     */
+    public void publishDynamic(List<String> videoUrl, String faceUrl, String dynamicTxt, String dynamicType) {
+        PublishDynamicParam publishDynamicParam = new PublishDynamicParam();
+        publishDynamicParam.setAnnexUrl(videoUrl);
+        publishDynamicParam.setFaceUrl(faceUrl);
+        publishDynamicParam.setDynamicType(dynamicType);
+        publishDynamicParam.setWordDescription(dynamicTxt);
+        String userId = String.valueOf(UserDataManager.getInstance().getLoginUser().getUid());
+        ABHttp.getIns().postJSON(UrlConfig.publishDynamic + "?userId=" + userId, JsonUtils.toJson(publishDynamicParam), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Integer.TYPE);
+            }
+
+            @Override
+            public boolean onFailure(String code, String msg) {
+                Toasty.info(PublishVideoActivity.this, "动态发布失败").show();
+                uiLoadingView.dismiss();
+                return true;
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                uiLoadingView.dismiss();
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                uiLoadingView.dismiss();
+                if (success) {
+                    Toasty.info(PublishVideoActivity.this, "发布成功").show();
+                    hideKeyBoard();
+                    PublishVideoActivity.this.finish();
+                } else {
+                    Toasty.info(PublishVideoActivity.this, "发布失败").show();
+                }
+            }
+        });
+
     }
 
 
@@ -103,19 +164,32 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
     public UpCompletionHandler upCompletionHandler = new UpCompletionHandler() {
         @Override
         public void complete(String key, ResponseInfo info, JSONObject response) {
-            if (info.isOK()) {
+            if (info.isOK() && response != null) {
+                videoUrl.add(Config.QINIU_VIDEO_DOMAIN + response.optString("key"));
                 uiLoadingView.setNoticeTitle("视频上传成功");
-                uiLoadingView.setNoticeTitle("动态内容发布中");
-                new Handler().postDelayed(new Runnable() {
+                uiLoadingView.setNoticeTitle("视频封面上传中");
+                List<String> urlList = new ArrayList<>();
+                urlList.add(faceImgUrl);
+                UploadImageManager.getInstances().doUpload(PublishVideoActivity.this, urlList, new OnUploadListener() {
                     @Override
-                    public void run() {
-                        uiLoadingView.dismiss();
+                    public void onAllSuccess(List<HashMap<String, Object>> allImages) {
+                        if (allImages != null && allImages.size() > 0) {
+                            publishDynamic(videoUrl, (String) allImages.get(0).get("url"), dynamicContent, "video");
+                        }
                     }
-                }, 2000);
+
+                    @Override
+                    public void onAllFailed(String message) {
+                        uiLoadingView.dismiss();
+                        Toasty.info(PublishVideoActivity.this, message).show();
+                    }
+
+                    @Override
+                    public void onThreadFinish(int position) {
+
+                    }
+                });
             }
-            Logger.d("complete key----->" + key);
-            Logger.d("complete ResponseInfo----->" + info.toString());
-            Logger.d("complete response----->" + response);
         }
     };
 
@@ -128,16 +202,49 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
         public void progress(String key, double percent) {
             int progress = (int) (percent * 100);
             uiLoadingView.setNoticeTitle("请耐心等待:" + String.valueOf(progress + "%"));
-            Logger.d("progress response----->" + percent);
         }
     };
+
+
+    /**
+     * 获取七牛Token，图片的cdn域名地址
+     */
+    private void getToken() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("type", "annex_video");
+        ABHttp.getIns().get(UrlConfig.getToken, params, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", String.class);
+            }
+
+            @Override
+            public boolean onFailure(String code, String msg) {
+                Toasty.error(PublishVideoActivity.this, msg);
+                return true;
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                if (success) {
+                    String token = (String) extra.get("result");
+                    uploadVideo(token);
+                } else {
+                    Toasty.error(PublishVideoActivity.this, msg);
+                }
+            }
+
+
+        });
+
+    }
 
 
     /***
      * 上传视频
      */
-    private void uploadVideo() {
-
+    private void uploadVideo(String token) {
         uiLoadingView.show();
         com.qiniu.android.storage.Configuration config = new com.qiniu.android.storage.Configuration.Builder()
                 .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
@@ -146,12 +253,9 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
                 .useHttps(true)               // 是否使用https上传域名
                 .responseTimeout(60)          // 服务器响应超时。默认60秒
                 .build();
-
         UploadManager uploadManager = new UploadManager(config);
-
         UploadOptions uploadOptions = new UploadOptions(null, null, false, upProgressHandler, null);
-
-//        uploadManager.put(new File(videoLocalPath), String.valueOf(System.currentTimeMillis() * 100 * 1000), Config.QINIU_VIDEO_TOKEN, upCompletionHandler, uploadOptions);
+        uploadManager.put(new File(videoLocalPath), String.valueOf(System.currentTimeMillis() * 100 * 1000), token, upCompletionHandler, uploadOptions);
 
     }
 

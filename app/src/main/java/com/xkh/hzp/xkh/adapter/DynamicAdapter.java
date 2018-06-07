@@ -41,6 +41,8 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         helper.addOnClickListener(R.id.goodLayout);
         helper.addOnClickListener(R.id.dynamicContentTxt);
         helper.addOnClickListener(R.id.dynamicImgContentLayout);
+        helper.addOnClickListener(R.id.dynamicUserHeadImg);
+        ImageView praisedImg = helper.getView(R.id.praisedImg);
         ImageView dynamicUserHeadImg = helper.getView(R.id.dynamicUserHeadImg);
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
@@ -64,7 +66,11 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             videoFaceImg.setLayoutParams(layoutParams);
             dynamicImgContentLayout.addView(view);
         }
-
+        if ("normal".equals(item.getLikeStatus())) {
+            praisedImg.setImageResource(R.mipmap.icon_praised);
+        } else {
+            praisedImg.setImageResource(R.mipmap.icon_unpraised);
+        }
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
         dynamicContentTxt.setText(item.getWordDescription());
@@ -83,7 +89,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 int width = screenWidth - DimentUtils.dip2px(mContext, 30);
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, width / 2);
                 oneImg.setLayoutParams(layoutParams);
-                oneImg.setScaleType(ImageView.ScaleType.FIT_XY);
+                oneImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(mContext).load(imgList.get(0)).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(oneImg);
                 dynamicImgContentLayout.addView(oneImg);
             } else if (imgList.size() == 2) {
@@ -92,13 +98,13 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 ViewGroup.LayoutParams layoutParams2 = new ViewGroup.LayoutParams(widthForTwo, widthForTwo);
                 twoImg1.setLayoutParams(layoutParams2);
                 dynamicImgContentLayout.addView(twoImg1);
-                twoImg1.setScaleType(ImageView.ScaleType.FIT_XY);
+                twoImg1.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(mContext).load(imgList.get(0)).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(twoImg1);
                 ImageView twoImg2 = new ImageView(mContext);
                 LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(widthForTwo, widthForTwo);
                 layoutParams3.setMargins(DimentUtils.dip2px(mContext, 2), 0, 0, 0);
                 twoImg2.setLayoutParams(layoutParams3);
-                twoImg2.setScaleType(ImageView.ScaleType.FIT_XY);
+                twoImg2.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(mContext).load(imgList.get(1)).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(twoImg2);
                 dynamicImgContentLayout.addView(twoImg2);
             } else if (imgList.size() == 3) {
@@ -106,9 +112,9 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 ImageView threeImg1 = view.findViewById(R.id.oneImg);
                 ImageView threeImg2 = view.findViewById(R.id.twoImg);
                 ImageView threeImg3 = view.findViewById(R.id.threeImg);
-                threeImg1.setScaleType(ImageView.ScaleType.FIT_XY);
-                threeImg2.setScaleType(ImageView.ScaleType.FIT_XY);
-                threeImg3.setScaleType(ImageView.ScaleType.FIT_XY);
+                threeImg1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                threeImg2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                threeImg3.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 int threeImg1Width = (screenWidth - DimentUtils.dip2px(mContext, 32)) / 5 * 3;
                 int threeImg1Height = ((screenWidth - DimentUtils.dip2px(mContext, 30)) / 5 * 2) * 2;
                 RelativeLayout.LayoutParams three1LayoutParams = new RelativeLayout.LayoutParams(threeImg1Width, threeImg1Height);
@@ -138,10 +144,10 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
                 ImageView fourImg3 = view1.findViewById(R.id.threeImg);
                 ImageView fourImg4 = view1.findViewById(R.id.fourImg);
 
-                fourImg1.setScaleType(ImageView.ScaleType.FIT_XY);
-                fourImg2.setScaleType(ImageView.ScaleType.FIT_XY);
-                fourImg3.setScaleType(ImageView.ScaleType.FIT_XY);
-                fourImg4.setScaleType(ImageView.ScaleType.FIT_XY);
+                fourImg1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                fourImg2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                fourImg3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                fourImg4.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 int width1 = screenWidth - DimentUtils.dip2px(mContext, 30);
                 RelativeLayout.LayoutParams four1LayoutParams = new RelativeLayout.LayoutParams(width1, width1 / 2);
@@ -172,6 +178,5 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             }
         }
     }
-
 
 }

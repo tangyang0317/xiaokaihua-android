@@ -60,9 +60,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp15"
                 android:layout_marginRight="@dimen/dp15"
-                android:text="习近平强调，人类对自然规律的认知没有止境，防灾减灾、抗灾救灾是人类生存发展的永恒课题。科学认识致灾规律，有效减轻灾害风险，实现人与自然和谐共处，需要国际社会共同努力。中国将坚持以人民为中心的发展理念，坚持以防为主、防灾抗灾救灾相结合，全面提升综合防灾能力，为人民生命财产安全提供坚实保障。希望各位代表围绕本次研讨会“与地震风险共处”的主题，踊跃参与，集思广益，为促进减灾国际合作、降低自然灾害风险、构建人类命运共同体作出积极贡献。"
+                android:lineSpacingExtra="@dimen/dp4"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/dp15" />
+                android:textSize="@dimen/sp_16" />
 
             <LinearLayout
                 android:id="@+id/dynamicDetailsImgLayout"
@@ -80,11 +80,43 @@
                 android:layout_margin="@dimen/dp15"
                 android:text="2017-04-24" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp6"
+                android:background="@color/color_f1f1f1" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp15"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/commentMineImg"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="0"
+                    android:src="@mipmap/icon_female_selected" />
+
+                <TextView
+                    android:id="@+id/commentTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp25"
+                    android:layout_marginLeft="@dimen/dp20"
+                    android:layout_weight="1"
+                    android:background="@color/color_f1f1f1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp10"
+                    android:text="评论" />
+            </LinearLayout>
+
             <com.xkh.hzp.xkh.view.CommentExpandableListView
                 android:id="@+id/commentExpandableListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="64dp"
+                android:childDivider="@null"
                 android:divider="@null"
                 android:focusable="false"
                 android:listSelector="@android:color/transparent"

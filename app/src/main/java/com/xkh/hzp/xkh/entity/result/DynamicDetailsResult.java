@@ -16,11 +16,9 @@ public class DynamicDetailsResult {
      * ucUser : {"id":1006652,"name":"uuu","sex":null,"headPortrait":"http://xkh-cdn.007fenqi.com/DA7883D3-A5D4-4831-AFE2-601F4DA32FB1_file","account":null,"userType":null,"idNo":null,"phone":null,"source":null,"status":null,"createTime":null,"updateTime":null,"attr":null,"thirdId":null,"certPassed":null,"locale":null,"personSignature":null,"alias":null}
      * xkhDynamicCommentList : [{"id":7,"dynamicId":27,"userId":1006646,"likeNumber":0,"replyUserId":null,"comment":"I love you","createTime":"2018-06-04 17:01:20","updateTime":null,"operatorId":1006646,"status":"normal"}]
      */
-
     private XkhTalentDynamicBean xkhTalentDynamic;
-    private UcUserBean ucUser;
+    private UserSimpleResult userSimpleResult;
     private List<XkhTalentDynamicAnnexListBean> xkhTalentDynamicAnnexList;
-    private List<XkhDynamicCommentListBean> xkhDynamicCommentList;
 
     public XkhTalentDynamicBean getXkhTalentDynamic() {
         return xkhTalentDynamic;
@@ -30,13 +28,6 @@ public class DynamicDetailsResult {
         this.xkhTalentDynamic = xkhTalentDynamic;
     }
 
-    public UcUserBean getUcUser() {
-        return ucUser;
-    }
-
-    public void setUcUser(UcUserBean ucUser) {
-        this.ucUser = ucUser;
-    }
 
     public List<XkhTalentDynamicAnnexListBean> getXkhTalentDynamicAnnexList() {
         return xkhTalentDynamicAnnexList;
@@ -46,12 +37,12 @@ public class DynamicDetailsResult {
         this.xkhTalentDynamicAnnexList = xkhTalentDynamicAnnexList;
     }
 
-    public List<XkhDynamicCommentListBean> getXkhDynamicCommentList() {
-        return xkhDynamicCommentList;
+    public UserSimpleResult getUserSimpleResult() {
+        return userSimpleResult;
     }
 
-    public void setXkhDynamicCommentList(List<XkhDynamicCommentListBean> xkhDynamicCommentList) {
-        this.xkhDynamicCommentList = xkhDynamicCommentList;
+    public void setUserSimpleResult(UserSimpleResult userSimpleResult) {
+        this.userSimpleResult = userSimpleResult;
     }
 
     public static class XkhTalentDynamicBean {
@@ -83,8 +74,7 @@ public class DynamicDetailsResult {
         private String status;
         private String refuseReason;
         private int level;
-        private String createTime;
-        private String updateTime;
+        private long updateTime;
         private int operatorId;
 
         public int getId() {
@@ -153,11 +143,11 @@ public class DynamicDetailsResult {
         }
 
 
-        public String getUpdateTime() {
+        public long getUpdateTime() {
             return updateTime;
         }
 
-        public void setUpdateTime(String updateTime) {
+        public void setUpdateTime(long updateTime) {
             this.updateTime = updateTime;
         }
 
@@ -192,65 +182,30 @@ public class DynamicDetailsResult {
         public void setLevel(int level) {
             this.level = level;
         }
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
     }
 
-    public static class UcUserBean {
-        /**
-         * id : 1006652
-         * name : uuu
-         * sex : null
-         * headPortrait : http://xkh-cdn.007fenqi.com/DA7883D3-A5D4-4831-AFE2-601F4DA32FB1_file
-         * account : null
-         * userType : null
-         * idNo : null
-         * phone : null
-         * source : null
-         * status : null
-         * createTime : null
-         * updateTime : null
-         * attr : null
-         * thirdId : null
-         * certPassed : null
-         * locale : null
-         * personSignature : null
-         * alias : null
-         */
+    public static class UserSimpleResult {
 
-        private int id;
-        private String name;
-        private String sex;
+        private long userId;
+        private int number;
         private String headPortrait;
+        private String name;
 
-        public int getId() {
-            return id;
+
+        public long getUserId() {
+            return userId;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setUserId(long userId) {
+            this.userId = userId;
         }
 
-        public String getName() {
-            return name;
+        public int getNumber() {
+            return number;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getSex() {
-            return sex;
-        }
-
-        public void setSex(String sex) {
-            this.sex = sex;
+        public void setNumber(int number) {
+            this.number = number;
         }
 
         public String getHeadPortrait() {
@@ -259,6 +214,14 @@ public class DynamicDetailsResult {
 
         public void setHeadPortrait(String headPortrait) {
             this.headPortrait = headPortrait;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 
@@ -315,112 +278,6 @@ public class DynamicDetailsResult {
 
         public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
-        }
-    }
-
-    public static class XkhDynamicCommentListBean {
-        /**
-         * id : 7
-         * dynamicId : 27
-         * userId : 1006646
-         * likeNumber : 0
-         * replyUserId : null
-         * comment : I love you
-         * createTime : 2018-06-04 17:01:20
-         * updateTime : null
-         * operatorId : 1006646
-         * status : normal
-         */
-
-        private int id;
-        private int dynamicId;
-        private int userId;
-        private int likeNumber;
-        private String replyUserId;
-        private String comment;
-        private String createTime;
-        private String updateTime;
-        private int operatorId;
-        private String status;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getDynamicId() {
-            return dynamicId;
-        }
-
-        public void setDynamicId(int dynamicId) {
-            this.dynamicId = dynamicId;
-        }
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-
-        public int getLikeNumber() {
-            return likeNumber;
-        }
-
-        public void setLikeNumber(int likeNumber) {
-            this.likeNumber = likeNumber;
-        }
-
-        public Object getReplyUserId() {
-            return replyUserId;
-        }
-
-        public void setReplyUserId(String replyUserId) {
-            this.replyUserId = replyUserId;
-        }
-
-        public String getComment() {
-            return comment;
-        }
-
-        public void setComment(String comment) {
-            this.comment = comment;
-        }
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public Object getUpdateTime() {
-            return updateTime;
-        }
-
-        public void setUpdateTime(String updateTime) {
-            this.updateTime = updateTime;
-        }
-
-        public int getOperatorId() {
-            return operatorId;
-        }
-
-        public void setOperatorId(int operatorId) {
-            this.operatorId = operatorId;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
         }
     }
 }

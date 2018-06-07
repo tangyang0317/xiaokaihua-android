@@ -301,6 +301,11 @@
 
         <activity
             android:name=".activity.GraphicDynamicDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SeeMoreCommentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
@@ -384,7 +389,7 @@
         <activity
             android:name=".activity.FindPasswordActivity"
             android:screenOrientation="portrait" />
-        
+
         <activity
             android:name=".activity.UpdateGenderActivity"
             android:screenOrientation="portrait" />

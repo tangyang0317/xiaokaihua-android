@@ -43,6 +43,30 @@ public class UserDataManager {
         return "";
     }
 
+    /**
+     * getUserHeadPic
+     *
+     * @return
+     */
+    public String getUserHeadPic() {
+        if (getLoginUser() != null) {
+            return getUserInfo().getHeadPortrait();
+        }
+        return "";
+    }
+
+    /**
+     * getuserId
+     *
+     * @return
+     */
+    public String getUserNickName() {
+        if (getLoginUser() != null) {
+            return getUserInfo().getName();
+        }
+        return "";
+    }
+
     /***
      * 保存登陆用户信息
      * @param webUserBean

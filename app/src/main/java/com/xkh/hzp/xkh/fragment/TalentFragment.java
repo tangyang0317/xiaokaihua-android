@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.LoginActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.activity.TalentClassActivity;
+import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
 import com.xkh.hzp.xkh.adapter.TalentAdapter;
 import com.xkh.hzp.xkh.adapter.TalentClassAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -28,6 +30,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.EmptyView;
 import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
 
@@ -89,6 +92,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         HashMap<String, String> params = new HashMap<>();
         params.put("pageNum", String.valueOf(pageNum));
         params.put("pageSize", String.valueOf(pageSize));
+        params.put("userId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().get(UrlConfig.queryTalentList, params, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -188,6 +192,12 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                             //添加关注
                         }
                         break;
+                    case R.id.talentPicImg:
+                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(talentResult.getUserId()));
+                        break;
+                    case R.id.talentHeadImg:
+                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(talentResult.getUserId()));
+                        break;
                 }
             }
         });
@@ -227,6 +237,13 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(getActivity()).clear();
+                LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -250,6 +267,13 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
+            }
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(getActivity()).clear();
+                LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
             }
 
             @Override

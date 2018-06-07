@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.MainActivity;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -18,9 +19,12 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
@@ -53,6 +57,14 @@ public class LoadingActivity extends AppCompatActivity {
                 }
             }
         }, 2000);
+
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(1l);
+        ids.add(2l);
+        ids.add(3l);
+        ids.add(4l);
+        Logger.d(JsonUtils.toJson(ids));
     }
 
 }

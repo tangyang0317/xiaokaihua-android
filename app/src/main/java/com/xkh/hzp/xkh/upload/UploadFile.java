@@ -71,7 +71,7 @@ public class UploadFile implements Runnable {
                         String key1 = sevenCowBean.getKey();
                         HashMap<String, Object> bitmap = new HashMap<>();
                         Bitmap localBitmap = BitmapFactory.decodeFile(file.getPath());
-                        bitmap.put("url", Config.QI_NIU_DOMAIN + "/" + key1);
+                        bitmap.put("url", Config.QINIU_IMAGE_DOMAIN + key1);
                         bitmap.put("width", localBitmap.getWidth());
                         bitmap.put("height", localBitmap.getHeight());
                         localBitmap.recycle();
