@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.xkh.hzp.xkh.fragment.AttentionFragment;
+import com.xkh.hzp.xkh.fragment.IndexDynamicFragment;
 import com.xkh.hzp.xkh.fragment.TalentDynamicFragment;
 import com.xkh.hzp.xkh.fragment.VideoFragment;
 
@@ -26,7 +27,7 @@ public class DynamicFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new TalentDynamicFragment();
+                return new IndexDynamicFragment();
             case 1:
                 return new VideoFragment();
             case 2:

@@ -66,6 +66,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     private EditText etComment;
     private TextView seeMoreCommentTxt;
     private TextView btnSend, dynamicDateTxt;
+    private View footerView;
     private LinearLayout dynamicDetailsImgLayout;
     private NestedScrollView graphicDetailsNestedScrollView;
     private CommentExpandableListView commentExpandableListView;
@@ -112,7 +113,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         btnSend = findViewById(R.id.btnSend);
         commentExpandableListView = findViewById(R.id.commentExpandableListView);
         dynamicDetailsImgLayout = findViewById(R.id.dynamicDetailsImgLayout);
-        View footerView = LayoutInflater.from(this).inflate(R.layout.view_see_more_comment, null);
+        footerView = LayoutInflater.from(this).inflate(R.layout.view_see_more_comment, null);
         seeMoreCommentTxt = footerView.findViewById(R.id.seeMoreCommentTxt);
         commentExpandableListView.addFooterView(footerView);
         commentExpandAdapter = new CommentExpandAdapter(this, new ArrayList<CommentResult>());
@@ -309,6 +310,9 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 if (success) {
                     List<CommentResult> commentResults = (List<CommentResult>) extra.get("result");
                     if (commentResults != null && commentResults.size() > 0) {
+                        if (commentResults.size() < 9) {
+                            commentExpandableListView.removeFooterView(footerView);
+                        }
                         commentExpandAdapter.setNewData(commentResults);
                         for (int i = 0; i < commentResults.size(); i++) {
                             commentExpandableListView.expandGroup(i);

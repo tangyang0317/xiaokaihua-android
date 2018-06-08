@@ -84,6 +84,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     private CommentExpandAdapter commentExpandAdapter;
     private BottomSheetDialog bottomSheetDialog;
     private TextView seeMoreCommentTxt;
+    private View footView;
     private boolean isPlay;
     private boolean isPause;
     private OrientationUtils orientationUtils;
@@ -141,9 +142,9 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsSharedImg = findViewById(R.id.detailsSharedImg);
         detailsPraiseTxt = findViewById(R.id.detailsPraiseTxt);
         detailsCommentTxt = findViewById(R.id.detailsCommentTxt);
-        View footerView = LayoutInflater.from(this).inflate(R.layout.view_see_more_comment, null);
-        seeMoreCommentTxt = footerView.findViewById(R.id.seeMoreCommentTxt);
-        commentExpandableListView.addFooterView(footerView);
+        footView = LayoutInflater.from(this).inflate(R.layout.view_see_more_comment, null);
+        seeMoreCommentTxt = footView.findViewById(R.id.seeMoreCommentTxt);
+        commentExpandableListView.addFooterView(footView);
         navigationLayout.setBackgroundColor(ColorUtils.blendARGB(Color.TRANSPARENT
                 , ContextCompat.getColor(this, R.color.color_ff5555), 0));
         commentExpandAdapter = new CommentExpandAdapter(this, new ArrayList<CommentResult>());
@@ -291,6 +292,9 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 if (success) {
                     List<CommentResult> commentResults = (List<CommentResult>) extra.get("result");
                     if (commentResults != null && commentResults.size() > 0) {
+                        if (commentResults.size() < 9) {
+                            commentExpandableListView.removeFooterView(footView);
+                        }
                         commentExpandAdapter.setNewData(commentResults);
                         for (int i = 0; i < commentResults.size(); i++) {
                             commentExpandableListView.expandGroup(i);
@@ -381,7 +385,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 commentResultBean.setHeadPortrait(UserDataManager.getInstance().getUserHeadPic());
                 commentResultBean.setLikeNumber(0);
                 commentResultBean.setName(UserDataManager.getInstance().getUserNickName());
-                commentResultBean.setStatus("normal");
+                commentResultBean.setStatus("");
                 commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
                 commentResult.setCommentResult(commentResultBean);
                 commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
@@ -667,6 +671,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsShareLayout.setOnClickListener(this);
         detailsCommentLayout.setOnClickListener(this);
         detailsPraiseLayout.setOnClickListener(this);
+        seeMoreCommentTxt.setOnClickListener(this);
 
     }
 

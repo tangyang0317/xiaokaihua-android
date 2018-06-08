@@ -79,7 +79,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         dynamicTabLayout = contentView.findViewById(R.id.dynamicTabLayout);
         searchLayout = contentView.findViewById(R.id.searchLayout);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
-
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
         dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
         dynamicTabLayout.setupWithViewPager(dynamicViewPager);

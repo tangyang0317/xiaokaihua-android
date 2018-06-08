@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar baseToolBar;
     private TextView toolBarTitleTxt, toolBarRightTxt;
     private ImageView toolBarRightImg;
-    private LinearLayout baseContentLayout;
+    private FrameLayout baseContentLayout;
     protected ImmersionBar mImmersionBar;
     protected LinearLayout baseContainerLayout;
 
@@ -50,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getBaseContentView());
+        setContentView(R.layout.acitivyt_base);
         initBaseControllerView();
         AppManager.getAppManager().addActivity(this);
     }
@@ -140,12 +141,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    protected int getBaseContentView() {
-        return R.layout.acitivyt_base;
-    }
-
 
     /**
      * 设置中间标题

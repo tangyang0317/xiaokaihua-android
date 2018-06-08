@@ -1,6 +1,5 @@
 package com.xkh.hzp.xkh.activity;
 
-import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,19 +13,15 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xkh.hzp.xkh.MainActivity;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.WebUserBean;
-import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.IntentUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 

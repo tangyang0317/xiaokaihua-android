@@ -16,24 +16,14 @@ import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
-import com.xkh.hzp.xkh.event.LoginEvent;
-import com.xkh.hzp.xkh.event.LogoutEvent;
-import com.xkh.hzp.xkh.event.UpdateUserInfoEvent;
 import com.xkh.hzp.xkh.fragment.FragmentFactory;
-import com.xkh.hzp.xkh.fragment.MineFragment;
-import com.xkh.hzp.xkh.fragment.TalentMineFragment;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.UserDataManager;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

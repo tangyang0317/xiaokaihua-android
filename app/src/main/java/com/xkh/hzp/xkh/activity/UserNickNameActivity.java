@@ -88,7 +88,7 @@ public class UserNickNameActivity extends BaseActivity {
     private void completeInfo(final String nickName) {
         final String userId = UserDataManager.getInstance().getUserId();
         HashMap param = new HashMap();
-        param.put("nickname", nickName);
+        param.put("name", nickName);
         param.put("userId", userId);
         ABHttp.getIns().postJSON(UrlConfig.userInfo + "?userId=" + userId, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override

@@ -33,7 +33,6 @@ public class CheckLoginManager {
                 super.setupEntity(entity);
             }
 
-
             @Override
             public void onNotLogin() {
                 super.onNotLogin();

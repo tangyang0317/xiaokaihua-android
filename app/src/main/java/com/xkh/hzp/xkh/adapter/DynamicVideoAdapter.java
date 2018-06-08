@@ -34,6 +34,8 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         helper.addOnClickListener(R.id.sharedLayout);
         helper.addOnClickListener(R.id.componentLayout);
         helper.addOnClickListener(R.id.goodLayout);
+        helper.addOnClickListener(R.id.dynamicContentTxt);
+        helper.addOnClickListener(R.id.dynamicImgContentLayout);
         ImageView dynamicUserHeadImg = helper.getView(R.id.dynamicUserHeadImg);
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);

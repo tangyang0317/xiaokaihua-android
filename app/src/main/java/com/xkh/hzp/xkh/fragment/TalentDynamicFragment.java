@@ -95,7 +95,8 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
         HashMap<String, String> params = new HashMap<>();
         params.put("pageNum", String.valueOf(pageNum));
         params.put("pageSize", String.valueOf(pageSize));
-        params.put("userId", getTalentUserId());
+        params.put("searchUserId", getTalentUserId());
+        params.put("userId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().get(UrlConfig.dynamicList, params, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -151,14 +152,14 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                         if ("image".equals(dynamicBean.getDynamicType())) {
                             GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         } else if ("video".equals(dynamicBean.getDynamicType())) {
-                            VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                            VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         }
                         break;
                     case R.id.componentLayout:
                         if ("image".equals(dynamicBean.getDynamicType())) {
                             GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         } else if ("video".equals(dynamicBean.getDynamicType())) {
-                            VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                            VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         }
                         break;
                     case R.id.goodLayout:
@@ -222,14 +223,14 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                         if ("image".equals(dynamicBean.getDynamicType())) {
                             GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         } else if ("video".equals(dynamicBean.getDynamicType())) {
-                            VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                            VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         }
                         break;
                     case R.id.dynamicImgContentLayout:
                         if ("image".equals(dynamicBean.getDynamicType())) {
                             GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         } else if ("video".equals(dynamicBean.getDynamicType())) {
-                            VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                            VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                         }
                         break;
                 }
@@ -247,7 +248,7 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                 if ("image".equals(dynamicBean.getDynamicType())) {
                     GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                 } else if ("video".equals(dynamicBean.getDynamicType())) {
-                    VideoDynamicDetailsActivity.lunchActivity(getActivity(), null, VideoDynamicDetailsActivity.class);
+                    VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
                 }
 
             }
