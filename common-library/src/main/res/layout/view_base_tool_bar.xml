@@ -4,7 +4,7 @@
     android:id="@+id/baseToolBar"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/shape_bar_bg"
+    android:background="@drawable/shape_bar_white_bg"
     android:minHeight="?attr/actionBarSize"
     app:popupTheme="@style/ToolbarPopupTheme"
     app:subtitleTextAppearance="@style/ToolbarTitleStyle"
@@ -17,8 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:text="我是标题"
-        android:textColor="#ffffff"
+        android:textColor="@color/color_333333"
         android:textSize="16sp" />
 
     <TextView
@@ -28,7 +27,6 @@
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
-        android:text="提交"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:visibility="gone" />

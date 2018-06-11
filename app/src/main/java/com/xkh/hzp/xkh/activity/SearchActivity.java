@@ -24,11 +24,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private TextView cancel;
     private SearchPagerAdapter adapter;
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
-    }
 
     @Override
     public int getLayoutId() {

@@ -48,4 +48,5 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.jaeger.statusbarutil:library:1.5.1'
 }

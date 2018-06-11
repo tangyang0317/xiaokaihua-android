@@ -96,6 +96,8 @@ public class ABHttp {
                     httpCallback.onFinish();
                 }
 
+
+
                 @Override
                 public void onResponse(AbHttpEntity response, int id) {
                     if (!httpCallback.onGetString(response.getStr())) {

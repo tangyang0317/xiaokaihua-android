@@ -48,11 +48,6 @@ public class SearchHistoryActivty extends BaseActivity {
         context.startActivity(intent);
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
-    }
 
     private int getIndex() {
         return getIntent().getIntExtra("index", 0);

@@ -49,9 +49,6 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
         View dividerView = helper.getView(R.id.dividerView);
         LinearLayout dynamicImgContentLayout = helper.getView(R.id.dynamicImgContentLayout);
-        LinearLayout sharedLayout = helper.getView(R.id.sharedLayout);
-        LinearLayout componentLayout = helper.getView(R.id.componentLayout);
-        LinearLayout goodLayout = helper.getView(R.id.goodLayout);
         if ("image".equals(item.getDynamicType())) {
             generatorImg(dynamicImgContentLayout, item.getAnnexUrlList());
         } else if ("video".equals(item.getDynamicType())) {
@@ -65,6 +62,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth - DimentUtils.dip2px(mContext, 30), screenWidth / 2);
             videoFaceImg.setLayoutParams(layoutParams);
             dynamicImgContentLayout.addView(view);
+            Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(videoFaceImg);
         }
         if ("normal".equals(item.getLikeStatus())) {
             praisedImg.setImageResource(R.mipmap.icon_praised);

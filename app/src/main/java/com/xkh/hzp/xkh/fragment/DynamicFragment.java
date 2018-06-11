@@ -1,6 +1,8 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
+import android.media.Image;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,10 +13,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.MessageActivity;
 import com.xkh.hzp.xkh.activity.PublishPictureTextActvity;
 import com.xkh.hzp.xkh.activity.PublishVideoActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
@@ -53,17 +57,21 @@ import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
  **/
 public class DynamicFragment extends BaseFragment implements View.OnClickListener {
 
-    private LinearLayout searchLayout;
+    private TextView searchLayout;
+    private ImageView msgImg;
     private Banner sampleHeaderView;
     private ViewPager dynamicViewPager;
     private TabLayout dynamicTabLayout;
     private SectorMenuButton bottomMenuButton;
     private List<BannerResult> bannerResultList;
+    private View mFakeStatusBar;
 
     @Override
     public void onClick(View view) {
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 0);
+        } else if (view == msgImg) {
+            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
         }
     }
 
@@ -74,10 +82,12 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void initView(View contentView) {
+        mFakeStatusBar = contentView.findViewById(R.id.statusBarView);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
         dynamicViewPager = contentView.findViewById(R.id.dynamicViewPager);
         dynamicTabLayout = contentView.findViewById(R.id.dynamicTabLayout);
         searchLayout = contentView.findViewById(R.id.searchLayout);
+        msgImg = contentView.findViewById(R.id.msgImg);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
         dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
@@ -133,6 +143,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
+        msgImg.setOnClickListener(this);
         sampleHeaderView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {

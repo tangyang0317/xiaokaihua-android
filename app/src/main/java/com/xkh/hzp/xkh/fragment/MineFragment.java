@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +30,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.ItemLayout;
 
 /**
@@ -76,7 +79,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         businessConperationItemLayout = contentView.findViewById(R.id.businessConperationItemLayout);
         updateInfoItemLayout = contentView.findViewById(R.id.updateInfoItemLayout);
         settingItemLayout = contentView.findViewById(R.id.settingItemLayout);
-        getUserInfo();
+        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+            @Override
+            public void isLogin(boolean isLogin) {
+                if (!isLogin) {
+                    SharedprefrenceHelper.getIns(getActivity()).clear();
+                }
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getUserInfo();
+            }
+        }, 500);
     }
 
 
@@ -89,7 +105,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             userIntroductionTxt.setVisibility(View.VISIBLE);
             userNickNameTxt.setText(userInfoResult.getName());
             userIntroductionTxt.setText("" + userInfoResult.getPersonSignature());
-            Glide.with(getActivity()).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(userHeadImg);
+            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(userHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);
             userHeadImg.setVisibility(View.GONE);

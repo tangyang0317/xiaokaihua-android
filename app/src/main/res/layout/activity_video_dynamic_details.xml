@@ -130,7 +130,7 @@
         android:id="@+id/navigationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_bar_bg"
+        android:background="@drawable/shape_bar_red_bg"
         android:orientation="vertical">
 
         <View

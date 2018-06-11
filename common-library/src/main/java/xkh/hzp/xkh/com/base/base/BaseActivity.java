@@ -1,10 +1,13 @@
 package xkh.hzp.xkh.com.base.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import io.reactivex.Observable;
@@ -33,11 +37,10 @@ import xkh.hzp.xkh.com.base.utils.ToastUtils;
  **/
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private Toolbar baseToolBar;
+    protected Toolbar baseToolBar;
     private TextView toolBarTitleTxt, toolBarRightTxt;
     private ImageView toolBarRightImg;
     private FrameLayout baseContentLayout;
-    protected ImmersionBar mImmersionBar;
     protected LinearLayout baseContainerLayout;
 
     public static void lunchActivity(Activity activity, Bundle bundle, Class tClass) {
@@ -52,10 +55,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivyt_base);
+        setStatusBar();
         initBaseControllerView();
         AppManager.getAppManager().addActivity(this);
     }
 
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(this, getResources().getColor(android.R.color.white), 0);
+    }
 
     @Override
     protected void onResume() {
@@ -71,34 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
     }
 
-    public <T> ObservableTransformer<T, T> setThread() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> upstream) {
-                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
-
-
-    protected void initImmersionBar() {
-        //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).titleBar(baseToolBar);
-        mImmersionBar.statusBarDarkFont(true, 0.5f).init();
-    }
-
     protected void setBaseContainerBg() {
         baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_f3f5fa));
-    }
-
-    /**
-     * 是否可以使用沉浸式
-     * Is immersion bar enabled boolean.
-     *
-     * @return the boolean
-     */
-    protected boolean isImmersionBarEnabled() {
-        return true;
     }
 
     /**
@@ -111,13 +92,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolBarRightImg = findViewById(R.id.toolBarRightImg);
         baseContentLayout = findViewById(R.id.baseContentLayout);
         baseContainerLayout = findViewById(R.id.baseContainerLayout);
-        setTitleNavigationIcon(R.drawable.icon_back);
+        setTitleNavigationIcon(R.drawable.icon_back_black);
+        setToolbarBgColor();
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
-        //设置沉浸式菜单栏
-        //初始化沉浸式
-        if (isImmersionBarEnabled()) {
-            initImmersionBar();
-        }
         setBaseContainerBg();
         initView();
         setListenner();
@@ -151,6 +128,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolBarTitleTxt.setText(title);
     }
 
+    @SuppressLint("ResourceType")
+    protected void setToolbarBgColor() {
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_white_bg));
+    }
 
     /**
      * 设置右边文字
@@ -260,8 +241,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mImmersionBar != null)
-            mImmersionBar.destroy();  //在BaseActivity里销毁
     }
 
 }

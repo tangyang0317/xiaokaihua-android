@@ -126,45 +126,6 @@
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/contentEditLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/etComment"
-            android:layout_width="0px"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_bg"
-            android:hint="评论"
-            android:imeOptions="actionDone"
-            android:paddingLeft="@dimen/dp_4"
-            android:textColor="@color/color_666666"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/btnSend"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="@dimen/dp_10"
-            android:background="@drawable/shape_send_btn"
-            android:gravity="center"
-            android:text="发送"
-            android:textSize="13sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/vgBottomInfo"
         android:layout_width="match_parent"
         android:layout_height="50dp"

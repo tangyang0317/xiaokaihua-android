@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+import com.jaeger.library.StatusBarUtil;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -38,19 +39,18 @@ import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
  */
 
 public class MainActivity extends BaseActivity {
-
     private RadioGroup indexRadioGroup;
     private RefreshUIBoardCastReceiver refreshUIBoardCastReceiver;
 
     @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.fitsSystemWindows(true).statusBarColor(R.color.color_fb435b).init();
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_main;
+    protected void setStatusBar() {
+        super.setStatusBar();
+        StatusBarUtil.setTranslucentForImageView(MainActivity.this, 0, null);
     }
 
     @Override
@@ -185,15 +185,12 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.dynamicRB:
-                        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_fb435b).init();
                         initFragment(0);
                         break;
                     case R.id.talentRB:
-                        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_fb435b).init();
                         initFragment(1);
                         break;
                     case R.id.mineRB:
-                        mImmersionBar.fitsSystemWindows(true).statusBarDarkFont(true, 0.5f).statusBarColor(R.color.color_ffffff).init();
                         UserInfoResult userInfoResult = UserDataManager.getInstance().getUserInfo();
                         if (userInfoResult != null && "talent".equals(userInfoResult.getUserType())) {
                             initFragment(3);

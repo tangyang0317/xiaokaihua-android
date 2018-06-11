@@ -1,16 +1,20 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.LoginActivity;
+import com.xkh.hzp.xkh.activity.MessageActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.activity.TalentClassActivity;
 import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
@@ -43,7 +47,8 @@ import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
 public class TalentFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     private SwipeRefreshLayout talentSwipeRefreshLayout;
     private RecyclerView talentRecyclerView;
-    private LinearLayout searchLayout;
+    private TextView searchLayout;
+    private ImageView msgImg;
     private TalentAdapter talentAdapter;
     private TalentClassAdapter talentClassAdapter;
     private int pageNum = 1, pageSize = 10;
@@ -56,6 +61,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void initView(View contentView) {
         searchLayout = contentView.findViewById(R.id.searchLayout);
+        msgImg = contentView.findViewById(R.id.msgImg);
         talentSwipeRefreshLayout = contentView.findViewById(R.id.talentSwipeRefreshLayout);
         talentRecyclerView = contentView.findViewById(R.id.talentRecyclerView);
         talentSwipeRefreshLayout.setOnRefreshListener(this);
@@ -110,7 +116,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                         if (talentResults != null && talentResults.size() > 0) {
                             if (talentResults.size() < 10) {
                                 talentSwipeRefreshLayout.setRefreshing(false);
-                                talentClassAdapter.loadMoreEnd();
+                                talentAdapter.loadMoreEnd();
                                 talentAdapter.setNewData(talentResults);
                             } else {
                                 talentSwipeRefreshLayout.setRefreshing(false);
@@ -170,6 +176,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
+        msgImg.setOnClickListener(this);
         talentClassAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -304,6 +311,8 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View view) {
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 0);
+        } else if (view == msgImg) {
+            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
         }
     }
 }

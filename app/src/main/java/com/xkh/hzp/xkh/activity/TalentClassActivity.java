@@ -37,7 +37,6 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
     private TalentAdapter talentAdapter;
     private int pageNum = 1, pageSize = 10;
 
-
     public static void lanuchActivity(Activity activity, int hotLableId, String hotLableName) {
         Intent intent = new Intent(activity, TalentClassActivity.class);
         intent.putExtra("hotLableId", hotLableId);
@@ -45,6 +44,16 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
         activity.startActivity(intent);
     }
 
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+    }
+
+    @Override
+    protected void setToolbarBgColor() {
+        super.setToolbarBgColor();
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_white_bg));
+    }
 
     private int getHotLableId() {
         return getIntent().getIntExtra("hotLableId", 0);
@@ -64,6 +73,7 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     public void initView() {
         setToolbarTitleTv(getHotLableName());
+        setTitleNavigationIcon(R.drawable.icon_back_black);
         talentClassSwipefreshLayout = findViewById(R.id.talentClassSwipefreshLayout);
         talentClassRecyclerView = findViewById(R.id.talentClassRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -72,6 +82,8 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
         talentClassSwipefreshLayout.setOnRefreshListener(this);
         talentAdapter = new TalentAdapter();
         EmptyView emptyView = new EmptyView(this);
+        emptyView.setNodataImageSource(R.mipmap.note_empty);
+        emptyView.setNodataTitle("暂无达人");
         emptyView.setOperateBtnVisiable(false);
         talentAdapter.setEmptyView(emptyView);
         talentAdapter.setOnLoadMoreListener(this, talentClassRecyclerView);

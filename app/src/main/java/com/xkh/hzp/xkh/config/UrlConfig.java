@@ -42,4 +42,6 @@ public class UrlConfig {
     public static final String commentUnPraised = DYNAMIC_BASE_URL + "/comment/patch/like/cancel";
     public static final String commentReply = DYNAMIC_BASE_URL + "/comment/reply";
     public static final String commentDelete = DYNAMIC_BASE_URL + "/comment/delete";
+    public static final String messageComment = DYNAMIC_BASE_URL + "/comment/searchReply/mySelf";
+    public static final String messagelike = DYNAMIC_BASE_URL + "/dynamic/searchLike/mySelf";
 }

@@ -217,7 +217,6 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                             });
                         }
 
-
                         break;
                     case R.id.dynamicContentTxt:
                         if ("image".equals(dynamicBean.getDynamicType())) {

@@ -52,4 +52,5 @@ dependencies {
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+    compile 'com.jaeger.statusbarutil:library:1.5.1'
 }

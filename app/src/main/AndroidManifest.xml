@@ -393,6 +393,15 @@
         <activity
             android:name=".activity.UpdateGenderActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CommentMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LikeMessageActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

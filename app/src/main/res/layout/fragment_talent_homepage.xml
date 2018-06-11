@@ -15,31 +15,29 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
-                android:id="@+id/mineHeadImg"
+                android:id="@+id/talentHeadImg"
                 android:layout_width="@dimen/dp50"
                 android:layout_height="@dimen/dp50"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_launcher_round" />
+                android:layout_centerInParent="true" />
 
             <TextView
-                android:id="@+id/mineNickNameTxt"
+                android:id="@+id/talentNickNameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mineHeadImg"
+                android:layout_below="@id/talentHeadImg"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp10"
-                android:text="爱吃糖的羊"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_14"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/talentSignTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mineNickNameTxt"
+                android:layout_below="@id/talentNickNameTxt"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp10"
-                android:text="找模特，找模特，找模特，找模特" />
+                android:layout_marginTop="@dimen/dp10" />
 
         </RelativeLayout>
 

@@ -170,20 +170,16 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         } else {
             childHolder = (ChildHolder) convertView.getTag();
         }
-        String replyUser = commentBeanList.get(groupPosition).getReplyResults().get(childPosition).getReplyUserName();
-        if (!TextUtils.isEmpty(replyUser)) {
-            childHolder.itemReplyUserNameTxt.setText(replyUser + ":");
-        } else {
-            childHolder.itemReplyUserNameTxt.setText("无名" + ":");
+        CommentResult.ReplyResult replyResult = commentBeanList.get(groupPosition).getReplyResults().get(childPosition);
+        if (replyResult != null) {
+            childHolder.itemReplyUserNameTxt.setText(replyResult.getName() + "回复" + replyResult.getReplyUserName() + ":");
+            childHolder.itemReplyContentTxt.setText(replyResult.getReplyContent());
         }
-
         if (childPosition == getChildrenCount(groupPosition) - 1) {
             childHolder.replySpaceView.setVisibility(View.VISIBLE);
         } else {
             childHolder.replySpaceView.setVisibility(View.GONE);
         }
-
-        childHolder.itemReplyContentTxt.setText(commentBeanList.get(groupPosition).getReplyResults().get(childPosition).getReplyContent());
         return convertView;
     }
 

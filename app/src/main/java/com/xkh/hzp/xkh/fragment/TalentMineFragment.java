@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.xkh.hzp.xkh.event.LogoutEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
@@ -30,6 +32,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
  * @packageName com.xkh.hzp.xkh.fragment
@@ -64,14 +67,26 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
         String userId = UserDataManager.getInstance().getUserId();
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getChildFragmentManager(), userId);
         talentMineViewPager.setAdapter(homePageFragmentPagerAdapter);
         talentMinePagerSlidingTabStrip.setupWithViewPager(talentMineViewPager);
+        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+            @Override
+            public void isLogin(boolean isLogin) {
+                if (!isLogin) {
+                    SharedprefrenceHelper.getIns(getActivity()).clear();
+                }
+            }
+        });
 
-        queryUserInfo();
-        setUserInfoData();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                queryUserInfo();
+                setUserInfoData();
+            }
+        }, 500);
 
     }
 

@@ -19,6 +19,33 @@ public class DynamicDetailsResult {
     private XkhTalentDynamicBean xkhTalentDynamic;
     private UserSimpleResult userSimpleResult;
     private List<XkhTalentDynamicAnnexListBean> xkhTalentDynamicAnnexList;
+    private int commentNumber;
+    private String focusStatus;
+    private String likeStatus;
+
+    public int getCommentNumber() {
+        return commentNumber;
+    }
+
+    public void setCommentNumber(int commentNumber) {
+        this.commentNumber = commentNumber;
+    }
+
+    public String getFocusStatus() {
+        return focusStatus;
+    }
+
+    public void setFocusStatus(String focusStatus) {
+        this.focusStatus = focusStatus;
+    }
+
+    public String getLikeStatus() {
+        return likeStatus;
+    }
+
+    public void setLikeStatus(String likeStatus) {
+        this.likeStatus = likeStatus;
+    }
 
     public XkhTalentDynamicBean getXkhTalentDynamic() {
         return xkhTalentDynamic;
@@ -46,25 +73,26 @@ public class DynamicDetailsResult {
     }
 
     public static class XkhTalentDynamicBean {
+
         /**
-         * id : 27
-         * userId : 1006652
-         * attributeId : 43
-         * faceUrl : null
+         * id : 38
+         * userId : 1006677
+         * attributeId : 47
+         * faceUrl :
          * dynamicType : image
-         * wordDescription : 比赛进行到第4节还剩3分27秒时，勇士后卫斯蒂芬-库里已经上场38分钟，26投11中三分球17投9中，得到33分7篮板8助攻。在投进9个三分球之后，库里超越雷-阿伦（8个）成为NBA总决赛历史上单场投进最多三分的球员。此外，17次三分出手也是NBA总决赛单场三分出手次数新高。第一
+         * wordDescription : 在经济消费能力之外，许多人为了过上所谓的更好的生活，贷款买苹果，买单反，买奢侈品，而年轻群体很多时候就成了目前这种“刺激消费”下的受害者。
          * viewNumber : 0
          * likeNumber : 0
          * status : normal
-         * refuseReason : null
-         * level : null
-         * createTime : null
-         * updateTime : 2018-06-04 16:37:51
-         * operatorId : 1006652
+         * refuseReason :
+         * level : 2
+         * createTime :
+         * updateTime : 1528434083000
+         * operatorId : 1006677
          */
 
-        private int id;
-        private int userId;
+        private long id;
+        private long userId;
         private int attributeId;
         private String faceUrl;
         private String dynamicType;
@@ -74,24 +102,10 @@ public class DynamicDetailsResult {
         private String status;
         private String refuseReason;
         private int level;
+        private String createTime;
         private long updateTime;
         private int operatorId;
 
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
 
         public int getAttributeId() {
             return attributeId;
@@ -101,6 +115,13 @@ public class DynamicDetailsResult {
             this.attributeId = attributeId;
         }
 
+        public String getFaceUrl() {
+            return faceUrl;
+        }
+
+        public void setFaceUrl(String faceUrl) {
+            this.faceUrl = faceUrl;
+        }
 
         public String getDynamicType() {
             return dynamicType;
@@ -142,6 +163,29 @@ public class DynamicDetailsResult {
             this.status = status;
         }
 
+        public String getRefuseReason() {
+            return refuseReason;
+        }
+
+        public void setRefuseReason(String refuseReason) {
+            this.refuseReason = refuseReason;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public void setLevel(int level) {
+            this.level = level;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
 
         public long getUpdateTime() {
             return updateTime;
@@ -159,28 +203,20 @@ public class DynamicDetailsResult {
             this.operatorId = operatorId;
         }
 
-        public String getFaceUrl() {
-            return faceUrl;
+        public long getId() {
+            return id;
         }
 
-        public void setFaceUrl(String faceUrl) {
-            this.faceUrl = faceUrl;
+        public void setId(long id) {
+            this.id = id;
         }
 
-        public String getRefuseReason() {
-            return refuseReason;
+        public long getUserId() {
+            return userId;
         }
 
-        public void setRefuseReason(String refuseReason) {
-            this.refuseReason = refuseReason;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        public void setLevel(int level) {
-            this.level = level;
+        public void setUserId(long userId) {
+            this.userId = userId;
         }
     }
 

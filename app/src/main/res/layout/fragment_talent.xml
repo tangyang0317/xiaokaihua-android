@@ -5,8 +5,13 @@
     android:background="@color/color_ffffff"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/statusBarView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/color_fb435b" />
+
     <LinearLayout
-        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48"
         android:background="@color/color_fb435b"
@@ -15,6 +20,7 @@
         android:visibility="visible">
 
         <TextView
+            android:id="@+id/searchLayout"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -27,6 +33,7 @@
             android:textSize="@dimen/sp_12" />
 
         <ImageView
+            android:id="@+id/msgImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp15"
