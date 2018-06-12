@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.request.PublishDynamicParam;
@@ -51,10 +52,26 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
         return R.layout.activity_publish_picture_text;
     }
 
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_fc4d5e), 0);
+    }
+
+    @Override
+    protected void setToolbarBgColor() {
+        super.setToolbarBgColor();
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_red_bg));
+    }
+
     @Override
     public void initView() {
         setToolbarTitleTv("发动态");
         setRightTitleTxt("发布");
+        hideToolbarBottomLine();
+        setTitleNavigationIcon(R.drawable.icon_back);
+        setToolBarTitleTextColor(getResources().getColor(R.color.color_ffffff));
         richEditComponentSample = new RichEditComponentSample();
         richEditComponentSample.setTuMutipleHandle(this);
         pictureTxtEdit = findViewById(R.id.pictureTxtEdit);

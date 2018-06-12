@@ -10,6 +10,6 @@
     android:paddingTop="@dimen/dp2"
     android:text="学院风"
     android:textColor="@color/color_666666"
-    android:textSize="@dimen/sp_14">
+    android:textSize="15sp">
 
 </TextView>

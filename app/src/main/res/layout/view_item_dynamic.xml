@@ -13,8 +13,7 @@
             android:id="@+id/dynamicUserHeadImg"
             android:layout_width="@dimen/dp40"
             android:layout_height="@dimen/dp40"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_launcher_round" />
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/dynamicUserNickNameTxt"
@@ -23,7 +22,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp15"
             android:layout_toRightOf="@id/dynamicUserHeadImg"
-            android:text="爱吃糖的羊" />
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
 
 
         <TextView
@@ -36,8 +36,8 @@
             android:paddingLeft="@dimen/dp15"
             android:paddingRight="@dimen/dp15"
             android:paddingTop="@dimen/dp4"
-            android:text="3分钟前"
-            android:textColor="@color/color_666666" />
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
 
     </RelativeLayout>
 
@@ -48,7 +48,7 @@
         android:layout_marginLeft="@dimen/dp15"
         android:layout_marginRight="@dimen/dp15"
         android:ellipsize="end"
-        android:lineSpacingExtra="@dimen/dp4"
+        android:lineSpacingExtra="@dimen/dp6"
         android:lines="3"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/sp_16" />
@@ -81,8 +81,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/icon_shared" />
 
@@ -90,8 +90,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp4"
-                android:text="分享" />
+                android:layout_marginLeft="@dimen/dp6"
+                android:text="分享"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_12" />
 
         </LinearLayout>
 
@@ -104,8 +106,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/icon_comment_img" />
 
@@ -113,8 +115,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp4"
-                android:text="评论" />
+                android:layout_marginLeft="@dimen/dp6"
+                android:text="评论"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_12" />
 
         </LinearLayout>
 
@@ -128,8 +132,8 @@
 
             <ImageView
                 android:id="@+id/praisedImg"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/icon_unpraised" />
 
@@ -137,8 +141,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp4"
-                android:text="点赞" />
+                android:layout_marginLeft="@dimen/dp6"
+                android:text="点赞"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_12" />
 
         </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
 import com.xkh.hzp.xkh.adapter.SearchUserAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.SearchUserResult;
@@ -108,13 +109,19 @@ public class SearchUserFragment extends BaseFragment implements BaseQuickAdapter
                 }
             }
         });
-
-
     }
 
     @Override
     public void setListernner() {
-
+        searchUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SearchUserResult searchUserResult = (SearchUserResult) adapter.getItem(position);
+                if (searchUserResult == null)
+                    return;
+                TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(searchUserResult.getUserId()));
+            }
+        });
     }
 
     @Override

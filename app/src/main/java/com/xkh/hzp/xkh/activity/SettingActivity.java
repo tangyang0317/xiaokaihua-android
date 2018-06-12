@@ -3,6 +3,10 @@ package com.xkh.hzp.xkh.activity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -86,6 +90,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     boolean result = (boolean) extra.get("result");
                     if (result) {
                         SharedprefrenceHelper.getIns(SettingActivity.this).clear();
+                        unbindAliAccount();
                         /****发送广播通知MainActivity替换"我的"页面****/
                         IntentUtils.sendBroadcast(SettingActivity.this, Config.LOGOUT_ACTION);
                         SettingActivity.this.finish();
@@ -95,4 +100,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         });
 
     }
+
+    /****
+     * 绑定推送账号
+     */
+    private void unbindAliAccount() {
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.unbindAccount(new CommonCallback() {
+            @Override
+            public void onSuccess(String s) {
+                Logger.d("解绑成功");
+            }
+
+            @Override
+            public void onFailed(String s, String s1) {
+                Logger.d(s + "-解绑失败-" + s1);
+            }
+        });
+    }
+
 }

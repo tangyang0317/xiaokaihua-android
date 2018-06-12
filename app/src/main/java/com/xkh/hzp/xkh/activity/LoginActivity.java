@@ -13,8 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMShareAPI;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
@@ -253,7 +257,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 验证码注册
      */
     private void registerWithAuthCode() {
-        String account = meditText.getText().toString();
+        final String account = meditText.getText().toString();
         String sms = editYzm.getText().toString();
         if (TextUtils.isEmpty(account) || account.length() != 11) {
             Toasty.warning(this, "请输入11位手机号码").show();
@@ -288,6 +292,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         webUserBean.setUid(registerResult.getId());
                         webUserBean.setLoginType(registerResult.getLoginType());
                         UserDataManager.getInstance().putLoginUser(webUserBean);
+                        boundAliAccount(account);
                         hideKeyBoard();
                         ChooseGenderActivity.lunchActivity(LoginActivity.this, null, ChooseGenderActivity.class);
                         LoginActivity.this.finish();
@@ -334,7 +339,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 短信验证码登陆
      */
     private void loginWithAuthCode() {
-        String account = meditText.getText().toString();
+        final String account = meditText.getText().toString();
         String sms = editYzm.getText().toString();
         if (TextUtils.isEmpty(account) || account.length() != 11) {
             Toasty.warning(this, "请输入11位手机号码").show();
@@ -361,6 +366,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (isSuccess) {
                     final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
+                        boundAliAccount(account);
                         hideKeyBoard();
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
                         LoginActivity.this.finish();
@@ -370,6 +376,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
 
 
+    }
+
+
+    /****
+     * 绑定推送账号
+     * @param account
+     */
+    private void boundAliAccount(String account) {
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.bindAccount(account, new CommonCallback() {
+            @Override
+            public void onSuccess(String s) {
+                Logger.d("推送账号绑定成功" + s);
+            }
+
+            @Override
+            public void onFailed(String s, String s1) {
+                Logger.d(s + "-推送账号绑定失败-" + s1);
+            }
+        });
     }
 
 

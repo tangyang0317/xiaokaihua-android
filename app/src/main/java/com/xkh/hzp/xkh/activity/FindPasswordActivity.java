@@ -47,6 +47,12 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    @Override
     public void initView() {
         setToolbarTitleTv("找回密码");
         etUserName = findViewById(R.id.activity_password_name);

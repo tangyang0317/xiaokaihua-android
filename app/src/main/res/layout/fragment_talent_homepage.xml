@@ -45,11 +45,13 @@
             android:id="@+id/homePageTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@color/color_ffffff"
             app:tabIndicatorColor="@color/color_e80036"
             app:tabIndicatorHeight="@dimen/dp2"
-            app:tabSelectedTextColor="@color/color_1f1f1f"
-            app:tabTextColor="@color/color_666666" />
+            app:tabSelectedTextColor="@color/color_333333"
+            app:tabTextAppearance="@style/TabLayoutTextSize"
+            app:tabTextColor="@color/color_999999" />
 
     </android.support.design.widget.AppBarLayout>
 

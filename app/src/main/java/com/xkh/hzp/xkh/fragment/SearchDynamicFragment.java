@@ -7,6 +7,8 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
+import com.xkh.hzp.xkh.activity.VideoDynamicDetailsActivity;
 import com.xkh.hzp.xkh.adapter.SearchDynamicAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.DynamicBean;
@@ -114,7 +116,20 @@ public class SearchDynamicFragment extends BaseFragment implements BaseQuickAdap
 
     @Override
     public void setListernner() {
-
+        searchDynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DynamicBean dynamicBean = (DynamicBean) adapter.getItem(position);
+                if (dynamicBean == null)
+                    return;
+                if ("image".equals(dynamicBean.getDynamicType())) {
+                    GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
+                } else if ("video".equals(dynamicBean.getDynamicType())) {
+                    VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
+                }
+                getActivity().finish();
+            }
+        });
     }
 
     @Override

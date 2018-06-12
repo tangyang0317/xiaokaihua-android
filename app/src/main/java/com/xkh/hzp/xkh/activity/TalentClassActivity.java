@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.jaeger.library.StatusBarUtil;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.TalentAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -47,12 +48,13 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     protected void setStatusBar() {
         super.setStatusBar();
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_fc4d5e), 0);
     }
 
     @Override
     protected void setToolbarBgColor() {
         super.setToolbarBgColor();
-        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_white_bg));
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_red_bg));
     }
 
     private int getHotLableId() {
@@ -73,7 +75,9 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     public void initView() {
         setToolbarTitleTv(getHotLableName());
-        setTitleNavigationIcon(R.drawable.icon_back_black);
+        hideToolbarBottomLine();
+        setTitleNavigationIcon(R.drawable.icon_back);
+        setToolBarTitleTextColor(getResources().getColor(R.color.color_ffffff));
         talentClassSwipefreshLayout = findViewById(R.id.talentClassSwipefreshLayout);
         talentClassRecyclerView = findViewById(R.id.talentClassRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

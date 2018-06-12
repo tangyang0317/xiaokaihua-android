@@ -11,10 +11,12 @@
         android:layout_height="150dp"
         android:background="@null"
         android:gravity="top|left"
-        android:hint="说点什么吧（150个自）"
+        android:hint="说点什么吧（150个字）"
+        android:lineSpacingExtra="@dimen/dp4"
         android:padding="@dimen/dp10"
-        android:textColorHint="@color/color_888888"
-        android:textSize="@dimen/sp_14" />
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_999999"
+        android:textSize="@dimen/sp_16" />
 
 
     <GridView

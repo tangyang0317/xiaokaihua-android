@@ -48,6 +48,12 @@ public class BusinessCooperationActivity extends BaseActivity implements View.On
     }
 
     @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    @Override
     public void setListenner() {
         businessConperationSubmitBtn.setOnClickListener(this);
     }

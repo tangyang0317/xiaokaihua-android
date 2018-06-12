@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.MessageActivity;
 import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.adapter.HomePageFragmentPagerAdapter;
@@ -22,6 +23,7 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.GlideRoundTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
@@ -152,7 +155,7 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             talentUserSignTxt.setVisibility(View.VISIBLE);
             mineNickNameTxt.setText(userInfoResult.getName());
             talentUserSignTxt.setText("" + userInfoResult.getPersonSignature());
-            Glide.with(getActivity()).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(mineHeadImg);
+            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(mineHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);
             mineHeadImg.setVisibility(View.GONE);
@@ -175,6 +178,8 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
         } else if (view == talentMineEditImg) {
             UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
+        } else if (view == talentMineMsgImg) {
+            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
         }
     }
 

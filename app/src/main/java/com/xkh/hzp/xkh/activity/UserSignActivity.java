@@ -56,6 +56,7 @@ public class UserSignActivity extends BaseActivity {
         userSignEdit = findViewById(R.id.activity_user_sign_name);
         if (UserDataManager.getInstance().getUserInfo() != null) {
             userSignEdit.setText(UserDataManager.getInstance().getUserInfo().getPersonSignature());
+            userSignEdit.setSelection(UserDataManager.getInstance().getUserInfo().getPersonSignature().length());
         } else {
             userSignEdit.setHint("做个有气质的小姐姐");
         }

@@ -39,6 +39,12 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    @Override
     public void initView() {
         setToolbarTitleTv("修改密码");
         button = findViewById(R.id.activity_reset_pass_btnLogin);

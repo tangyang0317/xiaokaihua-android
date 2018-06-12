@@ -54,6 +54,12 @@ public class UserInfoActvity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    @Override
     public void initView() {
         setToolbarTitleTv("用户信息");
         userIconLayout = findViewById(R.id.activity_user_info_icon_rl);

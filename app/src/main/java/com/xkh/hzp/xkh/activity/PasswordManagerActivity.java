@@ -3,6 +3,7 @@ package com.xkh.hzp.xkh.activity;
 import android.view.View;
 
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.view.ItemLayout;
@@ -16,6 +17,7 @@ import xkh.hzp.xkh.com.base.view.ItemLayout;
 public class PasswordManagerActivity extends BaseActivity implements View.OnClickListener {
 
     private ItemLayout modifyPwdItemLayout, findPwdItemLayout, settingPasswordItemLayout;
+    private View settingPwdBottomLine, modifyPwdBottomLine, findPwdBottomLine;
 
     @Override
     public int getLayoutId() {
@@ -28,6 +30,15 @@ public class PasswordManagerActivity extends BaseActivity implements View.OnClic
         settingPasswordItemLayout = findViewById(R.id.settingPasswordItemLayout);
         modifyPwdItemLayout = findViewById(R.id.modifyPwdItemLayout);
         findPwdItemLayout = findViewById(R.id.findPwdItemLayout);
+        settingPwdBottomLine = findViewById(R.id.settingPwdBottomLine);
+        modifyPwdBottomLine = findViewById(R.id.modifyPwdBottomLine);
+        findPwdBottomLine = findViewById(R.id.findPwdBottomLine);
+        if ("talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            findPwdItemLayout.setVisibility(View.GONE);
+            settingPasswordItemLayout.setVisibility(View.GONE);
+            settingPwdBottomLine.setVisibility(View.GONE);
+            findPwdBottomLine.setVisibility(View.GONE);
+        }
     }
 
     @Override

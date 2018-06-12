@@ -24,10 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.jaeger.library.StatusBarUtil;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.BottomSheetDialogAdapter;
 import com.xkh.hzp.xkh.adapter.CommentExpandAdapter;
@@ -83,12 +93,26 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     /***点赞和评论数量***/
     private int commentCount, likeCount;
     private long userId, dynamicId;
+    private UMWeb umWeb;
+    private ShareBoardlistener shareBoardlistener;
 
 
     public static void lanuchActivity(Activity activity, String dynamicId) {
         Intent intent = new Intent(activity, GraphicDynamicDetailsActivity.class);
         intent.putExtra("dynamicId", dynamicId);
         activity.startActivity(intent);
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_fc4d5e), 0);
+    }
+
+    @Override
+    protected void setToolbarBgColor() {
+        super.setToolbarBgColor();
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_red_bg));
     }
 
     private String getDynamicId() {
@@ -108,6 +132,9 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     @Override
     public void initView() {
         setToolbarTitleTv("动态详情");
+        hideToolbarBottomLine();
+        setTitleNavigationIcon(R.drawable.icon_back);
+        setToolBarTitleTextColor(getResources().getColor(R.color.color_ffffff));
         commentTxt = findViewById(R.id.commentTxt);
         commentMineImg = findViewById(R.id.commentMineImg);
         userNickNameTxt = findViewById(R.id.userNickNameTxt);
@@ -378,6 +405,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         foucsStatus = dynamicBean.getFocusStatus();
         userId = dynamicBean.getUserSimpleResult().getUserId();
         dynamicId = dynamicBean.getXkhTalentDynamic().getId();
+
+
         if (dynamicBean.getUserSimpleResult() != null) {
             Glide.with(this).load(dynamicBean.getUserSimpleResult().getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(userHeadImg);
             userNickNameTxt.setText(dynamicBean.getUserSimpleResult().getName());
@@ -413,6 +442,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).placeholder(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicDetailsImg);
                 dynamicDetailsImgLayout.addView(dynamicDetailsImg);
             }
+            initShare("http://wwww.baidu.com", dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
         }
     }
 
@@ -588,6 +618,69 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
 
     }
 
+    /**
+     * 初始化分享
+     */
+    private void initShare(String sharedUrl, String shareContent, String shareThumbImg) {
+        //友盟分享内容
+        umWeb = new UMWeb(sharedUrl);
+        umWeb.setTitle(shareContent);
+        umWeb.setThumb(new UMImage(GraphicDynamicDetailsActivity.this, shareThumbImg));
+        umWeb.setDescription(shareContent);
+        shareBoardlistener = new ShareBoardlistener() {
+            @Override
+            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                if (share_media != null) {
+                    new ShareAction(GraphicDynamicDetailsActivity.this)
+                            .setPlatform(share_media)
+                            .setCallback(shareListener)
+                            .withMedia(umWeb)
+                            .share();
+                }
+            }
+        };
+    }
+
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(GraphicDynamicDetailsActivity.this, "成功了", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(GraphicDynamicDetailsActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(GraphicDynamicDetailsActivity.this, "取消了", Toast.LENGTH_LONG).show();
+
+        }
+    };
+
 
     @Override
     public void setListenner() {
@@ -596,6 +689,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         seeMoreCommentTxt.setOnClickListener(this);
         userIsAttentionTxt.setOnClickListener(this);
         detailsPraiseLayout.setOnClickListener(this);
+        detailsShareLayout.setOnClickListener(this);
     }
 
     @Override
@@ -605,6 +699,11 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
             dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
             commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+        } else if (view == detailsShareLayout) {
+            new ShareAction(GraphicDynamicDetailsActivity.this)
+                    .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE)
+                    .setShareboardclickCallback(shareBoardlistener)
+                    .open();
         } else if (view == commentTxt) {
             List<DialogItemBean> dialogItemBeans = new ArrayList<>();
             dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
@@ -748,5 +847,16 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         });
     }
 
+    /***
+     * umeng分享
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
 
 }

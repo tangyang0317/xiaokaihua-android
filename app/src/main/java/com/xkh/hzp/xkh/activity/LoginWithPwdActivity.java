@@ -11,8 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -152,7 +156,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
      * 账号密码登陆
      */
     private void loginWithPwd() {
-        String account = etUsername.getText().toString().trim();
+        final String account = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         if (TextUtils.isEmpty(account)) {
             Toasty.error(LoginWithPwdActivity.this, "请输入手机号码", Toast.LENGTH_SHORT).show();
@@ -162,7 +166,6 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
             Toasty.error(LoginWithPwdActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
             return;
         }
-
         HashMap map = new HashMap();
         map.put("password", password);
         map.put("account", account);
@@ -192,6 +195,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
                     final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
+                        boundAliAccount(account);
                         hideKeyBoard();
                         IntentUtils.sendBroadcast(LoginWithPwdActivity.this, Config.LOGIN_ACTION);
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
@@ -203,6 +207,27 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
 
 
     }
+
+
+    /****
+     * 绑定推送账号
+     * @param account
+     */
+    private void boundAliAccount(String account) {
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.bindAccount(account, new CommonCallback() {
+            @Override
+            public void onSuccess(String s) {
+                Logger.d(s);
+            }
+
+            @Override
+            public void onFailed(String s, String s1) {
+                Logger.d(s + "---" + s1);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {

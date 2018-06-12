@@ -58,7 +58,7 @@ public class ItemLayout extends LinearLayout {
         rightTxt = typedArray.getString(R.styleable.ItemLayout_rightTitleTxt);
         leftTextColor = typedArray.getColor(R.styleable.ItemLayout_leftTitleTextColor, getResources().getColor(R.color.color_333333));
         rightTextColor = typedArray.getColor(R.styleable.ItemLayout_rightTitleTextColor, getResources().getColor(R.color.color_666666));
-        leftTextSize = typedArray.getFloat(R.styleable.ItemLayout_leftTitleTextSize, 14);
+        leftTextSize = typedArray.getFloat(R.styleable.ItemLayout_leftTitleTextSize, 16);
         rightTextSize = typedArray.getFloat(R.styleable.ItemLayout_rightTitleTextSize, 13);
         typedArray.recycle();
 

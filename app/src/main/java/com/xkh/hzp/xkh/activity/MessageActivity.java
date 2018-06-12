@@ -3,6 +3,7 @@ package com.xkh.hzp.xkh.activity;
 import android.view.View;
 
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.view.ItemLayout;
@@ -16,6 +17,7 @@ import xkh.hzp.xkh.com.base.view.ItemLayout;
 public class MessageActivity extends BaseActivity implements View.OnClickListener {
 
     private ItemLayout commentMsgItemLayout, likeMsgItemLayout, noticeMsgItemLayout;
+    private View likeBottomLine;
 
     @Override
     public int getLayoutId() {
@@ -28,6 +30,11 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         commentMsgItemLayout = findViewById(R.id.commentMsgItemLayout);
         likeMsgItemLayout = findViewById(R.id.likeMsgItemLayout);
         noticeMsgItemLayout = findViewById(R.id.noticeMsgItemLayout);
+        likeBottomLine = findViewById(R.id.likeBottomLine);
+        if (!"talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            likeMsgItemLayout.setVisibility(View.GONE);
+            likeBottomLine.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -24,11 +24,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.barlibrary.ImmersionBar;
+import com.jaeger.library.StatusBarUtil;
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -39,6 +41,13 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.BottomSheetDialogAdapter;
 import com.xkh.hzp.xkh.adapter.CommentExpandAdapter;
@@ -100,6 +109,9 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     private int commentCount, likeCount;
     private long userId, dynamicId;
 
+    private UMWeb umWeb;
+    private ShareBoardlistener shareBoardlistener;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_video_dynamic_details;
@@ -124,7 +136,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     @Override
     public void initView() {
         hideToolbar();
-        ImmersionBar.with(this).fitsSystemWindows(false).transparentStatusBar().init();
+        StatusBarUtil.setTranslucentForImageView(this, 0, null);
         leftBackImg = findViewById(R.id.leftBackImg);
         commentTxt = findViewById(R.id.commentTxt);
         seeMoreCommentTxt = findViewById(R.id.seeMoreCommentTxt);
@@ -292,7 +304,72 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             dynamicDateTxt.setText(sdf.format(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
         }
         initVideo(dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
+        initShare("http://wwww.baidu.com", dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
     }
+
+
+    /**
+     * 初始化分享
+     */
+    private void initShare(String sharedUrl, String shareContent, String shareThumbImg) {
+        //友盟分享内容
+        umWeb = new UMWeb(sharedUrl);
+        umWeb.setTitle(shareContent);
+        umWeb.setThumb(new UMImage(VideoDynamicDetailsActivity.this, shareThumbImg));
+        umWeb.setDescription(shareContent);
+        shareBoardlistener = new ShareBoardlistener() {
+            @Override
+            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                if (share_media != null) {
+                    new ShareAction(VideoDynamicDetailsActivity.this)
+                            .setPlatform(share_media)
+                            .setCallback(shareListener)
+                            .withMedia(umWeb)
+                            .share();
+                }
+            }
+        };
+    }
+
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(VideoDynamicDetailsActivity.this, "成功了", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(VideoDynamicDetailsActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(VideoDynamicDetailsActivity.this, "取消了", Toast.LENGTH_LONG).show();
+
+        }
+    };
 
 
     /***
@@ -638,7 +715,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 .setNeedLockFull(true)
                 .setUrl(videoUrl)
                 .setCacheWithPlay(false)
-                .setVideoTitle("测试视频")
                 .setVideoAllCallBack(new GSYSampleCallBack() {
                     @Override
                     public void onPrepared(String url, Object... objects) {
@@ -693,7 +769,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                     }
                 })
                 .build(videoPlayerView);
-
         videoPlayerView.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -795,6 +870,11 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
         } else if (view == seeMoreCommentTxt) {
             SeeMoreCommentActivity.lanuchActivity(VideoDynamicDetailsActivity.this, getDynamicId());
+        } else if (view == detailsShareLayout) {
+            new ShareAction(VideoDynamicDetailsActivity.this)
+                    .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE)
+                    .setShareboardclickCallback(shareBoardlistener)
+                    .open();
         } else if (view == leftBackImg) {
             this.finish();
         } else if (view == userIsAttentionTxt) {

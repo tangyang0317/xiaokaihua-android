@@ -19,8 +19,7 @@
             android:id="@+id/talentHeadImg"
             android:layout_width="@dimen/dp40"
             android:layout_height="@dimen/dp40"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_launcher_round" />
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/talentNickNameTxt"
@@ -29,7 +28,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp15"
             android:layout_toRightOf="@id/talentHeadImg"
-            android:text="爱吃糖的羊" />
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_16" />
 
 
         <TextView
@@ -54,7 +54,7 @@
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY"
-        android:src="@drawable/example" />
+        android:src="@drawable/shape_place_holder" />
 
     <com.zhy.view.flowlayout.TagFlowLayout
         android:id="@+id/talentLableFlowLayout"

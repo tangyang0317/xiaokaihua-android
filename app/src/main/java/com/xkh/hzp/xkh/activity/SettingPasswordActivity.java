@@ -36,6 +36,12 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    @Override
     public void initView() {
         setToolbarTitleTv("设置密码");
         setRightTitleTxt("跳过");
@@ -86,7 +92,6 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
                     }
                 }
             });
-
         }
     }
 }

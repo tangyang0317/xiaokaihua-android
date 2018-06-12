@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/dp10"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_message_black"
+        app:leftIcon="@mipmap/icon_msg_comment"
         app:leftTitleTxt="评论" />
 
     <include layout="@layout/view_line_horientol" />
@@ -23,10 +23,16 @@
         android:layout_height="@dimen/dp50"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_message_black"
+        app:leftIcon="@mipmap/icon_msg_like"
         app:leftTitleTxt="点赞" />
 
-    <include layout="@layout/view_line_horientol" />
+    <View
+        android:id="@+id/likeBottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:background="#dadada" />
 
     <xkh.hzp.xkh.com.base.view.ItemLayout
         android:id="@+id/noticeMsgItemLayout"
@@ -34,7 +40,7 @@
         android:layout_height="@dimen/dp50"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_message_black"
+        app:leftIcon="@mipmap/icon_msg_notice"
         app:leftTitleTxt="通知" />
 
     <include layout="@layout/view_line_horientol" />

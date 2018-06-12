@@ -11,6 +11,7 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
 import com.xkh.hzp.xkh.activity.JoinTalentActivity;
 import com.xkh.hzp.xkh.activity.LoginActivity;
+import com.xkh.hzp.xkh.activity.MessageActivity;
 import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.config.UrlConfig;
@@ -21,6 +22,7 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.GlideRoundTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +52,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public int getFragmentLayoutId() {
         return R.layout.fragment_mine;
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void logout(LogoutEvent logoutEvent) {
@@ -163,7 +164,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == userMsgItemLayout) {
-
+            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
         } else if (view == joinTalentItemLayout) {
             CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
                 @Override
@@ -189,7 +190,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (view == settingItemLayout) {
             SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
         } else if (view == updateInfoItemLayout) {
-            UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
+                    } else {
+                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                    }
+                }
+            });
         } else if (view == mineLoginTxt) {
             LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
         }

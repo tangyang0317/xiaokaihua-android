@@ -14,13 +14,14 @@
             android:id="@+id/activity_user_sign_name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginRight="@dimen/dp10"
             android:background="@null"
             android:hint="做个有气质的小姐姐"
             android:imeOptions="actionNext"
             android:maxLength="25"
             android:paddingLeft="5dp"
-            android:paddingRight="10dp"
             android:singleLine="true"
+            android:text="aaaaa"
             android:textSize="14sp" />
 
     </RelativeLayout>

@@ -38,6 +38,7 @@ import xkh.hzp.xkh.com.base.utils.ToastUtils;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar baseToolBar;
+    protected View toolBarBottomLine;
     private TextView toolBarTitleTxt, toolBarRightTxt;
     private ImageView toolBarRightImg;
     private FrameLayout baseContentLayout;
@@ -61,7 +62,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setStatusBar() {
-        StatusBarUtil.setColor(this, getResources().getColor(android.R.color.white), 0);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_c8000000), 0);
+    }
+
+    protected void setToolBarTitleTextColor(int color) {
+        toolBarTitleTxt.setTextColor(color);
     }
 
     @Override
@@ -92,6 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolBarRightImg = findViewById(R.id.toolBarRightImg);
         baseContentLayout = findViewById(R.id.baseContentLayout);
         baseContainerLayout = findViewById(R.id.baseContainerLayout);
+        toolBarBottomLine = findViewById(R.id.toolBarBottomLine);
         setTitleNavigationIcon(R.drawable.icon_back_black);
         setToolbarBgColor();
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
@@ -172,6 +178,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void hideToolbar() {
         if (baseToolBar.getVisibility() == View.VISIBLE)
             baseToolBar.setVisibility(View.GONE);
+
+        if (toolBarBottomLine.getVisibility() == View.VISIBLE)
+            toolBarBottomLine.setVisibility(View.GONE);
+    }
+
+    /**
+     * 隐藏标题栏底部的分割线
+     */
+    protected void hideToolbarBottomLine() {
+        if (toolBarBottomLine.getVisibility() == View.VISIBLE)
+            toolBarBottomLine.setVisibility(View.GONE);
     }
 
     /**

@@ -43,4 +43,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="TabLayoutTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+
+        <item name="android:textSize">@dimen/sp_16</item>
+
+    </style>
+
 </resources>

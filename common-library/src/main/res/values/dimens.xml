@@ -18,7 +18,7 @@
     <dimen name="dp48">48dp</dimen>
     <dimen name="dp50">50dp</dimen>
     <dimen name="dp60">60dp</dimen>
-    <dimen name="dp75">60dp</dimen>
+    <dimen name="dp75">75dp</dimen>
     <dimen name="banner">140dp</dimen>
 
 </resources>

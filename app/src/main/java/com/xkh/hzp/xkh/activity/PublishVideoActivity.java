@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.jaeger.library.StatusBarUtil;
 import com.orhanobut.logger.Logger;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -85,6 +86,18 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
     @Override
     public int getLayoutId() {
         return R.layout.activity_publish_video;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.color_fc4d5e), 0);
+    }
+
+    @Override
+    protected void setToolbarBgColor() {
+        super.setToolbarBgColor();
+        baseToolBar.setBackground(getResources().getDrawable(R.drawable.shape_bar_red_bg));
     }
 
     @Override
@@ -263,6 +276,9 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
     public void initView() {
         setToolbarTitleTv("发视频");
         setRightTitleTxt("发布");
+        hideToolbarBottomLine();
+        setTitleNavigationIcon(R.drawable.icon_back);
+        setToolBarTitleTextColor(getResources().getColor(R.color.color_ffffff));
         videoPlayerView = findViewById(R.id.videoPlayerView);
         tvReplaceFace = findViewById(R.id.tvReplaceFace);
         tvReplaceVedio = findViewById(R.id.tvReplaceVedio);
