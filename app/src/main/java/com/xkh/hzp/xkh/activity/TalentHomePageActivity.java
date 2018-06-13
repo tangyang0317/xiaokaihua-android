@@ -2,8 +2,12 @@ package com.xkh.hzp.xkh.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
+import com.xkh.hzp.xkh.view.AppBarStateChangeListener;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,13 +36,14 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
  * @Author tangyang
  * @DATE 2018/5/17
  **/
-public class TalentHomePageActivity extends BaseActivity {
+public class TalentHomePageActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView talentHeadImg;
-    private TextView talentNickNameTxt, talentSignTxt;
+    private ImageView talentHeadImg, homePageBackImg;
+    private View spaceView;
+    private TextView talentNickNameTxt, talentSignTxt, homePageTitleTxt;
     private TabLayout homePageTabLayout;
     private ViewPager talentMineViewPager;
-    private RelativeLayout barLayout;
+    private AppBarLayout homePageAppBarLayout;
 
     public static void lanuchActivity(Activity activity, String talentUserId) {
         Intent intent = new Intent(activity, TalentHomePageActivity.class);
@@ -63,10 +69,13 @@ public class TalentHomePageActivity extends BaseActivity {
     @Override
     public void initView() {
         hideToolbar();
+        spaceView = findViewById(R.id.spaceView);
+        homePageAppBarLayout = findViewById(R.id.homePageAppBarLayout);
+        homePageBackImg = findViewById(R.id.homePageBackImg);
+        homePageTitleTxt = findViewById(R.id.homePageTitleTxt);
         talentHeadImg = findViewById(R.id.talentHeadImg);
         talentNickNameTxt = findViewById(R.id.talentNickNameTxt);
         talentSignTxt = findViewById(R.id.talentSignTxt);
-        barLayout = findViewById(R.id.barLayout);
         homePageTabLayout = findViewById(R.id.homePageTabLayout);
         talentMineViewPager = findViewById(R.id.talentMineViewPager);
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getSupportFragmentManager(), getTalentUserId());
@@ -82,6 +91,7 @@ public class TalentHomePageActivity extends BaseActivity {
     private void setUIData(UserInfoResult userInfoResult) {
         if (userInfoResult != null) {
             talentNickNameTxt.setText(userInfoResult.getName());
+            homePageTitleTxt.setText(userInfoResult.getName());
             talentSignTxt.setText("" + userInfoResult.getPersonSignature());
             Glide.with(this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(talentHeadImg);
         }
@@ -120,6 +130,33 @@ public class TalentHomePageActivity extends BaseActivity {
 
     @Override
     public void setListenner() {
+        homePageAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    spaceView.setVisibility(View.GONE);
+                    homePageTitleTxt.setVisibility(View.GONE);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    spaceView.setVisibility(View.VISIBLE);
+                    homePageTitleTxt.setVisibility(View.VISIBLE);
+                } else {
+                    //中间状态
 
+                }
+            }
+        });
+
+        homePageBackImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TalentHomePageActivity.this.finish();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
     }
 }

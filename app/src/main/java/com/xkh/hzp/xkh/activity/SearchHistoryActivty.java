@@ -82,7 +82,7 @@ public class SearchHistoryActivty extends BaseActivity {
                     SearchHistoryBean searchHistoryBean = new SearchHistoryBean();
                     searchHistoryBean.setName(TextUtils.isEmpty(search) ? searchHint : search);
                     SearchHistoryDao searchHistoryDao = new SearchHistoryDao(SearchHistoryActivty.this);
-                    searchHistoryDao.createOrUpdate(searchHistoryBean);
+                    searchHistoryDao.addSearchHistory(searchHistoryBean);
                     queryHistoryData();
 
                     Intent intent = new Intent(SearchHistoryActivty.this, SearchActivity.class);
@@ -133,7 +133,7 @@ public class SearchHistoryActivty extends BaseActivity {
                 SearchHistoryBean searchHistoryBean = searchHistoryBeanList.get(position);
                 if (searchHistoryBean != null) {
                     SearchHistoryDao searchHistoryDao = new SearchHistoryDao(SearchHistoryActivty.this);
-                    searchHistoryDao.createOrUpdate(searchHistoryBean);
+                    searchHistoryDao.addSearchHistory(searchHistoryBean);
                     queryHistoryData();
                     Intent intent = new Intent(SearchHistoryActivty.this, SearchActivity.class);
                     intent.putExtra("content", searchHistoryBean.getName());

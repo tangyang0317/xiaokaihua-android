@@ -310,7 +310,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view == searchLayout) {
-            SearchHistoryActivty.openActivity(getActivity(), 0);
+            SearchHistoryActivty.openActivity(getActivity(), 1);
         } else if (view == msgImg) {
             MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
         }

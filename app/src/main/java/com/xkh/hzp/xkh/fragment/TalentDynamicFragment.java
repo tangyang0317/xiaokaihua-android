@@ -145,9 +145,6 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                     return;
                 }
                 switch (view.getId()) {
-                    case R.id.dynamicUserHeadImg:
-                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getUserId()));
-                        break;
                     case R.id.sharedLayout:
                         if ("image".equals(dynamicBean.getDynamicType())) {
                             GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));

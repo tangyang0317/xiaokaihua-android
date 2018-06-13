@@ -7,13 +7,12 @@
         android:id="@+id/videoFaceImg"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/example" />
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/videoPlayIconImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp50"
+        android:layout_height="@dimen/dp50"
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_media_play" />
 

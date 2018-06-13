@@ -51,7 +51,7 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         } else {
             praisedImg.setImageResource(R.mipmap.icon_unpraised);
         }
-        Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.example).error(R.drawable.example).into(videoDynamicFaceurlImg);
+        Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(videoDynamicFaceurlImg);
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
         dynamicContentTxt.setText(item.getWordDescription());

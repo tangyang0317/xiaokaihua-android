@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,9 +18,12 @@ import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.UserDataManager;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,7 +36,7 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
  * @Author tangyang
  * @DATE 2018/5/9
  **/
-public class PeopleProfileFragment extends FragmentPagerFragment {
+public class PeopleProfileFragment extends BaseFragment {
 
     private RecyclerView talentPictureRecycleView;
     private TextView talentHeightTxt, talentWidghtTxt, talentMeasurementstTxt, talentConstellationTxt;
@@ -74,12 +79,6 @@ public class PeopleProfileFragment extends FragmentPagerFragment {
         talentPictureAdapter = new TalentPictureAdapter();
         talentPictureRecycleView.setAdapter(talentPictureAdapter);
         queryTalentInfo();
-        List<String> talentPictureLists = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            talentPictureLists.add("");
-        }
-        talentPictureAdapter.setNewData(talentPictureLists);
-        talentPictureAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -115,27 +114,43 @@ public class PeopleProfileFragment extends FragmentPagerFragment {
      * @param talentInfoResultBean
      */
     private void setTalentInfoUI(TalentInfoResultBean talentInfoResultBean) {
-        talentHeightTxt.setText("身高：" + talentInfoResultBean.getHigh() + "cm");
-        talentWidghtTxt.setText("体重：" + talentInfoResultBean.getWeight() + "kg");
-        talentMeasurementstTxt.setText("三围：" + talentInfoResultBean.getMeasurements());
-        talentConstellationTxt.setText("星座：" + talentInfoResultBean.getConstellation());
-        talentSpecialtyTxt.setText(talentInfoResultBean.getPersonalitySignature());
+        talentHeightTxt.setText(talentInfoResultBean.getHigh() == 0 ? "身高:" : "身高:" + talentInfoResultBean.getHigh() + "cm");
+
+        talentWidghtTxt.setText(talentInfoResultBean.getWeight() == 0 ? "体重:" : "体重:" + talentInfoResultBean.getWeight() + "kg");
+        talentMeasurementstTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getMeasurements()) ? "三围:" : "三围:" + talentInfoResultBean.getMeasurements());
+        talentConstellationTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getConstellation()) ? "星座:" : "星座：" + talentInfoResultBean.getConstellation());
+        if (TextUtils.isEmpty(talentInfoResultBean.getPersonalitySignature())) {
+            talentSpecialtyTxt.setVisibility(View.GONE);
+        } else {
+            talentSpecialtyTxt.setVisibility(View.VISIBLE);
+            talentSpecialtyTxt.setText(talentInfoResultBean.getPersonalitySignature());
+        }
+        if (!TextUtils.isEmpty(talentInfoResultBean.getImgUrl())) {
+            List<String> imgList = Arrays.asList(talentInfoResultBean.getImgUrl().split(","));
+            if (imgList != null && imgList.size() > 0) {
+                talentPictureAdapter.setNewData(imgList);
+                talentPictureAdapter.notifyDataSetChanged();
+            }
+        }
+
+        if (!TextUtils.isEmpty(talentInfoResultBean.getStyle())) {
+            List<String> styleList = Arrays.asList(talentInfoResultBean.getStyle().split(","));
+            if (styleList != null && styleList.size() > 0) {
+                talentLableTagFlowLayout.setAdapter(new TagAdapter<String>(styleList) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, String s) {
+                        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_item_lable, null);
+                        TextView textView = view.findViewById(R.id.lableTxt);
+                        textView.setText(s);
+                        return view;
+                    }
+                });
+            }
+        }
     }
 
     @Override
     public void setListernner() {
 
-    }
-
-    @Override
-    public boolean canScrollVertically(int direction) {
-        return talentPictureRecycleView != null && talentPictureRecycleView.canScrollVertically(direction);
-    }
-
-    @Override
-    public void onFlingOver(int y, long duration) {
-        if (talentPictureRecycleView != null) {
-            talentPictureRecycleView.smoothScrollBy(0, y);
-        }
     }
 }

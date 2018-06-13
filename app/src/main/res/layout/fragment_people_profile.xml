@@ -65,14 +65,13 @@
             android:id="@+id/talentSpecialtyTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp15"
-            android:text="淘宝直播，买家秀，穿搭" />
+            android:layout_margin="@dimen/dp15" />
 
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/talentLableTagFlowLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp10"
             android:layout_marginRight="@dimen/dp15">
 
         </com.zhy.view.flowlayout.TagFlowLayout>

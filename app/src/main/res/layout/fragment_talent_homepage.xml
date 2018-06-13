@@ -5,41 +5,94 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/homePageAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:background="@color/color_ffffff">
 
-        <RelativeLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/homePageCollapsingToolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/talentHeadImg"
-                android:layout_width="@dimen/dp50"
-                android:layout_height="@dimen/dp50"
-                android:layout_centerInParent="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/talentNickNameTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/talentHeadImg"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp10"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_14"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/talentHeadImg"
+                    android:layout_width="@dimen/dp50"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_centerInParent="true" />
 
-            <TextView
-                android:id="@+id/talentSignTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/talentNickNameTxt"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp10" />
+                <TextView
+                    android:id="@+id/talentNickNameTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/talentHeadImg"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:text="1111"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/talentSignTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/talentNickNameTxt"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:text="2222"
+                    android:textColor="@color/color_666666" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/homePageToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/shape_bar_white_bg"
+                android:gravity="center"
+                android:minHeight="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/homePageBackImg"
+                        android:layout_width="@dimen/dp50"
+                        android:layout_height="@dimen/dp50"
+                        android:scaleType="center"
+                        android:src="@drawable/icon_back_black" />
+
+                    <TextView
+                        android:id="@+id/homePageTitleTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="title"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_16" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <View
+            android:id="@+id/spaceView"
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="@color/color_dadada" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/homePageTabLayout"
@@ -53,12 +106,18 @@
             app:tabTextAppearance="@style/TabLayoutTextSize"
             app:tabTextColor="@color/color_999999" />
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="@color/color_dadada" />
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/talentMineViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>
