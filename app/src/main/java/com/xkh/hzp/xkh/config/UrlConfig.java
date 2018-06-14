@@ -44,4 +44,6 @@ public class UrlConfig {
     public static final String commentDelete = DYNAMIC_BASE_URL + "/comment/delete";
     public static final String messageComment = DYNAMIC_BASE_URL + "/comment/searchReply/mySelf";
     public static final String messagelike = DYNAMIC_BASE_URL + "/dynamic/searchLike/mySelf";
+    public static final String messageNotice = DYNAMIC_BASE_URL + "/search/pushList";
+    public static final String report = DYNAMIC_BASE_URL + "/report";
 }

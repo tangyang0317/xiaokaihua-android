@@ -38,7 +38,7 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
  **/
 public class TalentHomePageActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView talentHeadImg, homePageBackImg;
+    private ImageView talentHeadImg, homePageBackImg, reportUserImg;
     private View spaceView;
     private TextView talentNickNameTxt, talentSignTxt, homePageTitleTxt;
     private TabLayout homePageTabLayout;
@@ -78,9 +78,13 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         talentSignTxt = findViewById(R.id.talentSignTxt);
         homePageTabLayout = findViewById(R.id.homePageTabLayout);
         talentMineViewPager = findViewById(R.id.talentMineViewPager);
+        reportUserImg = findViewById(R.id.reportUserImg);
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getSupportFragmentManager(), getTalentUserId());
         talentMineViewPager.setAdapter(homePageFragmentPagerAdapter);
         homePageTabLayout.setupWithViewPager(talentMineViewPager);
+        if (getTalentUserId().equals(UserDataManager.getInstance().getUserId())) {
+            reportUserImg.setVisibility(View.GONE);
+        }
         queryUserInfo();
     }
 
@@ -152,6 +156,13 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 TalentHomePageActivity.this.finish();
+            }
+        });
+
+        reportUserImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReportActivity.lanuchActivity(TalentHomePageActivity.this, "user", 0, Long.parseLong(getTalentUserId()));
             }
         });
     }

@@ -24,6 +24,7 @@ public class WebUserBean implements Serializable {
     private long expireTime;
     private String loginToken;
     private boolean success;
+    private boolean havePassWord;
 
     public long getUid() {
         return uid;
@@ -71,5 +72,13 @@ public class WebUserBean implements Serializable {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public boolean isHavePassWord() {
+        return havePassWord;
+    }
+
+    public void setHavePassWord(boolean havePassWord) {
+        this.havePassWord = havePassWord;
     }
 }

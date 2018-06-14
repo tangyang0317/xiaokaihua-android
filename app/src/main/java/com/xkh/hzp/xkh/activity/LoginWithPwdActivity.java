@@ -195,7 +195,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
                     final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
-                        boundAliAccount(account);
+                        boundAliAccount(String.valueOf(loginInfoBean.getUid()));
                         hideKeyBoard();
                         IntentUtils.sendBroadcast(LoginWithPwdActivity.this, Config.LOGIN_ACTION);
                         AppManager.getAppManager().finishActivity(LoginActivity.class);

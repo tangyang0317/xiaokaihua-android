@@ -50,6 +50,7 @@ import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
@@ -636,6 +637,21 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                             .setCallback(shareListener)
                             .withMedia(umWeb)
                             .share();
+                } else {
+                    if (snsPlatform.mKeyword.equals("report_error")) {
+                        //举报入口
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    ReportActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, "dynamic", dynamicId, 0);
+                                } else {
+                                    LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+                                }
+                            }
+                        });
+
+                    }
                 }
             }
         };
@@ -702,6 +718,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         } else if (view == detailsShareLayout) {
             new ShareAction(GraphicDynamicDetailsActivity.this)
                     .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE)
+                    .addButton("report_error", "report_error", "ic_report_error", "ic_report_error")
                     .setShareboardclickCallback(shareBoardlistener)
                     .open();
         } else if (view == commentTxt) {

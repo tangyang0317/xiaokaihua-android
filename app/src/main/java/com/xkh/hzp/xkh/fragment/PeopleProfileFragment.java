@@ -7,16 +7,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
+import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
+import com.xkh.hzp.xkh.activity.LoginActivity;
 import com.xkh.hzp.xkh.adapter.TalentPictureAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.TalentInfoResultBean;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -39,6 +44,7 @@ import xkh.hzp.xkh.com.base.base.BaseFragment;
 public class PeopleProfileFragment extends BaseFragment {
 
     private RecyclerView talentPictureRecycleView;
+    private Button linkTalentBtn;
     private TextView talentHeightTxt, talentWidghtTxt, talentMeasurementstTxt, talentConstellationTxt;
     private TextView talentSpecialtyTxt;
     private TagFlowLayout talentLableTagFlowLayout;
@@ -74,10 +80,16 @@ public class PeopleProfileFragment extends BaseFragment {
         talentConstellationTxt = contentView.findViewById(R.id.talentConstellationTxt);
         talentSpecialtyTxt = contentView.findViewById(R.id.talentSpecialtyTxt);
         talentLableTagFlowLayout = contentView.findViewById(R.id.talentLableTagFlowLayout);
+        linkTalentBtn = contentView.findViewById(R.id.linkTalentBtn);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         talentPictureRecycleView.setLayoutManager(layoutManager);
         talentPictureAdapter = new TalentPictureAdapter();
         talentPictureRecycleView.setAdapter(talentPictureAdapter);
+        if ("normal".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            linkTalentBtn.setVisibility(View.VISIBLE);
+        } else {
+            linkTalentBtn.setVisibility(View.GONE);
+        }
         queryTalentInfo();
     }
 
@@ -151,6 +163,20 @@ public class PeopleProfileFragment extends BaseFragment {
 
     @Override
     public void setListernner() {
-
+        linkTalentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                    @Override
+                    public void isLogin(boolean isLogin) {
+                        if (isLogin) {
+                            BusinessCooperationActivity.lunchActivity(getActivity(), null, BusinessCooperationActivity.class);
+                        } else {
+                            LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                        }
+                    }
+                });
+            }
+        });
     }
 }

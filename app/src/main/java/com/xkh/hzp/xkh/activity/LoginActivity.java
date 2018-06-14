@@ -292,7 +292,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         webUserBean.setUid(registerResult.getId());
                         webUserBean.setLoginType(registerResult.getLoginType());
                         UserDataManager.getInstance().putLoginUser(webUserBean);
-                        boundAliAccount(account);
+                        boundAliAccount(String.valueOf(registerResult.getId()));
                         hideKeyBoard();
                         ChooseGenderActivity.lunchActivity(LoginActivity.this, null, ChooseGenderActivity.class);
                         LoginActivity.this.finish();
@@ -366,7 +366,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (isSuccess) {
                     final WebUserBean loginInfoBean = (WebUserBean) extra.get("result");
                     if (loginInfoBean != null) {
-                        boundAliAccount(account);
+                        boundAliAccount(String.valueOf(loginInfoBean.getUid()));
                         hideKeyBoard();
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
                         LoginActivity.this.finish();
@@ -374,7 +374,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         });
-
 
     }
 

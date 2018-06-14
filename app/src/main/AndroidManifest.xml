@@ -458,7 +458,14 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.ReportActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.NoticeActivity"
+            android:screenOrientation="portrait" />
 
     </application>
-
 </manifest>

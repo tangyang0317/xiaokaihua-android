@@ -16,7 +16,7 @@
             android:layout_height="65dp"
             android:layout_margin="@dimen/dp_10"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_female_selected" />
+            android:src="@drawable/shape_place_holder" />
 
         <ImageView
             android:id="@+id/searchNoteVedioFlagImg"

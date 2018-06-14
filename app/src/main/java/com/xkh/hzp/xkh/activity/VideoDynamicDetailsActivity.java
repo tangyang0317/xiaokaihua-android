@@ -61,6 +61,7 @@ import com.xkh.hzp.xkh.entity.result.DynamicDetailsResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
@@ -326,6 +327,21 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                             .setCallback(shareListener)
                             .withMedia(umWeb)
                             .share();
+                } else {
+                    if (snsPlatform.mKeyword.equals("report_error")) {
+                        //举报入口
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    ReportActivity.lanuchActivity(VideoDynamicDetailsActivity.this, "dynamic", dynamicId, 0);
+                                } else {
+                                    LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+                                }
+                            }
+                        });
+
+                    }
                 }
             }
         };
@@ -873,6 +889,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         } else if (view == detailsShareLayout) {
             new ShareAction(VideoDynamicDetailsActivity.this)
                     .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE)
+                    .addButton("report_error", "report_error", "ic_report_error", "ic_report_error")
                     .setShareboardclickCallback(shareBoardlistener)
                     .open();
         } else if (view == leftBackImg) {

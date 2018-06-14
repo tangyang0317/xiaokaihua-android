@@ -50,6 +50,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             CommentMessageActivity.lunchActivity(MessageActivity.this, null, CommentMessageActivity.class);
         } else if (view == likeMsgItemLayout) {
             LikeMessageActivity.lunchActivity(MessageActivity.this, null, LikeMessageActivity.class);
+        } else if (view == noticeMsgItemLayout) {
+            NoticeActivity.lunchActivity(MessageActivity.this, null, NoticeActivity.class);
         }
     }
 }
