@@ -16,20 +16,27 @@ import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.WebUserBean;
+import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.IntentUtils;
+import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 
@@ -150,10 +157,19 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         serviceTxt.setOnClickListener(this);
         yisizhengceTxt.setOnClickListener(this);
         tvOrder.setOnClickListener(this);
+
+        RxView.clicks(btnLogin).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        loginWithPwd();
+                    }
+                });
+
     }
 
     /***
-     * 账号密码登陆
+     * 账号密码登录
      */
     private void loginWithPwd() {
         final String account = etUsername.getText().toString().trim();
@@ -162,10 +178,22 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
             Toasty.error(LoginWithPwdActivity.this, "请输入手机号码", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if (TextUtils.isEmpty(password)) {
-            Toasty.error(LoginWithPwdActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+            Toasty.error(LoginWithPwdActivity.this, "密码不能为空").show();
             return;
         }
+
+        if (!RegExpValidatorUtils.IsPasswLength(password)) {
+            Toasty.error(LoginWithPwdActivity.this, "密码长度为6-16位").show();
+            return;
+        }
+
+        if (RegExpValidatorUtils.IsChinese(password)) {
+            Toasty.error(LoginWithPwdActivity.this, "密码不能是中文").show();
+            return;
+        }
+
         HashMap map = new HashMap();
         map.put("password", password);
         map.put("account", account);
@@ -197,6 +225,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
                         boundAliAccount(String.valueOf(loginInfoBean.getUid()));
                         hideKeyBoard();
+                        EventBus.getDefault().post(new LoginEvent(true));
                         IntentUtils.sendBroadcast(LoginWithPwdActivity.this, Config.LOGIN_ACTION);
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
                         LoginWithPwdActivity.this.finish();
@@ -231,9 +260,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if (view == btnLogin) {
-            loginWithPwd();
-        } else if (view == tvOrder) {
+        if (view == tvOrder) {
             WebActivity.launchWebActivity(this, Config.shequguifan, "社区规范", "last");
         } else if (view == serviceTxt) {
             WebActivity.launchWebActivity(this, Config.yonghuxieyi, "服务条款", "last");
@@ -243,7 +270,8 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
             this.finish();
         } else if (view == tvFotget) {
             FindPasswordActivity.lunchActivity(LoginWithPwdActivity.this, null, FindPasswordActivity.class);
+        } else if (view == btnToLogin) {
+            this.finish();
         }
-
     }
 }

@@ -15,6 +15,7 @@ import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.TimeUtils;
+import com.xkh.hzp.xkh.view.FolderTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +40,15 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         helper.addOnClickListener(R.id.sharedLayout);
         helper.addOnClickListener(R.id.componentLayout);
         helper.addOnClickListener(R.id.goodLayout);
-        helper.addOnClickListener(R.id.dynamicContentTxt);
+        helper.addOnClickListener(R.id.expandable_text);
         helper.addOnClickListener(R.id.dynamicImgContentLayout);
         helper.addOnClickListener(R.id.dynamicUserHeadImg);
+        helper.addOnClickListener(R.id.dynamicContentTxt);
         ImageView praisedImg = helper.getView(R.id.praisedImg);
         ImageView dynamicUserHeadImg = helper.getView(R.id.dynamicUserHeadImg);
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
-        TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
+        FolderTextView expandableTextView = helper.getView(R.id.dynamicContentTxt);
         View dividerView = helper.getView(R.id.dividerView);
         LinearLayout dynamicImgContentLayout = helper.getView(R.id.dynamicImgContentLayout);
         if ("image".equals(item.getDynamicType())) {
@@ -71,7 +73,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         }
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
-        dynamicContentTxt.setText(item.getWordDescription());
+        expandableTextView.setText(item.getWordDescription());
         dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getUpdateTime()));
     }
 

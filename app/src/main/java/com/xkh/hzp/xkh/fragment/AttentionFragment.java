@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.xkh.hzp.xkh.config.Config;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.entity.result.RecommondTalentResult;
+import com.xkh.hzp.xkh.event.DynamicRefreshEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
@@ -33,11 +35,15 @@ import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.EmptyView;
 import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
@@ -48,8 +54,8 @@ import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
  * @Author tangyang
  * @DATE 2018/5/4
  **/
-public class AttentionFragment extends FragmentPagerFragment implements BaseQuickAdapter.RequestLoadMoreListener {
-
+public class AttentionFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout dynamicSwipeRefreshLayout;
     private RecyclerView dynamicObservableRecyclerView;
     private DynamicAdapter dynamicAdapter;
     private int pageNum = 1, pageSize = 10;
@@ -68,11 +74,14 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
         intentFilter.addAction(Config.LOGIN_ACTION);
         intentFilter.addAction(Config.LOGOUT_ACTION);
         getActivity().registerReceiver(loginBroadCastReceiver, intentFilter);
+        dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicAdapter = new DynamicAdapter();
         dynamicAdapter.setLoadMoreView(new XkhLoadMoreView());
+        dynamicSwipeRefreshLayout.setOnRefreshListener(this);
+        dynamicSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         emptyView = new EmptyView(getActivity());
         emptyView.setNodataImageSource(R.mipmap.note_empty);
         emptyView.setOperateBtnVisiable(false);
@@ -92,7 +101,7 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
     }
 
     /***
-     * 检查是否登陆
+     * 检查是否登录
      */
     private void checkLogin() {
 
@@ -133,6 +142,12 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
                 super.onNotLogin();
                 SharedprefrenceHelper.getIns(getActivity()).clear();
                 emptyView.setOperateBtnVisiable(false);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dynamicSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -278,8 +293,14 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
         });
     }
 
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
+        initData(pageNum, pageSize);
+    }
+
     /***
-     * 登陆成功的广播
+     * 登录成功的广播
      */
     private class LoginBroadCastReceiver extends BroadcastReceiver {
         @Override
@@ -303,18 +324,5 @@ public class AttentionFragment extends FragmentPagerFragment implements BaseQuic
     public void onLoadMoreRequested() {
         pageNum++;
         initData(pageNum, pageSize);
-    }
-
-
-    @Override
-    public boolean canScrollVertically(int direction) {
-        return dynamicObservableRecyclerView != null && dynamicObservableRecyclerView.canScrollVertically(direction);
-    }
-
-    @Override
-    public void onFlingOver(int y, long duration) {
-        if (dynamicObservableRecyclerView != null) {
-            dynamicObservableRecyclerView.smoothScrollBy(0, y);
-        }
     }
 }

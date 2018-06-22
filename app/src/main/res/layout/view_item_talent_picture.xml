@@ -14,7 +14,7 @@
         android:id="@+id/telentPictureImg"
         android:layout_width="200dp"
         android:layout_height="300dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/example" />
 
     <View

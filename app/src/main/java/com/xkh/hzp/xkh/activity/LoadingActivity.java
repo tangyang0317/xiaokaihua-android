@@ -17,6 +17,7 @@ import com.xkh.hzp.xkh.entity.result.UserInfoResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
@@ -43,28 +44,31 @@ public class LoadingActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_loading);
+
+        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+            @Override
+            public void isLogin(boolean isLogin) {
+                if (!isLogin) {
+                    SharedprefrenceHelper.getIns(LoadingActivity.this).clear();
+                }
+            }
+        });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                boolean isFirst = (boolean) SharedprefrenceHelper.getIns(LoadingActivity.this).get("first_guide", true);
-                if (isFirst) {
-                    Intent intent = new Intent(LoadingActivity.this, GuideActivity.class);
-                    LoadingActivity.this.startActivity(intent);
-                    LoadingActivity.this.finish();
-                } else {
-                    MainActivity.lunchActivity(LoadingActivity.this, null, MainActivity.class);
-                    LoadingActivity.this.finish();
-                }
+//                boolean isFirst = (boolean) SharedprefrenceHelper.getIns(LoadingActivity.this).get("first_guide", true);
+//                if (isFirst) {
+//                    Intent intent = new Intent(LoadingActivity.this, GuideActivity.class);
+//                    LoadingActivity.this.startActivity(intent);
+//                    LoadingActivity.this.finish();
+//                } else {
+                MainActivity.lunchActivity(LoadingActivity.this, null, MainActivity.class);
+                LoadingActivity.this.finish();
+//                }
             }
         }, 2000);
 
-
-        List<Long> ids = new ArrayList<>();
-        ids.add(1l);
-        ids.add(2l);
-        ids.add(3l);
-        ids.add(4l);
-        Logger.d(JsonUtils.toJson(ids));
     }
 
 }

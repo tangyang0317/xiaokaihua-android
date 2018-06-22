@@ -21,7 +21,6 @@
             android:maxLength="25"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:text="aaaaa"
             android:textSize="14sp" />
 
     </RelativeLayout>

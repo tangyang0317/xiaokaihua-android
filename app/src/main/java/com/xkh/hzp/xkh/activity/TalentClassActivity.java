@@ -24,6 +24,7 @@ import java.util.List;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.view.EmptyView;
+import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -43,6 +44,12 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
         intent.putExtra("hotLableId", hotLableId);
         intent.putExtra("hotLableName", hotLableName);
         activity.startActivity(intent);
+    }
+
+    @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
     }
 
     @Override
@@ -90,6 +97,7 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
         emptyView.setNodataTitle("暂无达人");
         emptyView.setOperateBtnVisiable(false);
         talentAdapter.setEmptyView(emptyView);
+        talentAdapter.setLoadMoreView(new XkhLoadMoreView());
         talentAdapter.setOnLoadMoreListener(this, talentClassRecyclerView);
         talentClassRecyclerView.setAdapter(talentAdapter);
         initData(pageNum, pageSize);
@@ -119,6 +127,9 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
                             talentAdapter.setEnableLoadMore(true);
                             talentAdapter.setNewData(talentResults);
                             talentAdapter.notifyDataSetChanged();
+                        } else {
+                            talentClassSwipefreshLayout.setRefreshing(false);
+                            talentAdapter.loadMoreEnd();
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {

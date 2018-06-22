@@ -102,7 +102,7 @@ public class DynamicDetailsResult {
         private String status;
         private String refuseReason;
         private int level;
-        private String createTime;
+        private long createTime;
         private long updateTime;
         private int operatorId;
 
@@ -179,11 +179,11 @@ public class DynamicDetailsResult {
             this.level = level;
         }
 
-        public String getCreateTime() {
+        public long getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(String createTime) {
+        public void setCreateTime(long createTime) {
             this.createTime = createTime;
         }
 

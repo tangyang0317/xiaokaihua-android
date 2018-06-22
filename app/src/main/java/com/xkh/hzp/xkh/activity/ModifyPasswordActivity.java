@@ -7,17 +7,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.event.LogoutEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -25,7 +33,7 @@ import xkh.hzp.xkh.com.base.utils.JsonUtils;
  * @Author tangyang
  * @DATE 2018/5/29
  **/
-public class ModifyPasswordActivity extends BaseActivity implements View.OnClickListener {
+public class ModifyPasswordActivity extends BaseActivity {
 
     private Button button;
     private TextView tvFor;
@@ -56,48 +64,74 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setListenner() {
-        button.setOnClickListener(this);
+        RxView.clicks(button).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        updatePassword();
+                    }
+                });
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.activity_reset_pass_btnLogin:
-                String oldPass = name.getText().toString();
-                String nPass = pass.getText().toString();
-                String mPassComfirm = passComfirm.getText().toString();
-                if (TextUtils.isEmpty(oldPass)) {
-                    Toast.makeText(this, "请输入旧密码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(nPass)) {
-                    Toast.makeText(this, "请输入新密码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(mPassComfirm)) {
-                    Toast.makeText(this, "请再次确认新密码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!mPassComfirm.equals(nPass)) {
-                    Toast.makeText(this, "新密码和确认新密码输入不一致", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                updatePassword(oldPass, nPass);
-
-                break;
-        }
-    }
 
     /***
      * 修改密码
-     * @param oldPass
-     * @param nPass
      */
-    private void updatePassword(String oldPass, String nPass) {
+    private void updatePassword() {
+        String oldPass = name.getText().toString();
+        String nPass = pass.getText().toString();
+        String mPassComfirm = passComfirm.getText().toString();
+        if (TextUtils.isEmpty(oldPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "旧密码不能为空").show();
+            return;
+        }
+
+        if (!RegExpValidatorUtils.IsPasswLength(oldPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "旧密码长度为6-16位").show();
+            return;
+        }
+
+        if (RegExpValidatorUtils.IsChinese(oldPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "旧密码不能是中文").show();
+            return;
+        }
+
+
+        if (TextUtils.isEmpty(nPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "新密码不能为空").show();
+            return;
+        }
+
+        if (!RegExpValidatorUtils.IsPasswLength(nPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "新密码长度为6-16位").show();
+            return;
+        }
+
+        if (RegExpValidatorUtils.IsChinese(nPass)) {
+            Toasty.error(ModifyPasswordActivity.this, "新密码不能是中文").show();
+            return;
+        }
+
+
+        if (TextUtils.isEmpty(mPassComfirm)) {
+            Toasty.error(ModifyPasswordActivity.this, "确认密码不能为空").show();
+            return;
+        }
+
+        if (!RegExpValidatorUtils.IsPasswLength(mPassComfirm)) {
+            Toasty.error(ModifyPasswordActivity.this, "确认密码长度为6-16位").show();
+            return;
+        }
+
+        if (RegExpValidatorUtils.IsChinese(mPassComfirm)) {
+            Toasty.error(ModifyPasswordActivity.this, "确认密码不能是中文").show();
+            return;
+        }
+
+        if (!mPassComfirm.equals(nPass)) {
+            Toast.makeText(this, "新密码和确认新密码输入不一致", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         HashMap<String, String> params = new HashMap<>();
         params.put("oldPasswd", oldPass);
@@ -113,11 +147,40 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
-                    Toasty.info(ModifyPasswordActivity.this, "密码修改成功");
-                    ModifyPasswordActivity.this.finish();
+                    Toasty.info(ModifyPasswordActivity.this, "密码修改成功").show();
+                    logout();
                 }
             }
         });
 
     }
+
+
+    /***
+     * 退出登录
+     */
+    private void logout() {
+        ABHttp.getIns().post(UrlConfig.logout, null, new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", Boolean.TYPE);
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    boolean result = (boolean) extra.get("result");
+                    if (result) {
+                        SharedprefrenceHelper.getIns(ModifyPasswordActivity.this).clear();
+                        EventBus.getDefault().post(new LogoutEvent(true));
+                        ModifyPasswordActivity.this.finish();
+                    }
+                }
+            }
+        });
+
+    }
+
 }

@@ -3,7 +3,7 @@ package com.xkh.hzp.xkh.entity.request;
 import java.io.Serializable;
 
 /**
- * 登陆参数
+ * 登录参数
  *
  * @packageName com.xkh.hzp.xkh.entity.requestParam
  * @FileName LoginParam

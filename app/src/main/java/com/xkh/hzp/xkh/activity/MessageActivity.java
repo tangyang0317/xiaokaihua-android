@@ -31,7 +31,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         likeMsgItemLayout = findViewById(R.id.likeMsgItemLayout);
         noticeMsgItemLayout = findViewById(R.id.noticeMsgItemLayout);
         likeBottomLine = findViewById(R.id.likeBottomLine);
-        if (!"talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+        if (UserDataManager.getInstance().getUserInfo() != null && !"talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
             likeMsgItemLayout.setVisibility(View.GONE);
             likeBottomLine.setVisibility(View.GONE);
         }

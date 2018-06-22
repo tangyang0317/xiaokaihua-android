@@ -72,9 +72,9 @@ public class MainActivity extends BaseActivity {
      */
     private void getUserInfo() {
         String userId = UserDataManager.getInstance().getUserId();
-        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("userId", userId);
-        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+        ABHttp.getIns().get(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNotLogin() {
                 super.onNotLogin();
-                /***未登陆或者单点登陆，账号被挤掉****/
+                /***未登录或者单点登录，账号被挤掉****/
                 SharedprefrenceHelper.getIns(MainActivity.this).clear();
             }
 
@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity {
      */
     private void refreshUI() {
         if (indexRadioGroup.getCheckedRadioButtonId() == R.id.mineRB) {
-            if ("talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            if (UserDataManager.getInstance().getUserInfo() != null && "talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
                 initFragment(3);
             } else {
                 initFragment(2);
@@ -206,7 +206,7 @@ public class MainActivity extends BaseActivity {
     }
 
     /***
-     * 接收登陆和登出的广播
+     * 接收登录和登出的广播
      */
     public class RefreshUIBoardCastReceiver extends BroadcastReceiver {
         @Override

@@ -1,13 +1,11 @@
 package com.xkh.hzp.xkh.fragment;
 
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +24,7 @@ import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
@@ -123,6 +122,9 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                                 talentAdapter.setEnableLoadMore(true);
                                 talentAdapter.setNewData(talentResults);
                             }
+                        } else {
+                            talentSwipeRefreshLayout.setRefreshing(false);
+                            talentAdapter.loadMoreEnd();
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
@@ -299,6 +301,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     public void onRefresh() {
         pageNum = 1;
         initTalentData(pageNum, pageSize);
+        initHeaderData();
     }
 
     @Override
@@ -312,7 +315,16 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 1);
         } else if (view == msgImg) {
-            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
+                    } else {
+                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                    }
+                }
+            });
         }
     }
 }

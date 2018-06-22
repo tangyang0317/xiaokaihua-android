@@ -15,7 +15,6 @@ import xkh.hzp.xkh.com.base.view.ItemLayout;
  * @DATE 2018/5/29
  **/
 public class PasswordManagerActivity extends BaseActivity implements View.OnClickListener {
-
     private ItemLayout modifyPwdItemLayout, findPwdItemLayout, settingPasswordItemLayout;
     private View settingPwdBottomLine, modifyPwdBottomLine, findPwdBottomLine;
 
@@ -33,11 +32,16 @@ public class PasswordManagerActivity extends BaseActivity implements View.OnClic
         settingPwdBottomLine = findViewById(R.id.settingPwdBottomLine);
         modifyPwdBottomLine = findViewById(R.id.modifyPwdBottomLine);
         findPwdBottomLine = findViewById(R.id.findPwdBottomLine);
-        if ("talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+        if (UserDataManager.getInstance().getUserInfo() != null && "talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
             findPwdItemLayout.setVisibility(View.GONE);
             settingPasswordItemLayout.setVisibility(View.GONE);
             settingPwdBottomLine.setVisibility(View.GONE);
             findPwdBottomLine.setVisibility(View.GONE);
+        } else {
+            if (UserDataManager.getInstance().hasPwd()) {
+                settingPasswordItemLayout.setVisibility(View.GONE);
+                settingPwdBottomLine.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -52,10 +56,13 @@ public class PasswordManagerActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         if (view == modifyPwdItemLayout) {
             ModifyPasswordActivity.lunchActivity(this, null, ModifyPasswordActivity.class);
+            PasswordManagerActivity.this.finish();
         } else if (view == findPwdItemLayout) {
             FindPasswordActivity.lunchActivity(this, null, FindPasswordActivity.class);
+            PasswordManagerActivity.this.finish();
         } else if (view == settingPasswordItemLayout) {
-            SettingPasswordActivity.lunchActivity(this, null, SettingPasswordActivity.class);
+            SettingPasswordActivity.lanuchActivity(this, false);
+            PasswordManagerActivity.this.finish();
         }
     }
 }

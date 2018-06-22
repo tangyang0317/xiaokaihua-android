@@ -17,7 +17,7 @@
             android:gravity="right"
             android:text="公司名称："
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
 
         <EditText
@@ -26,7 +26,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
-            android:paddingLeft="@dimen/dp4" />
+            android:paddingLeft="@dimen/dp4"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
 
@@ -44,7 +46,7 @@
             android:gravity="right"
             android:text="联系人姓名："
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
 
         <EditText
@@ -53,7 +55,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
-            android:paddingLeft="@dimen/dp4" />
+            android:paddingLeft="@dimen/dp4"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
 
@@ -70,7 +74,7 @@
             android:gravity="right"
             android:text="联系人电话："
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
 
         <EditText
@@ -79,7 +83,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
-            android:paddingLeft="@dimen/dp4" />
+            android:paddingLeft="@dimen/dp4"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
 
@@ -96,7 +102,7 @@
             android:gravity="right"
             android:text="推广需求："
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
 
         <EditText
@@ -106,6 +112,8 @@
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
             android:gravity="top"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_15"
             android:paddingLeft="@dimen/dp4" />
 
     </LinearLayout>

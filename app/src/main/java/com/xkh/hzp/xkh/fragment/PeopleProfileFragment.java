@@ -85,7 +85,7 @@ public class PeopleProfileFragment extends BaseFragment {
         talentPictureRecycleView.setLayoutManager(layoutManager);
         talentPictureAdapter = new TalentPictureAdapter();
         talentPictureRecycleView.setAdapter(talentPictureAdapter);
-        if ("normal".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+        if (UserDataManager.getInstance().getUserInfo() != null && "normal".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
             linkTalentBtn.setVisibility(View.VISIBLE);
         } else {
             linkTalentBtn.setVisibility(View.GONE);
@@ -137,27 +137,22 @@ public class PeopleProfileFragment extends BaseFragment {
             talentSpecialtyTxt.setVisibility(View.VISIBLE);
             talentSpecialtyTxt.setText(talentInfoResultBean.getPersonalitySignature());
         }
-        if (!TextUtils.isEmpty(talentInfoResultBean.getImgUrl())) {
-            List<String> imgList = Arrays.asList(talentInfoResultBean.getImgUrl().split(","));
-            if (imgList != null && imgList.size() > 0) {
-                talentPictureAdapter.setNewData(imgList);
-                talentPictureAdapter.notifyDataSetChanged();
-            }
+
+        if (talentInfoResultBean.getImgUrl() != null && talentInfoResultBean.getImgUrl().size() > 0) {
+            talentPictureAdapter.setNewData(talentInfoResultBean.getImgUrl());
+            talentPictureAdapter.notifyDataSetChanged();
         }
 
-        if (!TextUtils.isEmpty(talentInfoResultBean.getStyle())) {
-            List<String> styleList = Arrays.asList(talentInfoResultBean.getStyle().split(","));
-            if (styleList != null && styleList.size() > 0) {
-                talentLableTagFlowLayout.setAdapter(new TagAdapter<String>(styleList) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, String s) {
-                        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_item_lable, null);
-                        TextView textView = view.findViewById(R.id.lableTxt);
-                        textView.setText(s);
-                        return view;
-                    }
-                });
-            }
+        if (talentInfoResultBean.getSignatureName() != null && talentInfoResultBean.getSignatureName().size() > 0) {
+            talentLableTagFlowLayout.setAdapter(new TagAdapter<String>(talentInfoResultBean.getSignatureName()) {
+                @Override
+                public View getView(FlowLayout parent, int position, String s) {
+                    View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_item_lable, null);
+                    TextView textView = view.findViewById(R.id.lableTxt);
+                    textView.setText(s);
+                    return view;
+                }
+            });
         }
     }
 

@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/dp10"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_msg_comment"
+        app:leftIcon="@mipmap/btn_comment_dor"
         app:leftTitleTxt="评论" />
 
     <include layout="@layout/view_line_horientol" />
@@ -23,7 +23,7 @@
         android:layout_height="@dimen/dp50"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_msg_like"
+        app:leftIcon="@mipmap/btn_collected_dor"
         app:leftTitleTxt="点赞" />
 
     <View
@@ -40,7 +40,7 @@
         android:layout_height="@dimen/dp50"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/icon_msg_notice"
+        app:leftIcon="@mipmap/btn_notice_dor"
         app:leftTitleTxt="通知" />
 
     <include layout="@layout/view_line_horientol" />

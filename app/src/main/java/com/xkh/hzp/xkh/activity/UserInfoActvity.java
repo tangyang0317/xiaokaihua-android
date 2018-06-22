@@ -196,6 +196,7 @@ public class UserInfoActvity extends BaseActivity implements View.OnClickListene
                         UserInfoResult userInfoResult = UserDataManager.getInstance().getUserInfo();
                         userInfoResult.setHeadPortrait(filePath);
                         UserDataManager.getInstance().saveUserInfo(userInfoResult);
+                        EventBus.getDefault().post(new UpdateUserInfoEvent());
                     }
                 }
             }

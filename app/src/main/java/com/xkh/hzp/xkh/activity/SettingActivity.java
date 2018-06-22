@@ -72,7 +72,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     /***
-     * 退出登陆
+     * 退出登录
      */
     private void logout() {
 
@@ -92,6 +92,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         SharedprefrenceHelper.getIns(SettingActivity.this).clear();
                         unbindAliAccount();
                         /****发送广播通知MainActivity替换"我的"页面****/
+                        EventBus.getDefault().post(new LogoutEvent(true));
                         IntentUtils.sendBroadcast(SettingActivity.this, Config.LOGOUT_ACTION);
                         SettingActivity.this.finish();
                     }

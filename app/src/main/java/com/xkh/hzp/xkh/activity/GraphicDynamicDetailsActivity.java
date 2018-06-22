@@ -53,6 +53,7 @@ import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
+import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.CommentExpandableListView;
 
@@ -428,8 +429,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         detailsPraiseTxt.setText(String.valueOf(likeCount));
         if (dynamicBean.getXkhTalentDynamic() != null) {
             dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
-            dynamicDateTxt.setText(sdf.format(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
+            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
         }
 
         if (dynamicBean.getXkhTalentDynamicAnnexList() != null && dynamicBean.getXkhTalentDynamicAnnexList().size() > 0) {
@@ -706,6 +706,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         userIsAttentionTxt.setOnClickListener(this);
         detailsPraiseLayout.setOnClickListener(this);
         detailsShareLayout.setOnClickListener(this);
+        userHeadImg.setOnClickListener(this);
+        commentMineImg.setOnClickListener(this);
     }
 
     @Override
@@ -728,6 +730,20 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
         } else if (view == seeMoreCommentTxt) {
             SeeMoreCommentActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, getDynamicId());
+        } else if (view == commentMineImg) {
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, UserDataManager.getInstance().getUserId());
+                    } else {
+                        SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+            });
+        } else if (view == userHeadImg) {
+            TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, String.valueOf(userId));
         } else if (view == userIsAttentionTxt) {
             if ("focus".equals(foucsStatus)) {
                 //取消关注

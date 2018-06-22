@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.result.HotLableResult;
+import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,6 @@ public class TalentClassAdapter extends BaseQuickAdapter<HotLableResult, BaseVie
         ImageView talentHeadItemImg = helper.getView(R.id.talentHeadItemImg);
         TextView talentTypeTxt = helper.getView(R.id.talentTypeTxt);
         talentTypeTxt.setText(item.getSignatureName());
-        Glide.with(mContext).load(item.getIconUrl()).placeholder(R.drawable.ic_launcher_round).error(R.drawable.ic_launcher_round).into(talentHeadItemImg);
+        Glide.with(mContext).load(item.getIconUrl()).transform(new GlideCircleTransform(mContext)).placeholder(R.drawable.ic_launcher_round).error(R.drawable.ic_launcher_round).into(talentHeadItemImg);
     }
 }

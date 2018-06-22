@@ -18,6 +18,7 @@ import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMShareAPI;
 import com.xkh.hzp.xkh.R;
@@ -30,16 +31,20 @@ import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 
@@ -95,8 +100,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvOrder.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         tvToLogin.setOnClickListener(this);
-        btnLogin.setOnClickListener(this);
-        tvYzm.setOnClickListener(this);
         tvService.setOnClickListener(this);
         tvZhichi.setOnClickListener(this);
         meditText.addTextChangedListener(new TextWatcher() {
@@ -170,7 +173,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void setListenner() {
+        RxView.clicks(btnLogin).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        loginOrRegiser();
+                    }
+                });
 
+
+        RxView.clicks(tvYzm).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        if (RegExpValidatorUtils.IsHandset(meditText.getText().toString())) {
+                            //获取验证码
+                            checkRegister();
+                        } else {
+                            Toasty.warning(LoginActivity.this, "请输入正确的手机号码").show();
+                        }
+                    }
+                });
     }
 
     TimerTask task = new TimerTask() {
@@ -202,29 +225,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.activity_login_backImg:
                 finish();
                 break;
-            case R.id.activity_login_btnLogin:
-                if (!TextUtils.isEmpty(meditText.getText()) && !TextUtils.isEmpty(editYzm.getText())) {
-                    //登录
-                    btnLogin.setEnabled(false);
-                    btnLogin.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btnLogin.setEnabled(true);
-                        }
-                    }, 1000);
-                    loginOrRegiser();
-                } else {
-                    Toast.makeText(this, "请输入正确的手机号或验证码", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.activity_login_getyzm:
-                if (!TextUtils.isEmpty(meditText.getText()) && meditText.length() == 11) {
-                    //获取验证码
-                    checkRegister();
-                } else if (TextUtils.isEmpty(meditText.getText()) || meditText.length() != 11) {
-                    Toast.makeText(this, "请填写正确手机号", Toast.LENGTH_SHORT).show();
-                }
-                break;
             case R.id.activity_login_tv_service:
                 WebActivity.launchWebActivity(this, Config.yonghuxieyi, "服务条款", "last");
                 break;
@@ -242,7 +242,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     /***
-     * 登陆或者注册
+     * 登录或者注册
      */
     private void loginOrRegiser() {
         if (isRegister) {
@@ -257,21 +257,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 验证码注册
      */
     private void registerWithAuthCode() {
-        final String account = meditText.getText().toString();
+        String account = meditText.getText().toString();
         String sms = editYzm.getText().toString();
-        if (TextUtils.isEmpty(account) || account.length() != 11) {
-            Toasty.warning(this, "请输入11位手机号码").show();
+        if (!RegExpValidatorUtils.IsHandset(account)) {
+            Toasty.warning(this, "请输入正确的手机号码").show();
             return;
         }
-
-        if (TextUtils.isEmpty(sms) || sms.length() != 4) {
-            Toasty.warning(this, "请输入4位数字验证码").show();
+        if (TextUtils.isEmpty(sms) || !RegExpValidatorUtils.IsNumber(sms) || sms.length() != 4) {
+            Toasty.warning(this, "请输入4位验证码").show();
             return;
         }
         HashMap<String, String> params = new HashMap<>();
         params.put("authCode", sms);
         params.put("phone", account);
-        params.put("source", "android-app");
+        params.put("source", "Android");
         ABHttp.getIns().postJSON(UrlConfig.register, JsonUtils.toJson(params), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -293,6 +292,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         webUserBean.setLoginType(registerResult.getLoginType());
                         UserDataManager.getInstance().putLoginUser(webUserBean);
                         boundAliAccount(String.valueOf(registerResult.getId()));
+                        EventBus.getDefault().post(new LoginEvent(true));
                         hideKeyBoard();
                         ChooseGenderActivity.lunchActivity(LoginActivity.this, null, ChooseGenderActivity.class);
                         LoginActivity.this.finish();
@@ -336,17 +336,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     /***
-     * 短信验证码登陆
+     * 短信验证码登录
      */
     private void loginWithAuthCode() {
-        final String account = meditText.getText().toString();
+        String account = meditText.getText().toString();
         String sms = editYzm.getText().toString();
-        if (TextUtils.isEmpty(account) || account.length() != 11) {
-            Toasty.warning(this, "请输入11位手机号码").show();
+        if (!RegExpValidatorUtils.IsHandset(account)) {
+            Toasty.warning(this, "请输入正确的手机号码").show();
             return;
         }
-        if (TextUtils.isEmpty(sms) || sms.length() != 4) {
-            Toasty.warning(this, "请输入4位数字验证码").show();
+        if (TextUtils.isEmpty(sms) || !RegExpValidatorUtils.IsNumber(sms) || sms.length() != 4) {
+            Toasty.warning(this, "请输入4位验证码").show();
             return;
         }
         HashMap map = new HashMap();
@@ -369,12 +369,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         boundAliAccount(String.valueOf(loginInfoBean.getUid()));
                         hideKeyBoard();
                         UserDataManager.getInstance().putLoginUser(loginInfoBean);
+                        EventBus.getDefault().post(new LoginEvent(true));
                         LoginActivity.this.finish();
                     }
                 }
             }
         });
-
     }
 
 

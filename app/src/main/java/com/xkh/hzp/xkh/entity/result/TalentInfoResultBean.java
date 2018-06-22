@@ -1,5 +1,7 @@
 package com.xkh.hzp.xkh.entity.result;
 
+import java.util.List;
+
 /**
  * @packageName com.xkh.hzp.xkh.entity.result
  * @FileName TalentInfoResultBean
@@ -26,11 +28,11 @@ public class TalentInfoResultBean {
     private int attributeId;
     private String constellation;
     private int high;
-    private String imgUrl;
+    private List<String> imgUrl;
     private String measurements;
     private String nickname;
     private String personalitySignature;
-    private String signatureName;
+    private List<String> signatureName;
     private String status;
     private String style;
     private int userId;
@@ -60,14 +62,6 @@ public class TalentInfoResultBean {
         this.high = high;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
     public String getMeasurements() {
         return measurements;
     }
@@ -90,14 +84,6 @@ public class TalentInfoResultBean {
 
     public void setPersonalitySignature(String personalitySignature) {
         this.personalitySignature = personalitySignature;
-    }
-
-    public String getSignatureName() {
-        return signatureName;
-    }
-
-    public void setSignatureName(String signatureName) {
-        this.signatureName = signatureName;
     }
 
     public String getStatus() {
@@ -130,5 +116,21 @@ public class TalentInfoResultBean {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public List<String> getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(List<String> imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public List<String> getSignatureName() {
+        return signatureName;
+    }
+
+    public void setSignatureName(List<String> signatureName) {
+        this.signatureName = signatureName;
     }
 }

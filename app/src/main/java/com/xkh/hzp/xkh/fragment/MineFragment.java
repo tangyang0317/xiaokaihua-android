@@ -1,6 +1,7 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +17,9 @@ import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
+import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.event.LogoutEvent;
+import com.xkh.hzp.xkh.event.UpdateUserInfoEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
@@ -56,6 +59,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void logout(LogoutEvent logoutEvent) {
         if (logoutEvent.isLogoutSuccess()) {
+            setUserInfoData();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void login(LoginEvent loginEvent) {
+        if (loginEvent != null && loginEvent.isSuccess()) {
+            getUserInfo();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUserInfo(UpdateUserInfoEvent updateUserInfoEvent) {
+        if (updateUserInfoEvent != null) {
             setUserInfoData();
         }
     }
@@ -105,7 +122,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             userNickNameTxt.setVisibility(View.VISIBLE);
             userIntroductionTxt.setVisibility(View.VISIBLE);
             userNickNameTxt.setText(userInfoResult.getName());
-            userIntroductionTxt.setText("" + userInfoResult.getPersonSignature());
+            if (TextUtils.isEmpty(userInfoResult.getPersonSignature())) {
+                userIntroductionTxt.setText("");
+            } else {
+                userIntroductionTxt.setText("" + userInfoResult.getPersonSignature());
+            }
             Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(userHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);
@@ -121,9 +142,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
      */
     private void getUserInfo() {
         String userId = UserDataManager.getInstance().getUserId();
-        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("userId", userId);
-        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+        ABHttp.getIns().get(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
@@ -164,7 +185,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == userMsgItemLayout) {
-            MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
+                    } else {
+                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                    }
+                }
+            });
         } else if (view == joinTalentItemLayout) {
             CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
                 @Override
@@ -188,7 +218,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 }
             });
         } else if (view == settingItemLayout) {
-            SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
+                    } else {
+                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                    }
+                }
+            });
         } else if (view == updateInfoItemLayout) {
             CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
                 @Override

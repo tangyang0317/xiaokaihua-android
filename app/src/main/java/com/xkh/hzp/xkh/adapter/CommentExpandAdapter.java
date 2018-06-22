@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.CommentDetailBean;
 import com.xkh.hzp.xkh.entity.ReplyDetailBean;
@@ -154,6 +156,14 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
                     //点赞
                     commentLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg);
                 }
+            }
+        });
+
+
+        groupHolder.userHeadImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TalentHomePageActivity.lanuchActivity((Activity) context, String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getUserId()));
             }
         });
 

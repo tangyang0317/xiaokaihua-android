@@ -64,6 +64,7 @@ import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
+import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.CommentExpandableListView;
 
@@ -95,7 +96,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     private CommentExpandableListView commentExpandableListView;
     private LinearLayout vgBottomInfo, navigationLayout;
     private RelativeLayout detailsShareLayout, detailsCommentLayout, detailsPraiseLayout;
-    private ImageView detailsPraiseImg, detailsCommentImg, detailsSharedImg;
+    private ImageView detailsPraiseImg, detailsCommentImg, detailsSharedImg, commentMineImg;
     private TextView detailsPraiseTxt, detailsCommentTxt;
     private CommentExpandAdapter commentExpandAdapter;
     private BottomSheetDialog bottomSheetDialog;
@@ -160,6 +161,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsSharedImg = findViewById(R.id.detailsSharedImg);
         detailsPraiseTxt = findViewById(R.id.detailsPraiseTxt);
         detailsCommentTxt = findViewById(R.id.detailsCommentTxt);
+        commentMineImg = findViewById(R.id.commentMineImg);
         footView = LayoutInflater.from(this).inflate(R.layout.view_see_more_comment, null);
         seeMoreCommentTxt = footView.findViewById(R.id.seeMoreCommentTxt);
         commentExpandableListView.addFooterView(footView);
@@ -301,8 +303,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         }
         if (dynamicBean.getXkhTalentDynamic() != null) {
             dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
-            dynamicDateTxt.setText(sdf.format(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
+            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
         }
         initVideo(dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
         initShare("http://wwww.baidu.com", dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
@@ -807,6 +808,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsPraiseLayout.setOnClickListener(this);
         seeMoreCommentTxt.setOnClickListener(this);
         leftBackImg.setOnClickListener(this);
+        commentMineImg.setOnClickListener(this);
     }
 
 
@@ -902,6 +904,20 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 //关注
                 focusTalent(userId);
             }
+        } else if (view == userHeadImg) {
+            TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, String.valueOf(userId));
+        } else if (view == commentMineImg) {
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, UserDataManager.getInstance().getUserId());
+                    } else {
+                        SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+            });
         } else if (view == detailsPraiseLayout) {
             if ("normal".equals(likeStatus)) {
                 //取消点赞

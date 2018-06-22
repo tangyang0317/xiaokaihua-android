@@ -24,8 +24,7 @@
                 android:gravity="right"
                 android:text="联系姓名："
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
-
+                android:textSize="@dimen/sp_15" />
 
             <EditText
                 android:id="@+id/talentLinkManNameEdit"
@@ -33,7 +32,9 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_join_us"
-                android:paddingLeft="@dimen/dp4" />
+                android:paddingLeft="@dimen/dp4"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_15" />
 
         </LinearLayout>
 
@@ -51,7 +52,7 @@
                 android:gravity="right"
                 android:text="联系电话："
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_15" />
 
 
             <EditText
@@ -60,7 +61,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_join_us"
-                android:paddingLeft="@dimen/dp4" />
+                android:maxLength="11"
+                android:paddingLeft="@dimen/dp4"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_15" />
 
         </LinearLayout>
 
@@ -79,7 +83,7 @@
                 android:gravity="right"
                 android:text="微博昵称："
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_15" />
 
 
             <EditText
@@ -88,7 +92,9 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_join_us"
-                android:paddingLeft="@dimen/dp4" />
+                android:paddingLeft="@dimen/dp4"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_15" />
 
         </LinearLayout>
 
@@ -107,7 +113,7 @@
                 android:gravity="right"
                 android:text="身高："
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_15" />
 
 
             <EditText
@@ -116,7 +122,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_join_us"
-                android:paddingLeft="@dimen/dp4" />
+                android:hint="单位cm"
+                android:paddingLeft="@dimen/dp4"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_15" />
 
         </LinearLayout>
 
@@ -135,7 +144,7 @@
                 android:gravity="right"
                 android:text="体重："
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_15" />
 
 
             <EditText
@@ -144,10 +153,12 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_join_us"
-                android:paddingLeft="@dimen/dp4" />
+                android:hint="单位kg"
+                android:paddingLeft="@dimen/dp4"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_15" />
 
         </LinearLayout>
-
 
         <GridView
             android:id="@+id/joinTalentGridView"
@@ -158,7 +169,6 @@
             android:layout_marginTop="@dimen/dp20"
             android:numColumns="4"
             android:verticalSpacing="@dimen/dp10" />
-
 
         <Button
             android:id="@+id/joinUsSubmitBtn"

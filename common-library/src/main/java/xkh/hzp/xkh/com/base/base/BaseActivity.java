@@ -69,6 +69,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolBarTitleTxt.setTextColor(color);
     }
 
+    protected void setToolBarRightTextColor(int color) {
+        toolBarRightTxt.setTextColor(color);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();

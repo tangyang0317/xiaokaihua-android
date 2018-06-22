@@ -97,19 +97,18 @@ public class ABHttp {
                 }
 
 
-
                 @Override
                 public void onResponse(AbHttpEntity response, int id) {
                     if (!httpCallback.onGetString(response.getStr())) {
-                        if (ABHttp.CODE_SUCCESS.equals(response.getCode())) {
+                        if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
+                            httpCallback.onNotLogin();
+                        } else {
                             try {
                                 httpCallback.onSuccessGetObject(response.getCode(), response.getMsg(), response.isSuccess(), response.getExtras());
                             } catch (Exception e) {
                                 httpCallback.onFailure(null, "服务端异常!");
                                 Logger.d("解析与处理返回数据异常!");
                             }
-                        } else if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
-                            httpCallback.onNotLogin();
                         }
                         httpCallback.onFinish();
                     }
@@ -171,84 +170,15 @@ public class ABHttp {
                 @Override
                 public void onResponse(AbHttpEntity response, int id) {
                     if (!httpCallback.onGetString(response.getStr())) {
-                        if (ABHttp.CODE_SUCCESS.equals(response.getCode())) {
+                        if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
+                            httpCallback.onNotLogin();
+                        } else {
                             try {
                                 httpCallback.onSuccessGetObject(response.getCode(), response.getMsg(), response.isSuccess(), response.getExtras());
                             } catch (Exception e) {
                                 httpCallback.onFailure(null, "服务端异常!");
                                 Logger.d("解析与处理返回数据异常!");
                             }
-                        } else if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
-                            httpCallback.onNotLogin();
-                        }
-                        httpCallback.onFinish();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            Logger.d("网络请求异常:" + e.getMessage().toString());
-        }
-
-
-    }
-
-    /***
-     * get请求
-     * @param url      请求地址
-     * @param params   参数集合
-     * @param httpCallback 回调
-     */
-    public void restfulPost(final String url, LinkedHashMap<String, String> params, final AbHttpCallback httpCallback) {
-        if (!isConnected()) {
-            Logger.d("网络连接断开，请检查网络");
-            Toasty.error(Global.app, "网络连接断开，请检查网络").show();
-        }
-        try {
-            StringBuilder paramsBuilder = new StringBuilder(url);
-            if (params != null) {
-                for (Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator(); iterator.hasNext(); ) {
-                    Map.Entry<String, String> entry = iterator.next();
-                    paramsBuilder.append("/" + entry.getValue());
-                }
-                Logger.d("开始restPost请求:" + paramsBuilder.toString());
-            }
-            PostFormBuilder builder = OkHttpUtils.post().url(paramsBuilder.toString());
-            builder.build().execute(new Callback<AbHttpEntity>() {
-
-                @Override
-                public void onBefore(Request request, int id) {
-                    httpCallback.onStart();
-                }
-
-                @Override
-                public AbHttpEntity parseNetworkResponse(Response response, int id) throws Exception {
-                    String str = response.body().string();
-                    Logger.d("AbHttpAO.restPost() + url(" + url + ") 成功 <--结果:" + response.toString() + "\n结果:(" + str + ")");
-                    AbHttpEntity entity = new AbHttpEntity(str);
-                    httpCallback.setupEntity(entity);
-                    entity.parseFields(str);
-                    return entity;
-                }
-
-                @Override
-                public void onError(Call call, Exception e, int id) {
-                    Logger.d("AbHttpAO.restPost() + url(" + url + ")  失败 XXX 结果:" + e.toString());
-                    Toast.makeText(Global.app, "网络访问失败, 请稍候重试", Toast.LENGTH_SHORT).show();
-                    httpCallback.onFinish();
-                }
-
-                @Override
-                public void onResponse(AbHttpEntity response, int id) {
-                    if (!httpCallback.onGetString(response.getStr())) {
-                        if (ABHttp.CODE_SUCCESS.equals(response.getCode())) {
-                            try {
-                                httpCallback.onSuccessGetObject(response.getCode(), response.getMsg(), response.isSuccess(), response.getExtras());
-                            } catch (Exception e) {
-                                httpCallback.onFailure(null, "服务端异常!");
-                                Logger.d("解析与处理返回数据异常!");
-                            }
-                        } else if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
-                            httpCallback.onNotLogin();
                         }
                         httpCallback.onFinish();
                     }
@@ -309,15 +239,15 @@ public class ABHttp {
                 @Override
                 public void onResponse(AbHttpEntity response, int id) {
                     if (!httpCallback.onGetString(response.getStr())) {
-                        if (ABHttp.CODE_SUCCESS.equals(response.getCode())) {
+                        if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
+                            httpCallback.onNotLogin();
+                        } else {
                             try {
                                 httpCallback.onSuccessGetObject(response.getCode(), response.getMsg(), response.isSuccess(), response.getExtras());
                             } catch (Exception e) {
                                 httpCallback.onFailure(null, "服务端异常!");
                                 Logger.d("解析与处理返回数据异常!");
                             }
-                        } else if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
-                            httpCallback.onNotLogin();
                         }
                         httpCallback.onFinish();
                     }
@@ -370,15 +300,15 @@ public class ABHttp {
             @Override
             public void onResponse(AbHttpEntity response, int id) {
                 if (!httpCallback.onGetString(response.getStr())) {
-                    if (ABHttp.CODE_SUCCESS.equals(response.getCode())) {
+                    if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
+                        httpCallback.onNotLogin();
+                    } else {
                         try {
                             httpCallback.onSuccessGetObject(response.getCode(), response.getMsg(), response.isSuccess(), response.getExtras());
                         } catch (Exception e) {
                             httpCallback.onFailure(null, "服务端异常!");
                             Logger.d("解析与处理返回数据异常!");
                         }
-                    } else if (ABHttp.CODE_NOTLOGIN.equals(response.getCode())) {
-                        httpCallback.onNotLogin();
                     }
                     httpCallback.onFinish();
                 }

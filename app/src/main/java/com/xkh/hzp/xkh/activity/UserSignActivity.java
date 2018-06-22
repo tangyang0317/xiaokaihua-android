@@ -54,11 +54,11 @@ public class UserSignActivity extends BaseActivity {
     public void initView() {
         setToolbarTitleTv("美丽签名");
         userSignEdit = findViewById(R.id.activity_user_sign_name);
-        if (UserDataManager.getInstance().getUserInfo() != null) {
+        if (UserDataManager.getInstance().getUserInfo() == null || TextUtils.isEmpty(UserDataManager.getInstance().getUserInfo().getPersonSignature())) {
+            userSignEdit.setHint("做个有气质的小姐姐");
+        } else {
             userSignEdit.setText(UserDataManager.getInstance().getUserInfo().getPersonSignature());
             userSignEdit.setSelection(UserDataManager.getInstance().getUserInfo().getPersonSignature().length());
-        } else {
-            userSignEdit.setHint("做个有气质的小姐姐");
         }
         userSignEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

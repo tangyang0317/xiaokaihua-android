@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -41,7 +42,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
     private ImageView talentHeadImg, homePageBackImg, reportUserImg;
     private View spaceView;
     private TextView talentNickNameTxt, talentSignTxt, homePageTitleTxt;
-    private TabLayout homePageTabLayout;
+    private PagerSlidingTabStrip homePageTabLayout;
     private ViewPager talentMineViewPager;
     private AppBarLayout homePageAppBarLayout;
 
@@ -81,7 +82,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         reportUserImg = findViewById(R.id.reportUserImg);
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getSupportFragmentManager(), getTalentUserId());
         talentMineViewPager.setAdapter(homePageFragmentPagerAdapter);
-        homePageTabLayout.setupWithViewPager(talentMineViewPager);
+        homePageTabLayout.setViewPager(talentMineViewPager);
         if (getTalentUserId().equals(UserDataManager.getInstance().getUserId())) {
             reportUserImg.setVisibility(View.GONE);
         }
@@ -105,9 +106,9 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
      *查询用户信息
      */
     private void queryUserInfo() {
-        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("userId", getTalentUserId());
-        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+        ABHttp.getIns().get(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);

@@ -74,7 +74,7 @@ public class BusinessCooperationActivity extends BaseActivity implements View.On
                 Toasty.warning(this, "请填写联系人姓名").show();
                 return;
             }
-            if (TextUtils.isEmpty(linkManPhoneStr)) {
+            if (TextUtils.isEmpty(linkManPhoneStr) || linkManPhoneStr.length() != 11) {
                 Toasty.warning(this, "请填写联系方式").show();
                 return;
             }

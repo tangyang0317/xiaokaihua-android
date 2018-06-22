@@ -35,6 +35,7 @@ public class DynamicBean {
     private int likeNumber;
     private String annexUrl;
     private long updateTime;
+    private long createTime;
     private String status;
     private String dynamicType;
     private String faceUrl;
@@ -152,5 +153,13 @@ public class DynamicBean {
 
     public void setFaceUrl(String faceUrl) {
         this.faceUrl = faceUrl;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 }

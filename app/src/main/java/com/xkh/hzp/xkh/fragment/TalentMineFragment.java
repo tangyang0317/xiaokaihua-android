@@ -17,7 +17,9 @@ import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.adapter.HomePageFragmentPagerAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
+import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.event.LogoutEvent;
+import com.xkh.hzp.xkh.event.UpdateUserInfoEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
@@ -36,6 +38,7 @@ import java.util.LinkedHashMap;
 import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
+import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
 /**
  * @packageName com.xkh.hzp.xkh.fragment
@@ -45,7 +48,7 @@ import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
  **/
 public class TalentMineFragment extends BaseFragment implements View.OnClickListener {
     private ImageView talentMineSettingImg, talentMineMsgImg, talentMineEditImg, mineHeadImg;
-    private TabLayout talentMinePagerSlidingTabStrip;
+    private PagerSlidingTabStrip talentMinePagerSlidingTabStrip;
     private ViewPager talentMineViewPager;
     private RelativeLayout barLayout;
     private TextView mineNickNameTxt, mineLoginTxt, talentUserSignTxt;
@@ -53,6 +56,27 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_talent_mine;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logout(LogoutEvent logoutEvent) {
+        if (logoutEvent.isLogoutSuccess()) {
+            setUserInfoData();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void login(LoginEvent loginEvent) {
+        if (loginEvent != null && loginEvent.isSuccess()) {
+            queryUserInfo();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUserInfo(UpdateUserInfoEvent updateUserInfoEvent) {
+        if (updateUserInfoEvent != null) {
+            setUserInfoData();
+        }
     }
 
     @Override
@@ -73,7 +97,7 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
         String userId = UserDataManager.getInstance().getUserId();
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getChildFragmentManager(), userId);
         talentMineViewPager.setAdapter(homePageFragmentPagerAdapter);
-        talentMinePagerSlidingTabStrip.setupWithViewPager(talentMineViewPager);
+        talentMinePagerSlidingTabStrip.setViewPager(talentMineViewPager);
         CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
             @Override
             public void isLogin(boolean isLogin) {
@@ -87,7 +111,6 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             @Override
             public void run() {
                 queryUserInfo();
-                setUserInfoData();
             }
         }, 500);
 
@@ -99,9 +122,9 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
      */
     private void queryUserInfo() {
         String userId = UserDataManager.getInstance().getUserId();
-        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("userId", userId);
-        ABHttp.getIns().restfulGet(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
+        ABHttp.getIns().get(UrlConfig.queryuserInfo, hashMap, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
@@ -134,14 +157,6 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void logout(LogoutEvent logoutEvent) {
-        if (logoutEvent.isLogoutSuccess()) {
-            setUserInfoData();
-        }
-    }
-
 
     /***
      *

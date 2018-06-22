@@ -106,7 +106,7 @@ public class ChooseGenderActivity extends BaseActivity implements View.OnClickLi
                     boolean result = (boolean) extra.get("result");
                     if (result) {
                         ChooseGenderActivity.this.finish();
-                        SettingPasswordActivity.lunchActivity(ChooseGenderActivity.this, null, SettingPasswordActivity.class);
+                        SettingPasswordActivity.lanuchActivity(ChooseGenderActivity.this, true);
                     }
                 }
             }

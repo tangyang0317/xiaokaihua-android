@@ -52,6 +52,11 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
         return R.layout.activity_publish_picture_text;
     }
 
+    @Override
+    protected void setBaseContainerBg() {
+        super.setBaseContainerBg();
+        baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+    }
 
     @Override
     protected void setStatusBar() {

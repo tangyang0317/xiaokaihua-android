@@ -16,12 +16,8 @@ import com.xkh.hzp.xkh.entity.QiNiuBean;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
-
-import top.zibin.luban.Luban;
 
 /**
  * 上传图片的线程
@@ -64,6 +60,7 @@ public class UploadFile implements Runnable {
             uploadManager.put(file, (System.currentTimeMillis() * 100 * 1000) + ".jpg", token, new UpCompletionHandler() {
                 @Override
                 public void complete(String key, ResponseInfo info, JSONObject response) {
+                    Logger.d(response.toString());
                     Logger.d("doUploadToQiNiu complete--------" + Thread.currentThread().getId() + "-------->" + file.getPath());
                     if (info.isOK()) {
                         String s = response.toString();

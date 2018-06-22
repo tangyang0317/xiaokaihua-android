@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.fragment;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,11 +18,15 @@ import com.xkh.hzp.xkh.activity.VideoDynamicDetailsActivity;
 import com.xkh.hzp.xkh.adapter.DynamicVideoAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.DynamicBean;
+import com.xkh.hzp.xkh.event.DynamicRefreshEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +43,8 @@ import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
  * @Author tangyang
  * @DATE 2018/5/4
  **/
-public class VideoFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener {
-
+public class VideoFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout dynamicSwipeRefreshLayout;
     private RecyclerView dynamicObservableRecyclerView;
     private int pageNum = 1, pageSize = 10;
     DynamicVideoAdapter dynamicVideoAdapter;
@@ -49,10 +54,14 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
         return R.layout.fragment_dynamic_index;
     }
 
+
     @Override
     public void initView(View contentView) {
+        dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dynamicSwipeRefreshLayout.setOnRefreshListener(this);
+        dynamicSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicVideoAdapter = new DynamicVideoAdapter();
         EmptyView emptyView = new EmptyView(getActivity());
@@ -97,18 +106,22 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
                             if (talentResults.size() < 10) {
+                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicVideoAdapter.loadMoreEnd();
                                 dynamicVideoAdapter.setNewData(talentResults);
                             } else {
+                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicVideoAdapter.setEnableLoadMore(true);
                                 dynamicVideoAdapter.setNewData(talentResults);
                             }
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
+                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.addData(talentResults);
                         } else {
+                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.loadMoreEnd();
                         }
@@ -225,6 +238,12 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
     @Override
     public void onLoadMoreRequested() {
         pageNum++;
+        initData(pageNum, pageSize);
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
         initData(pageNum, pageSize);
     }
 }

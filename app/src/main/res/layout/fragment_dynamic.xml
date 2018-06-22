@@ -64,17 +64,38 @@
                     android:layout_height="180dp"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/dynamicTabLayout"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/color_ffffff"
-                    app:tabIndicatorColor="@color/color_e80036"
-                    app:tabIndicatorHeight="@dimen/dp2"
-                    app:tabSelectedTextColor="@color/color_333333"
-                    app:tabTextAppearance="@style/TabLayoutTextSize"
-                    app:tabTextColor="@color/color_999999" />
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip
+                        android:id="@+id/dynamicTabLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp45"
+                        android:layout_gravity="center_horizontal"
+                        app:pstsDividerColor="@android:color/transparent"
+                        app:pstsIndicatiorWidth="@dimen/dp30"
+                        app:pstsIndicatorColor="@color/color_ff5555"
+                        app:pstsIndicatorHeight="2dp"
+                        app:pstsTabPaddingLeftRight="@dimen/dp10"
+                        app:pstsTextColor="@color/color_666666"
+                        app:selectedTabTextColor="@color/color_ff5555" />
+                </LinearLayout>
+
+                <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/dynamicTabLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="@color/color_ffffff"-->
+                <!--app:tabIndicatorColor="@color/color_e80036"-->
+                <!--app:tabIndicatorHeight="@dimen/dp2"-->
+                <!--app:tabSelectedTextColor="@color/color_333333"-->
+                <!--app:tabTextAppearance="@style/TabLayoutTextSize"-->
+                <!--app:tabTextColor="@color/color_999999" />-->
 
             </android.support.design.widget.AppBarLayout>
 
@@ -86,6 +107,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
+
 
     </LinearLayout>
 
@@ -102,7 +124,7 @@
         app:aebBlurBackground="true"
         app:aebBlurRadius="10"
         app:aebButtonElevation="0dp"
-        app:aebButtonGapDp="50dp"
+        app:aebButtonGapDp="30dp"
         app:aebEndAngleDegree="180"
         app:aebIsSelectionMode="false"
         app:aebMainButtonRotateAnimDurationMillis="300"

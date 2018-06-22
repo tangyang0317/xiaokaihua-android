@@ -24,7 +24,7 @@ public class UserDataManager {
     }
 
     /***
-     * 读取登陆用户信息
+     * 读取登录用户信息
      * @return
      */
     public WebUserBean getLoginUser() {
@@ -41,6 +41,18 @@ public class UserDataManager {
             return String.valueOf(getLoginUser().getUid());
         }
         return "";
+    }
+
+
+    /***
+     * 是否设置过密码
+     * @return
+     */
+    public boolean hasPwd() {
+        if (getLoginUser() != null) {
+            return getLoginUser().isHavePassWord();
+        }
+        return true;
     }
 
     /**
@@ -68,7 +80,7 @@ public class UserDataManager {
     }
 
     /***
-     * 保存登陆用户信息
+     * 保存登录用户信息
      * @param webUserBean
      */
     public void putLoginUser(WebUserBean webUserBean) {
@@ -77,7 +89,7 @@ public class UserDataManager {
 
 
     /***
-     * 保存当前登陆用户信息
+     * 保存当前登录用户信息
      * @param userInfoResult
      */
     public void saveUserInfo(UserInfoResult userInfoResult) {
@@ -86,7 +98,7 @@ public class UserDataManager {
 
 
     /***
-     * 获取当前登陆的用户信息
+     * 获取当前登录的用户信息
      */
     public UserInfoResult getUserInfo() {
         return (UserInfoResult) SharedprefrenceHelper.getIns(Global.app).readObject("userInfo");

@@ -64,7 +64,7 @@ public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder
         } else {
             isAttentionTxt.setText("+ 关注");
         }
-        Glide.with(mContext).load(item.getImgUrl()).transform(new GlideRoundTransform(mContext, 10)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(talentPicImg);
+        Glide.with(mContext).load(item.getImgUrl()).transform(new GlideRoundTransform(mContext, 5)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(talentPicImg);
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(talentHeadImg);
         talentNickNameTxt.setText(item.getName());
         if (!TextUtils.isEmpty(item.getSignatureName())) {

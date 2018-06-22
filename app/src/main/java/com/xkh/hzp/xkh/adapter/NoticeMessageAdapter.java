@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.result.NoticeMessageResult;
+import com.xkh.hzp.xkh.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class NoticeMessageAdapter extends BaseQuickAdapter<NoticeMessageResult, 
         TextView noticeDateTxt = helper.getView(R.id.noticeDateTxt);
         View noticeBottomLine = helper.getView(R.id.noticeBottomLine);
         noticeTitleTxt.setText(item.getPushContent());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.dateFormatYMDHM);
         noticeDateTxt.setText(sdf.format(item.getCreateTime()));
         if (helper.getPosition() == 0) {
             noticeBottomLine.setVisibility(View.GONE);

@@ -45,4 +45,6 @@ public class DynamicFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return TITLES[position];
     }
+
+
 }
