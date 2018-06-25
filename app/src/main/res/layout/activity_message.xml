@@ -13,7 +13,8 @@
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
         app:leftIcon="@mipmap/btn_comment_dor"
-        app:leftTitleTxt="评论" />
+        app:leftTitleTxt="评论"
+        app:rightIcon="@drawable/shpe_red_dot" />
 
     <include layout="@layout/view_line_horientol" />
 
@@ -23,8 +24,9 @@
         android:layout_height="@dimen/dp50"
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
-        app:leftIcon="@mipmap/btn_collected_dor"
-        app:leftTitleTxt="点赞" />
+        app:leftIcon="@mipmap/btn_praise_dor"
+        app:leftTitleTxt="赞我"
+        app:rightIcon="@drawable/shpe_red_dot" />
 
     <View
         android:id="@+id/likeBottomLine"

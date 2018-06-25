@@ -66,7 +66,6 @@ public class CommentMessageActivity extends BaseActivity implements SwipeRefresh
         commentMessageAdapter.setOnLoadMoreListener(this, talentClassRecyclerView);
         talentClassRecyclerView.setAdapter(commentMessageAdapter);
         initData(pageNum, pageSize);
-
     }
 
     /***
@@ -89,28 +88,30 @@ public class CommentMessageActivity extends BaseActivity implements SwipeRefresh
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                talentClassSwipefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 List<CommentMessageResult> talentResults = (List<CommentMessageResult>) extra.get("result");
                 if (pageNum == 1) {
                     if (talentResults != null && talentResults.size() > 0) {
                         if (talentResults.size() < 10) {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             commentMessageAdapter.loadMoreEnd();
                             commentMessageAdapter.setNewData(talentResults);
                         } else {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             commentMessageAdapter.setEnableLoadMore(true);
                             commentMessageAdapter.setNewData(talentResults);
                         }
                     }
                 } else {
                     if (talentResults != null && talentResults.size() > 0) {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         commentMessageAdapter.loadMoreComplete();
                         commentMessageAdapter.addData(talentResults);
                     } else {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         commentMessageAdapter.loadMoreComplete();
                         commentMessageAdapter.loadMoreEnd();
                     }

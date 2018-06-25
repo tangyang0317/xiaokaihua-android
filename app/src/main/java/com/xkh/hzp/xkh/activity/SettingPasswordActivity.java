@@ -130,10 +130,9 @@ public class SettingPasswordActivity extends BaseActivity {
             return;
         }
         HashMap<String, String> param = new HashMap<>();
-        param.put("password", passwordAgainStr);
+        param.put("passwd", passwordAgainStr);
         param.put("loginId", UserDataManager.getInstance().getLoginUser().getLoginId());
-        param.put("loginType", "phone");
-        ABHttp.getIns().post(UrlConfig.settingPwd, param, new AbHttpCallback() {
+        ABHttp.getIns().postJSON(UrlConfig.settingPwd, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);

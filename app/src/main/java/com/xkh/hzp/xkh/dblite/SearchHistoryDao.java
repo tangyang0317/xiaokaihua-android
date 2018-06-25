@@ -6,6 +6,8 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.xkh.hzp.xkh.entity.SearchHistoryBean;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import xkh.hzp.xkh.com.base.Global;
 
@@ -53,6 +55,22 @@ public class SearchHistoryDao extends BaseDao<SearchHistoryBean> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /***
+     *分页查询前20条数据
+     * @return
+     */
+    public List<SearchHistoryBean> queryHistoryBeanListByPage() {
+        QueryBuilder queryBuilder = daoOpe.queryBuilder();
+        try {
+            List<SearchHistoryBean> searchHistoryBeans = queryBuilder.offset(0l).limit(20l).orderBy("id", false).query();
+            return searchHistoryBeans;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
 }

@@ -152,7 +152,7 @@ public class SearchHistoryActivty extends BaseActivity {
      */
     private void queryHistoryData() {
         SearchHistoryDao searchHistoryDao = new SearchHistoryDao(SearchHistoryActivty.this);
-        searchHistoryBeanList = searchHistoryDao.all();
+        searchHistoryBeanList = searchHistoryDao.queryHistoryBeanListByPage();
         if (searchHistoryBeanList != null && searchHistoryBeanList.size() > 0) {
             searchHistoryLayout.setVisibility(View.VISIBLE);
             historyTagFlowLayout.setAdapter(new TagAdapter<SearchHistoryBean>(searchHistoryBeanList) {

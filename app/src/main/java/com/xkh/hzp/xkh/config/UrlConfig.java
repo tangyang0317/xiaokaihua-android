@@ -9,7 +9,7 @@ package com.xkh.hzp.xkh.config;
 public class UrlConfig {
     public static final String USER_BASE_URL = "http://user-test.xiaokaihua.com";
     public static final String DYNAMIC_BASE_URL = "http://dynamic-test.xiaokaihua.com";
-    //    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
+//            public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
 //    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
     public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";
@@ -47,4 +47,5 @@ public class UrlConfig {
     public static final String messagelike = DYNAMIC_BASE_URL + "/dynamic/searchLike/mySelf";
     public static final String messageNotice = DYNAMIC_BASE_URL + "/search/pushList";
     public static final String report = DYNAMIC_BASE_URL + "/report";
+    public static final String msgUnRead = DYNAMIC_BASE_URL + "/search/searchHasUnread";
 }

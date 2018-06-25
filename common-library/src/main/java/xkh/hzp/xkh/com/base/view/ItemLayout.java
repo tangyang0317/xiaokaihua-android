@@ -2,6 +2,7 @@ package xkh.hzp.xkh.com.base.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -48,6 +49,14 @@ public class ItemLayout extends LinearLayout {
         super(context, attrs, defStyleAttr);
         this.context = context;
         initView(attrs);
+    }
+
+    public void setRightIcon(int icon) {
+        if (icon != 0) {
+            rightIconImg.setImageResource(icon);
+        } else {
+            rightIconImg.setVisibility(GONE);
+        }
     }
 
     private void initView(AttributeSet attrs) {

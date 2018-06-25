@@ -1,7 +1,10 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,6 +34,7 @@ import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CountDownUtil;
 import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
@@ -60,14 +64,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView ivBack;
     private TextView tvToLogin;
     private TextView tvYzm;
-    private int recLen = 60;
-    private Timer timer;
     private TextView tvService;
     private TextView tvZhichi;
     private ImageView ivLogo;
     private TextView tvOrder;
     /****用户是否注册***/
     private boolean isRegister = false;
+    public static Activity instances = null;
 
 
     @Override
@@ -82,9 +85,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        instances = this;
+    }
+
+    @Override
     public void initView() {
         hideToolbar();
-        timer = new Timer();
         sendSms = findViewById(R.id.activity_login_getyzm);
         phoneNumLinearLayout = findViewById(R.id.phoneNumLinearLayout);
         meditText = findViewById(R.id.activity_login_edit);
@@ -180,50 +188,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         loginOrRegiser();
                     }
                 });
-
-
-        RxView.clicks(tvYzm).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        if (RegExpValidatorUtils.IsHandset(meditText.getText().toString())) {
-                            //获取验证码
-                            checkRegister();
-                        } else {
-                            Toasty.warning(LoginActivity.this, "请输入正确的手机号码").show();
-                        }
-                    }
-                });
+        tvYzm.setOnClickListener(this);
     }
-
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {      // UI thread
-                @Override
-                public void run() {
-                    recLen--;
-                    tvYzm.setText("(" + recLen + ")" + "再次发送");
-                    tvYzm.setTextColor(getResources().getColor(R.color.color_666666));
-                    tvYzm.setBackgroundResource(R.drawable.shape_btn_login_enable);
-                    tvYzm.setEnabled(false);
-                    if (recLen < 0) {
-                        timer.cancel();
-                        tvYzm.setText("获取验证码");
-                        tvYzm.setBackgroundResource(R.drawable.shape_login_btn_normal);
-                        tvYzm.setEnabled(true);
-                    }
-                }
-            });
-        }
-    };
-
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.activity_login_backImg:
                 finish();
+                break;
+            case R.id.activity_login_getyzm:
+                if (TextUtils.isEmpty(meditText.getText().toString())) {
+                    Toasty.warning(LoginActivity.this, "请输入手机号码").show();
+                    return;
+                }
+                if (!RegExpValidatorUtils.IsHandset(meditText.getText().toString())) {
+                    Toasty.warning(LoginActivity.this, "手机号码不合法").show();
+                    return;
+                }
+                //获取验证码
+                checkRegister();
                 break;
             case R.id.activity_login_tv_service:
                 WebActivity.launchWebActivity(this, Config.yonghuxieyi, "服务条款", "last");
@@ -402,7 +386,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 发送验证码
      */
     private void sendAuthCode(String phone, boolean isRegister) {
-        timer.schedule(task, 1000, 1000);
         LinkedHashMap<String, String> param = new LinkedHashMap<>();
         param.put("type", isRegister ? "reg" : "login");
         param.put("phone", phone);
@@ -416,12 +399,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
-                if (success) {
-                    editYzm.setFocusable(true);
-                    editYzm.setFocusableInTouchMode(true);
-                    editYzm.requestFocus();
-                }
                 Toasty.info(LoginActivity.this, msg).show();
+                new CountDownUtil(tvYzm)
+                        .setCountDownMillis(60_000L)//倒计时60000ms
+                        .setCountDownColor(R.color.color_ffffff, R.color.color_ffffff)//不同状态字体颜色
+                        .start();
             }
 
             @Override

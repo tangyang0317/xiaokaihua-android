@@ -1,7 +1,5 @@
 package com.xkh.hzp.xkh.fragment;
 
-import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,16 +14,17 @@ import com.xkh.hzp.xkh.activity.SettingActivity;
 import com.xkh.hzp.xkh.activity.UserInfoActvity;
 import com.xkh.hzp.xkh.adapter.HomePageFragmentPagerAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
+import com.xkh.hzp.xkh.entity.result.UnReadMsgResult;
 import com.xkh.hzp.xkh.entity.result.UserInfoResult;
 import com.xkh.hzp.xkh.event.LoginEvent;
 import com.xkh.hzp.xkh.event.LogoutEvent;
+import com.xkh.hzp.xkh.event.RefreshDotEvent;
 import com.xkh.hzp.xkh.event.UpdateUserInfoEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
-import com.xkh.hzp.xkh.utils.GlideRoundTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,10 +32,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
@@ -47,7 +47,7 @@ import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
  * @DATE 2018/5/8
  **/
 public class TalentMineFragment extends BaseFragment implements View.OnClickListener {
-    private ImageView talentMineSettingImg, talentMineMsgImg, talentMineEditImg, mineHeadImg;
+    private ImageView talentMineSettingImg, talentMineMsgImg, talentMineEditImg, mineHeadImg, msgDotImg;
     private PagerSlidingTabStrip talentMinePagerSlidingTabStrip;
     private ViewPager talentMineViewPager;
     private RelativeLayout barLayout;
@@ -79,11 +79,21 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshDot(RefreshDotEvent refreshDotEvent) {
+        msgDotImg.setVisibility(View.GONE);
+    }
+
+
     @Override
     public void initView(View contentView) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         talentMineSettingImg = contentView.findViewById(R.id.talentMineSettingImg);
         talentMineMsgImg = contentView.findViewById(R.id.talentMineMsgImg);
         talentMineEditImg = contentView.findViewById(R.id.talentMineEditImg);
+        msgDotImg = contentView.findViewById(R.id.msgDotImg);
         barLayout = contentView.findViewById(R.id.barLayout);
         mineLoginTxt = contentView.findViewById(R.id.mineLoginTxt);
         mineNickNameTxt = contentView.findViewById(R.id.mineNickNameTxt);
@@ -106,14 +116,39 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
                 }
             }
         });
+        queryUnReadMsg();
+        queryUserInfo();
 
-        new Handler().postDelayed(new Runnable() {
+    }
+
+    /***
+     * 查询未读消息
+     */
+    private void queryUnReadMsg() {
+        Map<String, String> param = new HashMap<>();
+        param.put("lastReadTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReadTime", "2017-01-01 00:00:00"));
+        param.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().postJSON(UrlConfig.msgUnRead, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override
-            public void run() {
-                queryUserInfo();
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<UnReadMsgResult>() {
+                }.getType());
             }
-        }, 500);
 
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    UnReadMsgResult unReadMsgResult = (UnReadMsgResult) extra.get("result");
+                    if (unReadMsgResult != null) {
+                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike()) {
+                            msgDotImg.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
@@ -170,7 +205,7 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             talentUserSignTxt.setVisibility(View.VISIBLE);
             mineNickNameTxt.setText(userInfoResult.getName());
             talentUserSignTxt.setText("" + userInfoResult.getPersonSignature());
-            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(mineHeadImg);
+            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).error(R.mipmap.icon_female_selected).into(mineHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);
             mineHeadImg.setVisibility(View.GONE);

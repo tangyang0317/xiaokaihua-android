@@ -46,7 +46,7 @@ public class PeopleProfileFragment extends BaseFragment {
     private RecyclerView talentPictureRecycleView;
     private Button linkTalentBtn;
     private TextView talentHeightTxt, talentWidghtTxt, talentMeasurementstTxt, talentConstellationTxt;
-    private TextView talentSpecialtyTxt;
+    private TextView talentSpecialtyTxt, talentStyleTxt;
     private TagFlowLayout talentLableTagFlowLayout;
     private TalentPictureAdapter talentPictureAdapter;
 
@@ -79,6 +79,7 @@ public class PeopleProfileFragment extends BaseFragment {
         talentMeasurementstTxt = contentView.findViewById(R.id.talentMeasurementstTxt);
         talentConstellationTxt = contentView.findViewById(R.id.talentConstellationTxt);
         talentSpecialtyTxt = contentView.findViewById(R.id.talentSpecialtyTxt);
+        talentStyleTxt = contentView.findViewById(R.id.talentStyleTxt);
         talentLableTagFlowLayout = contentView.findViewById(R.id.talentLableTagFlowLayout);
         linkTalentBtn = contentView.findViewById(R.id.linkTalentBtn);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -127,21 +128,34 @@ public class PeopleProfileFragment extends BaseFragment {
      */
     private void setTalentInfoUI(TalentInfoResultBean talentInfoResultBean) {
         talentHeightTxt.setText(talentInfoResultBean.getHigh() == 0 ? "身高:" : "身高:" + talentInfoResultBean.getHigh() + "cm");
-
         talentWidghtTxt.setText(talentInfoResultBean.getWeight() == 0 ? "体重:" : "体重:" + talentInfoResultBean.getWeight() + "kg");
         talentMeasurementstTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getMeasurements()) ? "三围:" : "三围:" + talentInfoResultBean.getMeasurements());
         talentConstellationTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getConstellation()) ? "星座:" : "星座：" + talentInfoResultBean.getConstellation());
         if (TextUtils.isEmpty(talentInfoResultBean.getPersonalitySignature())) {
             talentSpecialtyTxt.setVisibility(View.GONE);
         } else {
-            talentSpecialtyTxt.setVisibility(View.VISIBLE);
-            talentSpecialtyTxt.setText(talentInfoResultBean.getPersonalitySignature());
+
         }
 
         if (talentInfoResultBean.getImgUrl() != null && talentInfoResultBean.getImgUrl().size() > 0) {
             talentPictureAdapter.setNewData(talentInfoResultBean.getImgUrl());
             talentPictureAdapter.notifyDataSetChanged();
         }
+
+        if (!TextUtils.isEmpty(talentInfoResultBean.getStyle())) {
+            talentStyleTxt.setVisibility(View.VISIBLE);
+            talentStyleTxt.setText("风格:" + talentInfoResultBean.getStyle());
+        } else {
+            talentStyleTxt.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(talentInfoResultBean.getPersonIntro())) {
+            talentSpecialtyTxt.setVisibility(View.VISIBLE);
+            talentSpecialtyTxt.setText("个人说明:" + talentInfoResultBean.getPersonIntro());
+        } else {
+            talentSpecialtyTxt.setVisibility(View.GONE);
+        }
+
 
         if (talentInfoResultBean.getSignatureName() != null && talentInfoResultBean.getSignatureName().size() > 0) {
             talentLableTagFlowLayout.setAdapter(new TagAdapter<String>(talentInfoResultBean.getSignatureName()) {

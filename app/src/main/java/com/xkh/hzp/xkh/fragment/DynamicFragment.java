@@ -24,7 +24,9 @@ import com.xkh.hzp.xkh.activity.WebActivity;
 import com.xkh.hzp.xkh.adapter.DynamicFragmentPagerAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.BannerResult;
+import com.xkh.hzp.xkh.entity.result.UnReadMsgResult;
 import com.xkh.hzp.xkh.event.DynamicRefreshEvent;
+import com.xkh.hzp.xkh.event.RefreshDotEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
@@ -36,14 +38,19 @@ import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
+import xkh.hzp.xkh.com.base.utils.JsonUtils;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonData;
 import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonEventListener;
@@ -58,7 +65,7 @@ import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
 public class DynamicFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView searchLayout;
-    private ImageView msgImg;
+    private ImageView msgImg, msgDotImg;
     private Banner sampleHeaderView;
     private ViewPager dynamicViewPager;
     private PagerSlidingTabStrip dynamicTabLayout;
@@ -66,26 +73,24 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private List<BannerResult> bannerResultList;
     private View mFakeStatusBar;
 
-    @Override
-    public void onClick(View view) {
-        if (view == searchLayout) {
-            SearchHistoryActivty.openActivity(getActivity(), 0);
-        }
-    }
 
-    @Override
-    public int getFragmentLayoutId() {
-        return R.layout.fragment_dynamic;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshDot(RefreshDotEvent refreshDotEvent) {
+        msgDotImg.setVisibility(View.GONE);
     }
 
     @Override
     public void initView(View contentView) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         mFakeStatusBar = contentView.findViewById(R.id.statusBarView);
         sampleHeaderView = contentView.findViewById(R.id.headerBanner);
         dynamicViewPager = contentView.findViewById(R.id.dynamicViewPager);
         dynamicTabLayout = contentView.findViewById(R.id.dynamicTabLayout);
         searchLayout = contentView.findViewById(R.id.searchLayout);
         msgImg = contentView.findViewById(R.id.msgImg);
+        msgDotImg = contentView.findViewById(R.id.msgDotImg);
 
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
@@ -105,8 +110,62 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         } else {
             bottomMenuButton.setVisibility(View.GONE);
         }
+        queryUnReadMsg();
         initData();
     }
+
+
+    @Override
+    public void onClick(View view) {
+        if (view == searchLayout) {
+            SearchHistoryActivty.openActivity(getActivity(), 0);
+        }
+    }
+
+
+    /***
+     * 查询未读消息
+     */
+    private void queryUnReadMsg() {
+        Map<String, String> param = new HashMap<>();
+        param.put("lastReadTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReadTime", "2017-01-01 00:00:00"));
+        param.put("userId", UserDataManager.getInstance().getUserId());
+        ABHttp.getIns().postJSON(UrlConfig.msgUnRead, JsonUtils.toJson(param), new AbHttpCallback() {
+            @Override
+            public void setupEntity(AbHttpEntity entity) {
+                super.setupEntity(entity);
+                entity.putField("result", new TypeToken<UnReadMsgResult>() {
+                }.getType());
+            }
+
+            @Override
+            public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
+                super.onSuccessGetObject(code, msg, success, extra);
+                if (success) {
+                    UnReadMsgResult unReadMsgResult = (UnReadMsgResult) extra.get("result");
+                    if (unReadMsgResult != null) {
+                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike()) {
+                            msgDotImg.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public int getFragmentLayoutId() {
+        return R.layout.fragment_dynamic;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 
     /***
      * 加载数据
@@ -129,7 +188,10 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                     List<BannerResult> bannerResults = (List<BannerResult>) extra.get("result");
                     bannerResultList = bannerResults;
                     if (bannerResults != null && bannerResults.size() > 0) {
+                        sampleHeaderView.setVisibility(View.VISIBLE);
                         sampleHeaderView.setImages(bannerResults).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
+                    } else {
+                        sampleHeaderView.setVisibility(View.GONE);
                     }
                 }
             }
@@ -199,7 +261,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
      * 加载banner的GlideImageLoader
      */
     public static class GlideImageLoader extends ImageLoader {
-
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
             BannerResult bannerBean = (BannerResult) path;

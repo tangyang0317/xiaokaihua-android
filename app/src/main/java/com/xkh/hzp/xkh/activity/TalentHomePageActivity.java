@@ -98,7 +98,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
             talentNickNameTxt.setText(userInfoResult.getName());
             homePageTitleTxt.setText(userInfoResult.getName());
             talentSignTxt.setText("" + userInfoResult.getPersonSignature());
-            Glide.with(this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(talentHeadImg);
+            Glide.with(this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(talentHeadImg);
         }
     }
 

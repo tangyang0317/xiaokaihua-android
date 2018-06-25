@@ -31,6 +31,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jaeger.library.StatusBarUtil;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -73,8 +74,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -303,10 +306,10 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         }
         if (dynamicBean.getXkhTalentDynamic() != null) {
             dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
-            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
+            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getCreateTime()));
         }
         initVideo(dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
-        initShare("http://wwww.baidu.com", dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
+        initShare("http://show.xiaokaihua.com/?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
     }
 
 
@@ -457,30 +460,33 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         });
 
         final CommentResult.ReplyResult finalReplyResult = replyResult;
-        commentSendTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String replayContent = commentEdit.getText().toString();
-                CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
-                if (isComment) {
-                    reply.setReplyContent(replayContent);
-                    reply.setParentId(0);
-                    reply.setReplyUserId(commentResultBean.getCommentResult().getUserId());
-                    reply.setReplyUserName(commentResultBean.getCommentResult().getName());
-                    reply.setName(UserDataManager.getInstance().getUserNickName());
-                    reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                } else {
-                    reply.setReplyContent(replayContent);
-                    reply.setParentId(finalReplyResult.getId());
-                    reply.setReplyUserName(finalReplyResult.getName());
-                    reply.setReplyUserId(finalReplyResult.getUserId());
-                    reply.setName(UserDataManager.getInstance().getUserNickName());
-                    reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                }
 
-                sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
-            }
-        });
+
+        RxView.clicks(commentSendTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        String replayContent = commentEdit.getText().toString();
+                        CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
+                        if (isComment) {
+                            reply.setReplyContent(replayContent);
+                            reply.setParentId(0);
+                            reply.setReplyUserId(commentResultBean.getCommentResult().getUserId());
+                            reply.setReplyUserName(commentResultBean.getCommentResult().getName());
+                            reply.setName(UserDataManager.getInstance().getUserNickName());
+                            reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        } else {
+                            reply.setReplyContent(replayContent);
+                            reply.setParentId(finalReplyResult.getId());
+                            reply.setReplyUserName(finalReplyResult.getName());
+                            reply.setReplyUserId(finalReplyResult.getUserId());
+                            reply.setName(UserDataManager.getInstance().getUserNickName());
+                            reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        }
+
+                        sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
+                    }
+                });
 
     }
 
@@ -510,23 +516,24 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             }
         });
 
-        commentSendTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CommentResult commentResult = new CommentResult();
-                CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
-                commentResultBean.setComment(commentEdit.getText().toString());
-                commentResultBean.setCreateTime(System.currentTimeMillis());
-                commentResultBean.setHeadPortrait(UserDataManager.getInstance().getUserHeadPic());
-                commentResultBean.setLikeNumber(0);
-                commentResultBean.setName(UserDataManager.getInstance().getUserNickName());
-                commentResultBean.setStatus("");
-                commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                commentResult.setCommentResult(commentResultBean);
-                commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
-                sendComment(commentEdit.getText().toString(), commentResult);
-            }
-        });
+        RxView.clicks(commentSendTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CommentResult commentResult = new CommentResult();
+                        CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
+                        commentResultBean.setComment(commentEdit.getText().toString());
+                        commentResultBean.setCreateTime(System.currentTimeMillis());
+                        commentResultBean.setHeadPortrait(UserDataManager.getInstance().getUserHeadPic());
+                        commentResultBean.setLikeNumber(0);
+                        commentResultBean.setName(UserDataManager.getInstance().getUserNickName());
+                        commentResultBean.setStatus("");
+                        commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        commentResult.setCommentResult(commentResultBean);
+                        commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
+                        sendComment(commentEdit.getText().toString(), commentResult);
+                    }
+                });
 
     }
 
@@ -877,15 +884,38 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View view) {
         if (view == detailsCommentLayout) {
-            List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-            dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-            dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
-            commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
+                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+                    } else {
+                        SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+            });
         } else if (view == commentTxt) {
-            List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-            dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-            dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
-            commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
+                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+                    } else {
+                        SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+
+            });
         } else if (view == seeMoreCommentTxt) {
             SeeMoreCommentActivity.lanuchActivity(VideoDynamicDetailsActivity.this, getDynamicId());
         } else if (view == detailsShareLayout) {

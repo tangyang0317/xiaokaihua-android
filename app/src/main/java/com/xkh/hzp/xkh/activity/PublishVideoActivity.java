@@ -2,6 +2,7 @@ package com.xkh.hzp.xkh.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,7 @@ import com.xkh.hzp.xkh.tuSDK.RichEditComponentSample;
 import com.xkh.hzp.xkh.tuSDK.TuMutipleHandle;
 import com.xkh.hzp.xkh.upload.OnUploadListener;
 import com.xkh.hzp.xkh.upload.UploadImageManager;
+import com.xkh.hzp.xkh.utils.DateUtils;
 import com.xkh.hzp.xkh.utils.GetPathFromUri;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.Views;
@@ -76,6 +78,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
     private OrientationUtils orientationUtils;
     private GSYVideoOptionBuilder gsyVideoOption = null;
     private String videoLocalPath = "";
+    private String during = "";
     private String faceImgUrl = null;
     private String dynamicContent = null;
     private List<String> videoUrl = new ArrayList<>();
@@ -132,6 +135,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
         publishDynamicParam.setFaceUrl(faceUrl);
         publishDynamicParam.setDynamicType(dynamicType);
         publishDynamicParam.setWordDescription(dynamicTxt);
+        publishDynamicParam.setTimeLength(during);
         String userId = String.valueOf(UserDataManager.getInstance().getLoginUser().getUid());
         ABHttp.getIns().postJSON(UrlConfig.publishDynamic + "?userId=" + userId, JsonUtils.toJson(publishDynamicParam), new AbHttpCallback() {
             @Override
@@ -158,7 +162,7 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
                 super.onSuccessGetObject(code, msg, success, extra);
                 uiLoadingView.dismiss();
                 if (success) {
-                    Toasty.info(PublishVideoActivity.this, "发布成功").show();
+                    Toasty.info(PublishVideoActivity.this, "发布成功，请等待审核").show();
                     hideKeyBoard();
                     PublishVideoActivity.this.finish();
                 } else {
@@ -505,6 +509,10 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
                     /*****设置本地文件播放******/
                     gsyVideoOption.setUrl("file://" + videoLocalPath);
                     gsyVideoOption.build(videoPlayerView);
+                    MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+                    mmr.setDataSource(videoLocalPath);
+                    String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    during = DateUtils.getTimeDescription(Long.parseLong(duration));
                     getCurPlay().startPlayLogic();
                 }
             }

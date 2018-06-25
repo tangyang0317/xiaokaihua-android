@@ -89,6 +89,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@null"
+        android:digits="@string/digits"
         android:hint="请输入6-16位新密码"
         android:inputType="textPassword"
         android:textSize="15sp" />
@@ -109,6 +110,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@null"
+        android:digits="@string/digits"
         android:hint="再次输入"
         android:inputType="textPassword"
         android:textSize="15sp" />

@@ -41,6 +41,13 @@ public class PasswordManagerActivity extends BaseActivity implements View.OnClic
             if (UserDataManager.getInstance().hasPwd()) {
                 settingPasswordItemLayout.setVisibility(View.GONE);
                 settingPwdBottomLine.setVisibility(View.GONE);
+            } else {
+                settingPasswordItemLayout.setVisibility(View.VISIBLE);
+                settingPwdBottomLine.setVisibility(View.VISIBLE);
+                findPwdItemLayout.setVisibility(View.GONE);
+                findPwdBottomLine.setVisibility(View.GONE);
+                modifyPwdItemLayout.setVisibility(View.GONE);
+                modifyPwdBottomLine.setVisibility(View.GONE);
             }
         }
     }

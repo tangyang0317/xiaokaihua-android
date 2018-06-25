@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.app.ActivityManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 import io.reactivex.functions.Consumer;
+import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -132,10 +135,10 @@ public class ModifyPasswordActivity extends BaseActivity {
             Toast.makeText(this, "新密码和确认新密码输入不一致", Toast.LENGTH_SHORT).show();
             return;
         }
-
         HashMap<String, String> params = new HashMap<>();
         params.put("oldPasswd", oldPass);
         params.put("passwd", nPass);
+        params.put("loginId", UserDataManager.getInstance().getLoginId());
         ABHttp.getIns().postJSON(UrlConfig.modifyPwd, JsonUtils.toJson(params), new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -175,6 +178,7 @@ public class ModifyPasswordActivity extends BaseActivity {
                     if (result) {
                         SharedprefrenceHelper.getIns(ModifyPasswordActivity.this).clear();
                         EventBus.getDefault().post(new LogoutEvent(true));
+                        SettingActivity.instance.finish();
                         ModifyPasswordActivity.this.finish();
                     }
                 }

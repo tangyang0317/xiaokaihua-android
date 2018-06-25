@@ -87,28 +87,30 @@ public class NoticeActivity extends BaseActivity implements SwipeRefreshLayout.O
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                talentClassSwipefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 List<NoticeMessageResult> talentResults = (List<NoticeMessageResult>) extra.get("result");
                 if (pageNum == 1) {
                     if (talentResults != null && talentResults.size() > 0) {
                         if (talentResults.size() < 10) {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             noticeMessageAdapter.loadMoreEnd();
                             noticeMessageAdapter.setNewData(talentResults);
                         } else {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             noticeMessageAdapter.setEnableLoadMore(true);
                             noticeMessageAdapter.setNewData(talentResults);
                         }
                     }
                 } else {
                     if (talentResults != null && talentResults.size() > 0) {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         noticeMessageAdapter.loadMoreComplete();
                         noticeMessageAdapter.addData(talentResults);
                     } else {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         noticeMessageAdapter.loadMoreComplete();
                         noticeMessageAdapter.loadMoreEnd();
                     }

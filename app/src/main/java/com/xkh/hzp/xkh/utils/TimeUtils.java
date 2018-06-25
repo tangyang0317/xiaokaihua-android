@@ -14,7 +14,7 @@ public class TimeUtils {
     private final static long minute = 60 * 1000;// 1分钟
     private final static long hour = 60 * minute;// 1小时
     private final static long day = 24 * hour;// 1天
-    private final static long month = 31 * day;// 月
+    private final static long month = 30 * day;// 月
     private final static long year = 12 * month;// 年
 
     /**
@@ -42,7 +42,7 @@ public class TimeUtils {
         }
         if (diff > hour) {
             r = (diff / hour);
-            return r + "个小时前";
+            return r + "小时前";
         }
         if (diff > minute) {
             r = (diff / minute);

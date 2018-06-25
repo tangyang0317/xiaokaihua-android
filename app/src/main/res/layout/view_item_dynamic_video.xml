@@ -16,4 +16,25 @@
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_media_play" />
 
+    <TextView
+        android:id="@+id/videoPlayCountTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/videoFaceImg"
+        android:layout_marginBottom="@dimen/dp10"
+        android:layout_marginLeft="@dimen/dp10"
+        android:textColor="@color/color_ffffff"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+        android:id="@+id/videoDuringTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/videoFaceImg"
+        android:layout_alignRight="@id/videoFaceImg"
+        android:layout_marginBottom="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:textColor="@color/color_ffffff"
+        android:textSize="@dimen/sp_12" />
+
 </RelativeLayout>

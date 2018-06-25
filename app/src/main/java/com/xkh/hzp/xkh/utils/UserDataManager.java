@@ -44,6 +44,19 @@ public class UserDataManager {
     }
 
 
+    /**
+     * getLoginId
+     *
+     * @return
+     */
+    public String getLoginId() {
+        if (getLoginUser() != null) {
+            return getLoginUser().getLoginId();
+        }
+        return "";
+    }
+
+
     /***
      * 是否设置过密码
      * @return

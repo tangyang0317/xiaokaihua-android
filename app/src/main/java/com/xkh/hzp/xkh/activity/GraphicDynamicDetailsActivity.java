@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -62,8 +63,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.DimentUtils;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
@@ -429,7 +432,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         detailsPraiseTxt.setText(String.valueOf(likeCount));
         if (dynamicBean.getXkhTalentDynamic() != null) {
             dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
-            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getUpdateTime()));
+            dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getCreateTime()));
         }
 
         if (dynamicBean.getXkhTalentDynamicAnnexList() != null && dynamicBean.getXkhTalentDynamicAnnexList().size() > 0) {
@@ -443,7 +446,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).placeholder(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicDetailsImg);
                 dynamicDetailsImgLayout.addView(dynamicDetailsImg);
             }
-            initShare("http://wwww.baidu.com", dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
+            initShare("http://show.xiaokaihua.com/?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
         }
     }
 
@@ -476,31 +479,31 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 hideKeyBoard();
             }
         });
-
         final CommentResult.ReplyResult finalReplyResult = replyResult;
-        commentSendTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String replayContent = commentEdit.getText().toString();
-                CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
-                if (isComment) {
-                    reply.setReplyContent(replayContent);
-                    reply.setParentId(0);
-                    reply.setReplyUserId(commentResultBean.getCommentResult().getUserId());
-                    reply.setReplyUserName(commentResultBean.getCommentResult().getName());
-                    reply.setName(UserDataManager.getInstance().getUserNickName());
-                    reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                } else {
-                    reply.setReplyContent(replayContent);
-                    reply.setParentId(finalReplyResult.getId());
-                    reply.setReplyUserName(finalReplyResult.getName());
-                    reply.setReplyUserId(finalReplyResult.getUserId());
-                    reply.setName(UserDataManager.getInstance().getUserNickName());
-                    reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                }
-                sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
-            }
-        });
+        RxView.clicks(commentSendTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        String replayContent = commentEdit.getText().toString();
+                        CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
+                        if (isComment) {
+                            reply.setReplyContent(replayContent);
+                            reply.setParentId(0);
+                            reply.setReplyUserId(commentResultBean.getCommentResult().getUserId());
+                            reply.setReplyUserName(commentResultBean.getCommentResult().getName());
+                            reply.setName(UserDataManager.getInstance().getUserNickName());
+                            reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        } else {
+                            reply.setReplyContent(replayContent);
+                            reply.setParentId(finalReplyResult.getId());
+                            reply.setReplyUserName(finalReplyResult.getName());
+                            reply.setReplyUserId(finalReplyResult.getUserId());
+                            reply.setName(UserDataManager.getInstance().getUserNickName());
+                            reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        }
+                        sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
+                    }
+                });
 
     }
 
@@ -530,24 +533,24 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             }
         });
 
-        commentSendTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CommentResult commentResult = new CommentResult();
-                CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
-                commentResultBean.setComment(commentEdit.getText().toString());
-                commentResultBean.setCreateTime(System.currentTimeMillis());
-                commentResultBean.setHeadPortrait(UserDataManager.getInstance().getUserHeadPic());
-                commentResultBean.setLikeNumber(0);
-                commentResultBean.setName(UserDataManager.getInstance().getUserNickName());
-                commentResultBean.setStatus("");
-                commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
-                commentResult.setCommentResult(commentResultBean);
-                commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
-                sendComment(commentEdit.getText().toString(), commentResult);
-            }
-        });
-
+        RxView.clicks(commentSendTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CommentResult commentResult = new CommentResult();
+                        CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
+                        commentResultBean.setComment(commentEdit.getText().toString());
+                        commentResultBean.setCreateTime(System.currentTimeMillis());
+                        commentResultBean.setHeadPortrait(UserDataManager.getInstance().getUserHeadPic());
+                        commentResultBean.setLikeNumber(0);
+                        commentResultBean.setName(UserDataManager.getInstance().getUserNickName());
+                        commentResultBean.setStatus("");
+                        commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
+                        commentResult.setCommentResult(commentResultBean);
+                        commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
+                        sendComment(commentEdit.getText().toString(), commentResult);
+                    }
+                });
     }
 
     /****
@@ -713,10 +716,21 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     @Override
     public void onClick(View view) {
         if (view == detailsCommentLayout) {
-            List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-            dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-            dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
-            commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
+                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+                    } else {
+                        SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+            });
+
         } else if (view == detailsShareLayout) {
             new ShareAction(GraphicDynamicDetailsActivity.this)
                     .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE)
@@ -724,10 +738,21 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     .setShareboardclickCallback(shareBoardlistener)
                     .open();
         } else if (view == commentTxt) {
-            List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-            dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-            dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
-            commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                @Override
+                public void isLogin(boolean isLogin) {
+                    if (isLogin) {
+                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
+                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
+                    } else {
+                        SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                        LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+                    }
+                }
+
+            });
         } else if (view == seeMoreCommentTxt) {
             SeeMoreCommentActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, getDynamicId());
         } else if (view == commentMineImg) {

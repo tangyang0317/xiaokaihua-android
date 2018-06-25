@@ -23,6 +23,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp15"
             android:layout_toRightOf="@id/dynamicUserHeadImg"
+            android:ellipsize="end"
+            android:maxLength="20"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_14" />
 

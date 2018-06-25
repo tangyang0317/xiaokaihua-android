@@ -11,6 +11,7 @@ import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.HashMap;
@@ -74,10 +75,15 @@ public class BusinessCooperationActivity extends BaseActivity implements View.On
                 Toasty.warning(this, "请填写联系人姓名").show();
                 return;
             }
-            if (TextUtils.isEmpty(linkManPhoneStr) || linkManPhoneStr.length() != 11) {
+            if (TextUtils.isEmpty(linkManPhoneStr)) {
                 Toasty.warning(this, "请填写联系方式").show();
                 return;
             }
+            if (!RegExpValidatorUtils.IsHandset(linkManPhoneStr)) {
+                Toasty.warning(this, "手机号码不合法").show();
+                return;
+            }
+
             if (TextUtils.isEmpty(promotionRequireStr)) {
                 Toasty.warning(this, "请填写招聘需求").show();
                 return;

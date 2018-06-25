@@ -647,13 +647,13 @@ public class DateUtils {
             if (milliseconds / 1000 / 60 > 1) {
                 long minute = milliseconds / 1000 / 60;
                 long second = milliseconds / 1000 % 60;
-                return minute + "分" + second + "秒";
+                return minute + ":" + second;
             } else {
                 //显示秒
-                return milliseconds / 1000 + "秒";
+                return "0:" + milliseconds / 1000;
             }
         } else {
-            return milliseconds + "毫秒";
+            return "0:" + "0:" + milliseconds;
         }
     }
 

@@ -19,6 +19,7 @@ import com.xkh.hzp.xkh.tuSDK.RichEditComponentSample;
 import com.xkh.hzp.xkh.tuSDK.TuMutipleHandle;
 import com.xkh.hzp.xkh.upload.OnUploadListener;
 import com.xkh.hzp.xkh.upload.UploadImageManager;
+import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
@@ -73,8 +74,8 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
         joinUsSubmitBtn = findViewById(R.id.joinUsSubmitBtn);
         richEditComponentSample = new RichEditComponentSample();
         richEditComponentSample.setTuMutipleHandle(this);
-        gridViewAddImgesAdpter = new GridViewAddImgesAdpter(null, this, 4);
-        gridViewAddImgesAdpter.setMaxImages(5);
+        gridViewAddImgesAdpter = new GridViewAddImgesAdpter(null, this, 3);
+        gridViewAddImgesAdpter.setMaxImages(3);
         joinTalentGridView.setAdapter(gridViewAddImgesAdpter);
 
     }
@@ -124,8 +125,14 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
                 Toasty.warning(JoinTalentActivity.this, "请填写联系方式").show();
                 return;
             }
+
+            if (!RegExpValidatorUtils.IsHandset(talentLinkManPhoneStr)) {
+                Toasty.warning(JoinTalentActivity.this, "手机号码不合法").show();
+                return;
+            }
+
             if (TextUtils.isEmpty(talentWeiBoStr)) {
-                Toasty.warning(JoinTalentActivity.this, "请填写微博账号").show();
+                Toasty.warning(JoinTalentActivity.this, "请填写微博昵称").show();
                 return;
             }
             if (TextUtils.isEmpty(talentHeightStr)) {
@@ -137,7 +144,7 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
                 return;
             }
 
-            if (gridViewAddImgesAdpter.getDatas().size() < 4) {
+            if (gridViewAddImgesAdpter.getDatas().size() != 3) {
                 Toasty.warning(JoinTalentActivity.this, "请上传4张照片").show();
                 return;
             }

@@ -35,6 +35,7 @@ public class TalentInfoResultBean {
     private List<String> signatureName;
     private String status;
     private String style;
+    private String personIntro;
     private int userId;
     private int weight;
 
@@ -132,5 +133,13 @@ public class TalentInfoResultBean {
 
     public void setSignatureName(List<String> signatureName) {
         this.signatureName = signatureName;
+    }
+
+    public String getPersonIntro() {
+        return personIntro;
+    }
+
+    public void setPersonIntro(String personIntro) {
+        this.personIntro = personIntro;
     }
 }

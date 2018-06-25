@@ -44,7 +44,7 @@ public class CommentMessageAdapter extends BaseQuickAdapter<CommentMessageResult
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(commentUserHeadImg);
         Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
         commentUserNickNameTxt.setText(item.getReplyUserName());
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         commentDateTxt.setText(sdf.format(item.getCreateTime()));
         commentReplyContentTxt.setText("回复@" + item.getUserName() + ":" + item.getReplyContent());
         String mineContent = TextUtils.isEmpty(item.getComment()) ? item.getContent() : item.getComment();

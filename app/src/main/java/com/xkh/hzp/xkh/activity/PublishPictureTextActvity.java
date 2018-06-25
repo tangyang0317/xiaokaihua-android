@@ -122,7 +122,7 @@ public class PublishPictureTextActvity extends BaseActivity implements TuMutiple
                 super.onSuccessGetObject(code, msg, success, extra);
                 loadingView.dismiss();
                 if (success) {
-                    Toasty.info(PublishPictureTextActvity.this, "发布成功").show();
+                    Toasty.info(PublishPictureTextActvity.this, "发布成功，请等待审核").show();
                     hideKeyBoard();
                     PublishPictureTextActvity.this.finish();
                 } else {

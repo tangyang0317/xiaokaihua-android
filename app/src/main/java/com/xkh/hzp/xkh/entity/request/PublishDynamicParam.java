@@ -21,6 +21,7 @@ public class PublishDynamicParam implements Serializable {
     private String dynamicType;
     private String faceUrl;
     private String wordDescription;
+    private String timeLength;
     private List<String> annexUrl;
 
     public String getDynamicType() {
@@ -53,5 +54,13 @@ public class PublishDynamicParam implements Serializable {
 
     public void setAnnexUrl(List<String> annexUrl) {
         this.annexUrl = annexUrl;
+    }
+
+    public String getTimeLength() {
+        return timeLength;
+    }
+
+    public void setTimeLength(String timeLength) {
+        this.timeLength = timeLength;
     }
 }

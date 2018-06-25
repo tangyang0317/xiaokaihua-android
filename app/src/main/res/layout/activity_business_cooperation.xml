@@ -83,6 +83,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
+            android:inputType="phone"
             android:paddingLeft="@dimen/dp4"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/sp_15" />
@@ -112,9 +113,9 @@
             android:layout_weight="1"
             android:background="@drawable/shape_edit_join_us"
             android:gravity="top"
+            android:paddingLeft="@dimen/dp4"
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_15"
-            android:paddingLeft="@dimen/dp4" />
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
 

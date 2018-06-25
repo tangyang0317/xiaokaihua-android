@@ -87,28 +87,30 @@ public class LikeMessageActivity extends BaseActivity implements SwipeRefreshLay
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                talentClassSwipefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 List<LikeMessageResult> talentResults = (List<LikeMessageResult>) extra.get("result");
                 if (pageNum == 1) {
                     if (talentResults != null && talentResults.size() > 0) {
                         if (talentResults.size() < 10) {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             commentMessageAdapter.loadMoreEnd();
                             commentMessageAdapter.setNewData(talentResults);
                         } else {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             commentMessageAdapter.setEnableLoadMore(true);
                             commentMessageAdapter.setNewData(talentResults);
                         }
                     }
                 } else {
                     if (talentResults != null && talentResults.size() > 0) {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         commentMessageAdapter.loadMoreComplete();
                         commentMessageAdapter.addData(talentResults);
                     } else {
-                        talentClassSwipefreshLayout.setRefreshing(false);
                         commentMessageAdapter.loadMoreComplete();
                         commentMessageAdapter.loadMoreEnd();
                     }

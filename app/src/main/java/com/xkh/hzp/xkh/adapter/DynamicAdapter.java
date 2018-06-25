@@ -60,10 +60,13 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_dynamic_video, null);
             ImageView videoFaceImg = view.findViewById(R.id.videoFaceImg);
             ImageView videoPlayIconImg = view.findViewById(R.id.videoPlayIconImg);
+            TextView videoPlayCountTxt = view.findViewById(R.id.videoPlayCountTxt);
+            TextView videoDuringTxt = view.findViewById(R.id.videoDuringTxt);
             int screenWidth = DimentUtils.getScreenWidth(mContext);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth - DimentUtils.dip2px(mContext, 30), screenWidth / 2);
             videoFaceImg.setLayoutParams(layoutParams);
             dynamicImgContentLayout.addView(view);
+            videoPlayCountTxt.setText(item.getViewNumber() + "次播放");
             Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(videoFaceImg);
         }
         if ("normal".equals(item.getLikeStatus())) {
@@ -74,7 +77,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
         expandableTextView.setText(item.getWordDescription());
-        dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getUpdateTime()));
+        dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getCreateTime()));
     }
 
 

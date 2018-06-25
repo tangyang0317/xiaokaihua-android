@@ -227,7 +227,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
                         hideKeyBoard();
                         EventBus.getDefault().post(new LoginEvent(true));
                         IntentUtils.sendBroadcast(LoginWithPwdActivity.this, Config.LOGIN_ACTION);
-                        AppManager.getAppManager().finishActivity(LoginActivity.class);
+                        LoginActivity.instances.finish();
                         LoginWithPwdActivity.this.finish();
                     }
                 }

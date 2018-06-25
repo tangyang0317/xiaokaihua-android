@@ -80,6 +80,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/sl_editor_red"
+                android:digits="@string/digits"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:maxLength="16"

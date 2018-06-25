@@ -13,6 +13,7 @@ import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
+import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.Views;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 import io.reactivex.functions.Consumer;
+import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -64,6 +66,11 @@ public class FindPasswordActivity extends BaseActivity {
         etNewpass = findViewById(R.id.activity_setpassword_name);
         etConfirmNewpass = findViewById(R.id.activity_setpassword_password);
         timer = new Timer();
+        if (!TextUtils.isEmpty(UserDataManager.getInstance().getLoginId())) {
+            etUserName.setText(UserDataManager.getInstance().getLoginId());
+            etUserName.setSelection(UserDataManager.getInstance().getLoginId().length());
+            etUserName.setEnabled(false);
+        }
     }
 
     TimerTask task = new TimerTask() {
@@ -149,7 +156,7 @@ public class FindPasswordActivity extends BaseActivity {
         String newPassStr = etNewpass.getText().toString();
         String newPassConfirmStr = etConfirmNewpass.getText().toString();
 
-        if (RegExpValidatorUtils.IsHandset(phoneStr)) {
+        if (!RegExpValidatorUtils.IsHandset(phoneStr)) {
             Toasty.warning(this, "请填写11位手机号码").show();
             return;
         }
@@ -157,7 +164,6 @@ public class FindPasswordActivity extends BaseActivity {
             Toasty.warning(this, "请填写验证码");
             return;
         }
-
 
         if (TextUtils.isEmpty(newPassStr)) {
             Toasty.error(FindPasswordActivity.this, "新密码不能为空").show();
@@ -240,6 +246,7 @@ public class FindPasswordActivity extends BaseActivity {
                     if (result) {
                         SharedprefrenceHelper.getIns(FindPasswordActivity.this).clear();
                         EventBus.getDefault().post(new LogoutEvent(true));
+                        SettingActivity.instance.finish();
                         FindPasswordActivity.this.finish();
                     }
                 }

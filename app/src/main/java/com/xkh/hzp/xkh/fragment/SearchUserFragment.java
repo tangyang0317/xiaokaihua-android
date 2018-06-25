@@ -55,7 +55,7 @@ public class SearchUserFragment extends BaseFragment implements BaseQuickAdapter
         searchUserAdapter.setLoadMoreView(new XkhLoadMoreView());
         searchUserAdapter.setOnLoadMoreListener(this, fragmentSearchRecycleView);
         EmptyView emptyView = new EmptyView(getActivity());
-        emptyView.setNodataTitle("没有搜索到相关动态哟!");
+        emptyView.setNodataTitle("没有搜索到相关达人哟!");
         emptyView.setNodataImageSource(R.mipmap.note_empty);
         emptyView.setOperateBtnVisiable(false);
         searchUserAdapter.setEmptyView(emptyView);

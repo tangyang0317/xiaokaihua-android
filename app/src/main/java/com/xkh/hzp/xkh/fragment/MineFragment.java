@@ -1,6 +1,5 @@
 package com.xkh.hzp.xkh.fragment;
 
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
 import com.xkh.hzp.xkh.activity.JoinTalentActivity;
@@ -25,7 +25,6 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
-import com.xkh.hzp.xkh.utils.GlideRoundTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,8 +32,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.Global;
 import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -46,7 +46,7 @@ import xkh.hzp.xkh.com.base.view.ItemLayout;
  * @Author tangyang
  * @DATE 2018/4/28
  **/
-public class MineFragment extends BaseFragment implements View.OnClickListener {
+public class MineFragment extends BaseFragment {
     private ImageView userHeadImg;
     private TextView userNickNameTxt, userIntroductionTxt, mineLoginTxt;
     private ItemLayout userMsgItemLayout, joinTalentItemLayout, businessConperationItemLayout, updateInfoItemLayout, settingItemLayout;
@@ -105,12 +105,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getUserInfo();
-            }
-        }, 500);
+        getUserInfo();
     }
 
 
@@ -127,7 +122,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             } else {
                 userIntroductionTxt.setText("" + userInfoResult.getPersonSignature());
             }
-            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(userHeadImg);
+            Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).error(R.mipmap.icon_female_selected).into(userHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);
             userHeadImg.setVisibility(View.GONE);
@@ -174,73 +169,95 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void setListernner() {
-        userMsgItemLayout.setOnClickListener(this);
-        joinTalentItemLayout.setOnClickListener(this);
-        businessConperationItemLayout.setOnClickListener(this);
-        updateInfoItemLayout.setOnClickListener(this);
-        settingItemLayout.setOnClickListener(this);
-        mineLoginTxt.setOnClickListener(this);
+        RxView.clicks(userMsgItemLayout).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
+                                } else {
+                                    LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                                }
+                            }
+                        });
+                    }
+                });
+
+        RxView.clicks(joinTalentItemLayout).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    JoinTalentActivity.lunchActivity(getActivity(), null, JoinTalentActivity.class);
+                                } else {
+                                    LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                                }
+                            }
+                        });
+                    }
+                });
+        RxView.clicks(businessConperationItemLayout).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    BusinessCooperationActivity.lunchActivity(getActivity(), null, BusinessCooperationActivity.class);
+                                } else {
+                                    LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                                }
+                            }
+                        });
+                    }
+                });
+        RxView.clicks(settingItemLayout).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
+                                } else {
+                                    LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                                }
+                            }
+                        });
+                    }
+                });
+        RxView.clicks(updateInfoItemLayout).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                            @Override
+                            public void isLogin(boolean isLogin) {
+                                if (isLogin) {
+                                    UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
+                                } else {
+                                    LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                                }
+                            }
+                        });
+                    }
+                });
+        RxView.clicks(mineLoginTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
+                    }
+                });
+
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == userMsgItemLayout) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
-        } else if (view == joinTalentItemLayout) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        JoinTalentActivity.lunchActivity(getActivity(), null, JoinTalentActivity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
-        } else if (view == businessConperationItemLayout) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        BusinessCooperationActivity.lunchActivity(getActivity(), null, BusinessCooperationActivity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
-        } else if (view == settingItemLayout) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        SettingActivity.lunchActivity(getActivity(), null, SettingActivity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
-        } else if (view == updateInfoItemLayout) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        UserInfoActvity.lunchActivity(getActivity(), null, UserInfoActvity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
-        } else if (view == mineLoginTxt) {
-            LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-        }
-    }
 }

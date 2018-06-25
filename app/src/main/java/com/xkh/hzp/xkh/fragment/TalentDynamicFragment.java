@@ -2,6 +2,7 @@ package com.xkh.hzp.xkh.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import xkh.hzp.xkh.com.base.base.BaseFragment;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.EmptyView;
 import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
@@ -39,8 +41,9 @@ import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
  * @Author tangyang
  * @DATE 2018/5/4
  **/
-public class TalentDynamicFragment extends FragmentPagerFragment implements BaseQuickAdapter.RequestLoadMoreListener {
+public class TalentDynamicFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView dynamicObservableRecyclerView;
+    private SwipeRefreshLayout dynamicSwipeRefreshLayout;
     private DynamicAdapter dynamicAdapter;
     private int pageNum = 1, pageSize = 10;
 
@@ -70,6 +73,7 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
 
     @Override
     public void initView(View contentView) {
+        dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicObservableRecyclerView.setHasFixedSize(true);
@@ -79,6 +83,8 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
         emptyView.setNodataTitle("现在还没有动态哇");
         emptyView.setNodataImageSource(R.mipmap.note_empty);
         dynamicAdapter.setEmptyView(emptyView);
+        dynamicSwipeRefreshLayout.setOnRefreshListener(this);
+        dynamicSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         dynamicAdapter.setLoadMoreView(new XkhLoadMoreView());
         dynamicAdapter.setOnLoadMoreListener(this, dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setAdapter(dynamicAdapter);
@@ -104,6 +110,12 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
                 entity.putField("result", new TypeToken<List<DynamicBean>>() {
                 }.getType());
 
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dynamicSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -254,21 +266,14 @@ public class TalentDynamicFragment extends FragmentPagerFragment implements Base
 
 
     @Override
-    public boolean canScrollVertically(int direction) {
-        return dynamicObservableRecyclerView != null && dynamicObservableRecyclerView.canScrollVertically(direction);
-    }
-
-    @Override
-    public void onFlingOver(int y, long duration) {
-        if (dynamicObservableRecyclerView != null) {
-            dynamicObservableRecyclerView.smoothScrollBy(0, y);
-        }
-    }
-
-
-    @Override
     public void onLoadMoreRequested() {
         pageNum++;
+        initData(pageNum, pageSize);
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
         initData(pageNum, pageSize);
     }
 }

@@ -5,14 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.LoginActivity;
-import com.xkh.hzp.xkh.activity.MessageActivity;
 import com.xkh.hzp.xkh.activity.SearchHistoryActivty;
 import com.xkh.hzp.xkh.activity.TalentClassActivity;
 import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
@@ -24,7 +22,6 @@ import com.xkh.hzp.xkh.entity.result.TalentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
-import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.util.ArrayList;
@@ -44,10 +41,10 @@ import xkh.hzp.xkh.com.base.view.XkhLoadMoreView;
  * @DATE 2018/4/28
  **/
 public class TalentFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+
     private SwipeRefreshLayout talentSwipeRefreshLayout;
     private RecyclerView talentRecyclerView;
     private TextView searchLayout;
-    private ImageView msgImg;
     private TalentAdapter talentAdapter;
     private TalentClassAdapter talentClassAdapter;
     private int pageNum = 1, pageSize = 10;
@@ -57,10 +54,10 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         return R.layout.fragment_talent;
     }
 
+
     @Override
     public void initView(View contentView) {
         searchLayout = contentView.findViewById(R.id.searchLayout);
-        msgImg = contentView.findViewById(R.id.msgImg);
         talentSwipeRefreshLayout = contentView.findViewById(R.id.talentSwipeRefreshLayout);
         talentRecyclerView = contentView.findViewById(R.id.talentRecyclerView);
         talentSwipeRefreshLayout.setOnRefreshListener(this);
@@ -178,7 +175,6 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
-        msgImg.setOnClickListener(this);
         talentClassAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -314,17 +310,6 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View view) {
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 1);
-        } else if (view == msgImg) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        MessageActivity.lunchActivity(getActivity(), null, MessageActivity.class);
-                    } else {
-                        LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                    }
-                }
-            });
         }
     }
 }

@@ -41,7 +41,7 @@ public class LikeMessageAdapter extends BaseQuickAdapter<LikeMessageResult, Base
         Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
         likeUserNickNameTxt.setText(item.getLikeUserName());
         dynamicContentTxt.setText(item.getSimpleDynamicResult().getWordDescription());
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         likeDateTxt.setText(sdf.format(item.getCreateTime()));
 
     }

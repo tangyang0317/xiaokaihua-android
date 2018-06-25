@@ -13,6 +13,7 @@
         android:layout_marginTop="64dp"
         android:background="@null"
         android:hint="请输入6-16位新密码"
+        android:digits="@string/digits"
         android:inputType="textPassword"
         android:textSize="15sp" />
 
@@ -33,6 +34,7 @@
         android:layout_marginTop="20dp"
         android:background="@null"
         android:hint="再次输入"
+        android:digits="@string/digits"
         android:inputType="textPassword"
         android:textSize="15sp" />
 

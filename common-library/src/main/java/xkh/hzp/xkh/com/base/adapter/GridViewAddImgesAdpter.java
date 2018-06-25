@@ -110,8 +110,8 @@ public class GridViewAddImgesAdpter extends BaseAdapter {
 
         int screenWidth = DimentUtils.getScreenWidth(context);
         ViewGroup.LayoutParams layoutParams = viewHolder.ivimage.getLayoutParams();
-        layoutParams.width = (screenWidth - DimentUtils.dip2px(context, numOfRow * 10)) / numOfRow;
-        layoutParams.height = (screenWidth - DimentUtils.dip2px(context, numOfRow * 10)) / numOfRow;
+        layoutParams.width = (screenWidth - DimentUtils.dip2px(context, numOfRow * 5)) / numOfRow;
+        layoutParams.height = (screenWidth - DimentUtils.dip2px(context, numOfRow * 5)) / numOfRow;
         viewHolder.ivimage.setLayoutParams(layoutParams);
 
         if (datas != null && position < datas.size()) {

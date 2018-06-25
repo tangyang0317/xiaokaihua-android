@@ -38,6 +38,16 @@
             android:src="@mipmap/icon_msg_black" />
 
         <ImageView
+            android:id="@+id/msgDotImg"
+            android:layout_width="@dimen/dp10"
+            android:layout_height="@dimen/dp10"
+            android:layout_alignRight="@id/talentMineMsgImg"
+            android:layout_alignTop="@id/talentMineMsgImg"
+            android:src="@drawable/shpe_red_dot"
+            android:visibility="gone" />
+
+
+        <ImageView
             android:id="@+id/talentMineEditImg"
             android:layout_width="@dimen/dp20"
             android:layout_height="@dimen/dp20"
@@ -77,6 +87,8 @@
                     android:layout_below="@id/mineHeadImg"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp10"
+                    android:ellipsize="end"
+                    android:maxLength="20"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14"
                     android:textStyle="bold" />

@@ -32,14 +32,6 @@
             android:text="搜索关键字及达人昵称"
             android:textSize="@dimen/sp_12" />
 
-        <ImageView
-            android:id="@+id/msgImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp15"
-            android:layout_weight="0"
-            android:src="@mipmap/icon_msg_white" />
-
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
