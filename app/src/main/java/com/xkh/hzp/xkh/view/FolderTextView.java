@@ -35,7 +35,7 @@ public class FolderTextView extends android.support.v7.widget.AppCompatTextView 
     // 默认收起文字
     private static final String DEFAULT_FOLD_TEXT = "[收起]";
     // 默认展开文字
-    private static final String DEFAULT_UNFOLD_TEXT = "[查看全部]";
+    private static final String DEFAULT_UNFOLD_TEXT = "[全文]";
     // 默认固定行数
     private static final int DEFAULT_FOLD_LINE = 3;
     // 默认收起和展开文字颜色

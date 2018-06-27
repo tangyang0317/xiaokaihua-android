@@ -16,4 +16,8 @@
     <color name="color_f6f6f6">#f6f6f6</color>
     <color name="color_f9f9f9">#f9f9f9</color>
     <color name="color_c8000000">#32000000</color>
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
 </resources>

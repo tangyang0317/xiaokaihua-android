@@ -261,17 +261,26 @@ public class PublishVideoActivity extends BaseActivity implements View.OnClickLi
      * 上传视频
      */
     private void uploadVideo(String token) {
-        uiLoadingView.show();
         com.qiniu.android.storage.Configuration config = new com.qiniu.android.storage.Configuration.Builder()
                 .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
                 .putThreshhold(1024 * 1024)   // 启用分片上传阀值。默认512K
                 .connectTimeout(10)           // 链接超时。默认10秒
                 .responseTimeout(60)          // 服务器响应超时。默认60秒
                 .build();
+
+        File file = new File(videoLocalPath);
+        if (!file.exists()) {
+            Toasty.warning(PublishVideoActivity.this, "文件不存在").show();
+            return;
+        }
+        if (file.length() / 1024 / 1024 > 500) {
+            Toasty.warning(PublishVideoActivity.this, "视频文件大于500,无法上传,请重新选择视频").show();
+            return;
+        }
+        uiLoadingView.show();
         UploadManager uploadManager = new UploadManager(config);
         UploadOptions uploadOptions = new UploadOptions(null, null, false, upProgressHandler, null);
         uploadManager.put(new File(videoLocalPath), String.valueOf(System.currentTimeMillis() * 100 * 1000), token, upCompletionHandler, uploadOptions);
-
     }
 
     @Override

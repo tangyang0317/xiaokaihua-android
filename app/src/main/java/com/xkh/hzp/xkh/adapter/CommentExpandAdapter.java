@@ -2,6 +2,7 @@ package com.xkh.hzp.xkh.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
 import java.text.SimpleDateFormat;
@@ -143,18 +145,17 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         }
         groupHolder.itemPraisedCountTxt.setText("" + commentBeanList.get(groupPosition).getCommentResult().getLikeNumber());
         groupHolder.userNameTxt.setText(commentBeanList.get(groupPosition).getCommentResult().getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
-        groupHolder.commentTimeTxt.setText(sdf.format(commentBeanList.get(groupPosition).getCommentResult().getCreateTime()));
+        groupHolder.commentTimeTxt.setText(TimeUtils.getTimeFormatText(commentBeanList.get(groupPosition).getCommentResult().getCreateTime()));
         groupHolder.commentContentTxt.setText(commentBeanList.get(groupPosition).getCommentResult().getComment());
         groupHolder.praisedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if ("normal".equals(commentBeanList.get(groupPosition).getCommentResult().getStatus())) {
                     //取消点赞
-                    commentCancleLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg);
+                    commentCancleLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg, groupHolder.itemPraisedCountTxt);
                 } else {
                     //点赞
-                    commentLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg);
+                    commentLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg, groupHolder.itemPraisedCountTxt);
                 }
             }
         });
@@ -182,8 +183,10 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         }
         CommentResult.ReplyResult replyResult = commentBeanList.get(groupPosition).getReplyResults().get(childPosition);
         if (replyResult != null) {
-            childHolder.itemReplyUserNameTxt.setText(replyResult.getName() + "回复" + replyResult.getReplyUserName() + ":");
-            childHolder.itemReplyContentTxt.setText(replyResult.getReplyContent());
+            StringBuilder content = new StringBuilder();
+            content.append("<font color=\"#FF5555\">" + replyResult.getName() + "回复" + replyResult.getReplyUserName() + ":" + "</font>");
+            content.append("<font color=\"#949494\">" + replyResult.getReplyContent() + "</font>");
+            childHolder.itemReplyContentTxt.setText(Html.fromHtml(content.toString()));
         }
         if (childPosition == getChildrenCount(groupPosition) - 1) {
             childHolder.replySpaceView.setVisibility(View.VISIBLE);
@@ -213,11 +216,10 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     }
 
     private class ChildHolder {
-        private TextView itemReplyUserNameTxt, itemReplyContentTxt;
+        private TextView itemReplyContentTxt;
         private View replySpaceView;
 
         public ChildHolder(View view) {
-            itemReplyUserNameTxt = view.findViewById(R.id.itemReplyUserNameTxt);
             itemReplyContentTxt = view.findViewById(R.id.itemReplyContentTxt);
             replySpaceView = view.findViewById(R.id.replySpaceView);
         }
@@ -322,8 +324,9 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
      * @param commentId
      * @param groupPosition
      * @param praisedImg
+     * @param itemPraisedCountTxt
      */
-    public void commentLike(long commentId, final int groupPosition, final ImageView praisedImg) {
+    public void commentLike(long commentId, final int groupPosition, final ImageView praisedImg, final TextView itemPraisedCountTxt) {
         HashMap<String, String> params = new HashMap<>();
         params.put("commentId", String.valueOf(commentId));
         params.put("userId", UserDataManager.getInstance().getUserId());
@@ -340,11 +343,13 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
                 if (success) {
                     if (success) {
                         commentBeanList.get(groupPosition).getCommentResult().setStatus("normal");
+                        commentBeanList.get(groupPosition).getCommentResult().setLikeNumber(commentBeanList.get(groupPosition).getCommentResult().getLikeNumber() + 1);
                         praisedImg.setImageResource(R.mipmap.icon_praised);
                         ScaleAnimation viewShowAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
                                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                         viewShowAnimation.setDuration(500);
                         praisedImg.startAnimation(viewShowAnimation);
+                        itemPraisedCountTxt.setText(String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getLikeNumber()));
                     }
                 }
             }
@@ -357,8 +362,9 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
      * @param commentId
      * @param groupPosition
      * @param praisedImg
+     * @param itemPraisedCountTxt
      */
-    public void commentCancleLike(long commentId, final int groupPosition, final ImageView praisedImg) {
+    public void commentCancleLike(long commentId, final int groupPosition, final ImageView praisedImg, final TextView itemPraisedCountTxt) {
         HashMap<String, String> params = new HashMap<>();
         params.put("commentId", String.valueOf(commentId));
         params.put("userId", UserDataManager.getInstance().getUserId());
@@ -374,11 +380,13 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
                     commentBeanList.get(groupPosition).getCommentResult().setStatus(null);
+                    commentBeanList.get(groupPosition).getCommentResult().setLikeNumber(commentBeanList.get(groupPosition).getCommentResult().getLikeNumber() - 1);
                     praisedImg.setImageResource(R.mipmap.icon_unpraised);
                     ScaleAnimation viewShowAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
                             Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     viewShowAnimation.setDuration(500);
                     praisedImg.startAnimation(viewShowAnimation);
+                    itemPraisedCountTxt.setText(String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getLikeNumber()));
                 }
             }
         });

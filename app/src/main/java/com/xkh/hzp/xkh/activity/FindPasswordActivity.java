@@ -1,5 +1,7 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import com.xkh.hzp.xkh.event.LogoutEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CountDownUtil;
 import com.xkh.hzp.xkh.utils.RegExpValidatorUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.Views;
@@ -42,8 +45,18 @@ public class FindPasswordActivity extends BaseActivity {
     private EditText etUserName;
     private TextView tvGet;
     private Button btnSign;
-    private int recLen = 60;
-    private Timer timer;
+
+    public static void lanuchActivity(Activity activity, boolean isLogin) {
+        Intent intent = new Intent(activity, FindPasswordActivity.class);
+        intent.putExtra("isLogin", isLogin);
+        activity.startActivity(intent);
+    }
+
+
+    private boolean isLogin() {
+        return getIntent().getBooleanExtra("isLogin", false);
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -65,32 +78,12 @@ public class FindPasswordActivity extends BaseActivity {
         btnSign = findViewById(R.id.activity_password_btnSign);
         etNewpass = findViewById(R.id.activity_setpassword_name);
         etConfirmNewpass = findViewById(R.id.activity_setpassword_password);
-        timer = new Timer();
         if (!TextUtils.isEmpty(UserDataManager.getInstance().getLoginId())) {
             etUserName.setText(UserDataManager.getInstance().getLoginId());
             etUserName.setSelection(UserDataManager.getInstance().getLoginId().length());
             etUserName.setEnabled(false);
         }
     }
-
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {      // UI thread
-                @Override
-                public void run() {
-                    recLen--;
-                    tvGet.setText("(" + recLen + ")" + "再次发送");
-                    tvGet.setTextColor(Views.fromColors(R.color.color_006cff));
-                    tvGet.setBackgroundResource(R.drawable.btn_circle_custom_gray);
-                    if (recLen < 0) {
-                        timer.cancel();
-                        tvGet.setText("获取验证码");
-                    }
-                }
-            });
-        }
-    };
 
     @Override
     public void setListenner() {
@@ -122,7 +115,6 @@ public class FindPasswordActivity extends BaseActivity {
      * 发送验证码
      */
     private void sendAuthCode(String phone) {
-        timer.schedule(task, 1000, 1000);
         LinkedHashMap<String, String> param = new LinkedHashMap<>();
         param.put("type", "pwd");
         param.put("phone", phone);
@@ -137,6 +129,12 @@ public class FindPasswordActivity extends BaseActivity {
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 Toasty.info(FindPasswordActivity.this, msg).show();
+                if (success) {
+                    new CountDownUtil(tvGet)
+                            .setCountDownMillis(60_000L)//倒计时60000ms
+                            .setCountDownColor(R.color.color_006cff, R.color.color_666666)//不同状态字体颜色
+                            .start();
+                }
             }
 
             @Override
@@ -218,7 +216,11 @@ public class FindPasswordActivity extends BaseActivity {
                 if (success) {
                     boolean result = (boolean) extra.get("result");
                     if (result) {
-                        logout();
+                        if (isLogin()) {
+                            logout();
+                        } else {
+                            FindPasswordActivity.this.finish();
+                        }
                     }
                 }
             }

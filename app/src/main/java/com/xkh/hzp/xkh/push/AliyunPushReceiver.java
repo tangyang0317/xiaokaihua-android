@@ -25,6 +25,7 @@ public class AliyunPushReceiver extends MessageReceiver {
     protected void onNotification(Context context, String s, String s1, Map<String, String> map) {
         super.onNotification(context, s, s1, map);
         Logger.d(s + "--消息通知---" + s1);
+
     }
 
     @Override

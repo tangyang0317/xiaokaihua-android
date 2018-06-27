@@ -142,7 +142,7 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
                 if (success) {
                     UnReadMsgResult unReadMsgResult = (UnReadMsgResult) extra.get("result");
                     if (unReadMsgResult != null) {
-                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike()) {
+                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike() || unReadMsgResult.isHaveUnreadPush()) {
                             msgDotImg.setVisibility(View.VISIBLE);
                         }
                     }

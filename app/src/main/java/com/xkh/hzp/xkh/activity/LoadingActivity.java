@@ -1,6 +1,10 @@
 package com.xkh.hzp.xkh.activity;
 
-import android.content.Intent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,24 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.MainActivity;
 import com.xkh.hzp.xkh.R;
-import com.xkh.hzp.xkh.config.UrlConfig;
-import com.xkh.hzp.xkh.entity.result.UserInfoResult;
-import com.xkh.hzp.xkh.http.ABHttp;
-import com.xkh.hzp.xkh.http.AbHttpCallback;
-import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
-import com.xkh.hzp.xkh.utils.UserDataManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
@@ -53,22 +43,38 @@ public class LoadingActivity extends AppCompatActivity {
                 }
             }
         });
+//        registerNotificationChannel();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                boolean isFirst = (boolean) SharedprefrenceHelper.getIns(LoadingActivity.this).get("first_guide", true);
-//                if (isFirst) {
-//                    Intent intent = new Intent(LoadingActivity.this, GuideActivity.class);
-//                    LoadingActivity.this.startActivity(intent);
-//                    LoadingActivity.this.finish();
-//                } else {
                 MainActivity.lunchActivity(LoadingActivity.this, null, MainActivity.class);
                 LoadingActivity.this.finish();
-//                }
             }
         }, 2000);
 
+    }
+
+    /***
+     *适配8.0以上,设置推送通道
+     */
+    private void registerNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            // 通知渠道的id
+            String id = "1";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(id, "", importance);
+            // 配置通知渠道的属性
+            // 设置通知出现时的闪灯（如果 android 设备支持的话）
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            // 设置通知出现时的震动（如果 android 设备支持的话）
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            //最后在notificationmanager中创建该通知渠道
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
     }
 
 }

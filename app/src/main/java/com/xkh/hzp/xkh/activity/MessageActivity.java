@@ -85,11 +85,15 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     if (unReadMsgResult != null) {
                         commentMsgUnRead = unReadMsgResult.isHaveUnreadComment();
                         likeMsgUnRead = unReadMsgResult.isHaveUnreadLike();
-                        if (!unReadMsgResult.isHaveUnreadLike()) {
-                            likeMsgItemLayout.setRightIcon(0);
+                        if (unReadMsgResult.isHaveUnreadLike()) {
+                            likeMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
                         }
-                        if (!unReadMsgResult.isHaveUnreadComment()) {
-                            commentMsgItemLayout.setRightIcon(0);
+                        if (unReadMsgResult.isHaveUnreadComment()) {
+                            commentMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        }
+
+                        if (unReadMsgResult.isHaveUnreadPush()) {
+                            noticeMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
                         }
                     }
                 }

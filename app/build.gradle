@@ -69,4 +69,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jaeger.statusbarutil:library:1.5.1'
     compile 'com.ms-square:expandableTextView:0.1.4'
+    compile 'com.github.Awent:PhotoPick-Master:v1.095'
 }

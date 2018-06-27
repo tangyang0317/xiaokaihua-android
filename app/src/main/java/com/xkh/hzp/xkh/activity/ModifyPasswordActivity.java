@@ -1,8 +1,6 @@
 package com.xkh.hzp.xkh.activity;
 
-import android.app.ActivityManager;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 import io.reactivex.functions.Consumer;
-import xkh.hzp.xkh.com.base.base.AppManager;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -149,8 +146,8 @@ public class ModifyPasswordActivity extends BaseActivity {
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
+                Toasty.info(ModifyPasswordActivity.this, msg).show();
                 if (success) {
-                    Toasty.info(ModifyPasswordActivity.this, "密码修改成功").show();
                     logout();
                 }
             }

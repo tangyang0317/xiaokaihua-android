@@ -16,7 +16,6 @@ public class TimeUtils {
     private final static long day = 24 * hour;// 1天
     private final static long month = 30 * day;// 月
     private final static long year = 12 * month;// 年
-
     /**
      * 返回文字描述的日期
      *

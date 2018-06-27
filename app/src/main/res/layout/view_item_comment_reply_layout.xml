@@ -15,15 +15,6 @@
         android:paddingLeft="@dimen/dp4"
         android:paddingRight="@dimen/dp4"
         android:paddingTop="@dimen/dp2">
-
-        <TextView
-            android:id="@+id/itemReplyUserNameTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="沐风:"
-            android:textColor="@color/color_ff5555"
-            android:textSize="14sp" />
-
         <TextView
             android:id="@+id/itemReplyContentTxt"
             android:layout_width="wrap_content"
@@ -31,10 +22,9 @@
             android:ellipsize="end"
             android:maxLines="10"
             android:paddingLeft="4dp"
-            android:paddingRight="8dp"
             android:text="世上本没有路，走的人多了，也就成了路"
             android:textColor="#949494"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View

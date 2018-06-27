@@ -124,7 +124,10 @@ public class MainActivity extends BaseActivity {
     private void requestPermissions() {
         RxPermissions rxPermission = new RxPermissions(MainActivity.this);
         rxPermission
-                .requestEach(Manifest.permission.ACCESS_FINE_LOCATION,
+                .requestEach(
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_CALENDAR,
                         Manifest.permission.READ_CALL_LOG,

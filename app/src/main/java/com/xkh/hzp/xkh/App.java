@@ -1,11 +1,17 @@
 package com.xkh.hzp.xkh;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.awen.photo.FrescoImageLoader;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -48,6 +54,7 @@ public class App extends Application {
         super.onCreate();
         Global.init(this);
         initCloud();
+        FrescoImageLoader.init(this);
         TuSdk.enableDebugLog(Config.isDebug);
         ModulesManager.getIns().configModule(new UmengModule(), new TutuModule());
         ModulesManager.getIns().initModules();
@@ -62,7 +69,6 @@ public class App extends Application {
                 .tag("xkh")
                 .build();
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
-
         initHttpMudel();
 
     }
@@ -88,7 +94,6 @@ public class App extends Application {
             @Override
             public void onSuccess(String response) {
                 Log.d("xkh", "init cloudchannel success");
-
             }
 
             @Override
@@ -98,6 +103,7 @@ public class App extends Application {
         });
 
     }
+
 
 
     @Override

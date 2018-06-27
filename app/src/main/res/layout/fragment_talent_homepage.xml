@@ -7,7 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/homePageAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="210dp"
         android:background="@color/color_ffffff">
 
         <android.support.design.widget.CollapsingToolbarLayout

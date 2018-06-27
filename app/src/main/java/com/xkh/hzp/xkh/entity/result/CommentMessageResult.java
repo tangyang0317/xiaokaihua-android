@@ -21,7 +21,7 @@ public class CommentMessageResult {
      * userName : 唐洋
      * simpleDynamicResult : {"dynamicId":38,"wordDescription":"在经济消费能力之外，许多人为了过上所谓的更好的生活，贷款买苹果，买单反，买奢侈品，而年轻群体很多时候就成了目前这种\u201c刺激消费\u201d下的受害者。","annexUrl":"http://images.xkhstar.com/152843410008500000.jpg,http://images.xkhstar.com/152843410241400000.jpg,http://images.xkhstar.com/152843410209700000.jpg"}
      */
-
+    private long commentId;
     private String replyContent;
     private String replyUserName;
     private String headPortrait;
@@ -120,6 +120,14 @@ public class CommentMessageResult {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
     }
 
     public static class SimpleDynamicResultBean {

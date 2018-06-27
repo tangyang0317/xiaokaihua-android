@@ -95,7 +95,7 @@ public class UserInfoActvity extends BaseActivity implements View.OnClickListene
             userSignTxt.setText(userInfoResult.getPersonSignature());
             userIdTxt.setText(String.valueOf(userInfoResult.getId()));
             userGenderTxt.setText("0".equals(userInfoResult.getSex()) ? "校花" : "校草");
-            Glide.with(UserInfoActvity.this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(userIconImg);
+            Glide.with(UserInfoActvity.this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(userIconImg);
         }
     }
 

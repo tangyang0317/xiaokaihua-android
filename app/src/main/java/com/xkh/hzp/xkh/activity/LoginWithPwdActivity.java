@@ -237,7 +237,6 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-
     /****
      * 绑定推送账号
      * @param account
@@ -247,12 +246,12 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         pushService.bindAccount(account, new CommonCallback() {
             @Override
             public void onSuccess(String s) {
-                Logger.d(s);
+                Logger.d("推送账号绑定成功" + s);
             }
 
             @Override
             public void onFailed(String s, String s1) {
-                Logger.d(s + "---" + s1);
+                Logger.d(s + "-推送账号绑定失败-" + s1);
             }
         });
     }
@@ -269,7 +268,7 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         } else if (view == ivBack) {
             this.finish();
         } else if (view == tvFotget) {
-            FindPasswordActivity.lunchActivity(LoginWithPwdActivity.this, null, FindPasswordActivity.class);
+            FindPasswordActivity.lanuchActivity(this, false);
         } else if (view == btnToLogin) {
             this.finish();
         }

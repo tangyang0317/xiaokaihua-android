@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
@@ -71,6 +73,7 @@ import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.DimentUtils;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
+import xkh.hzp.xkh.com.base.view.ActionSheetDialog;
 
 /**
  * @packageName com.xkh.hzp.xkh.activity
@@ -136,6 +139,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
 
     @Override
     public void initView() {
+        setListenerNet(true);
         setToolbarTitleTv("动态详情");
         hideToolbarBottomLine();
         setTitleNavigationIcon(R.drawable.icon_back);
@@ -165,23 +169,23 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
 
+        Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
         commentExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                 CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
                 if (String.valueOf(commentResult.getCommentResult().getUserId()).equals(UserDataManager.getInstance().getUserId())) {
                     /****回复和删除自己的评论****/
-                    List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new DialogItemBean("回复", "REPLY"));
-                    dialogItemBeans.add(new DialogItemBean("删除", "DEL"));
-                    dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                    List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 } else {
                     /****回复别人的评论****/
-                    List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new DialogItemBean("回复" + commentResult.getCommentResult().getName(), "REPLY"));
-                    dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                    List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
+
                 }
                 return true;
             }
@@ -195,16 +199,14 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosition);
                     if (String.valueOf(replyResult.getUserId()).equals(UserDataManager.getInstance().getUserId())) {
                         /****回复和删除自己的回复*****/
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("回复", "REPLY"));
-                        dialogItemBeans.add(new DialogItemBean("删除", "DEL"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + replyResult.getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, false, groupPosition, childPosition);
                     } else {
                         /****回复别人的回复*****/
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("回复" + replyResult.getName(), "REPLY"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + replyResult.getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, false, groupPosition, childPosition);
                     }
 
@@ -290,50 +292,35 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     /***
      * 评论和删除Dialog
      */
-    private void commentAndDeleteDialog(List<DialogItemBean> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
-        final BottomSheetDialog dialog = new BottomSheetDialog(GraphicDynamicDetailsActivity.this);
-        View dialogView = LayoutInflater.from(GraphicDynamicDetailsActivity.this).inflate(R.layout.dialog_comment_reply, null);
-        RecyclerView listView = dialogView.findViewById(R.id.listview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GraphicDynamicDetailsActivity.this);
-        listView.setLayoutManager(linearLayoutManager);
-        BottomSheetDialogAdapter bottomSheetDialogAdapter = new BottomSheetDialogAdapter();
-        bottomSheetDialogAdapter.setNewData(itemBeans);
-        listView.setAdapter(bottomSheetDialogAdapter);
-        dialog.setContentView(dialogView);
-        bottomSheetDialogAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DialogItemBean dialogItemBean = (DialogItemBean) adapter.getItem(position);
-                if (dialogItemBean.getOperate().equals("DEL")) {
-                    if (isComment) {
-                        //删除评论
-                        CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                        dialog.dismiss();
-                        deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
-                    } else {
-                        //删除回复
-                        CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                        CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
-                        dialog.dismiss();
-                        deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+    private void commentAndDeleteDialog(List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
+        new ActionSheetDialog(GraphicDynamicDetailsActivity.this).builder()
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
+                .addSheetItemsList(itemBeans)
+                .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
+                    @Override
+                    public void onClick(String key) {
+                        if ("DEL".equals(key)) {
+                            if (isComment) {
+                                //删除评论
+                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
+                            } else {
+                                //删除回复
+                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
+                                deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+                            }
+                        } else if ("COMMPENT".equals(key)) {
+                            //评论
+                            showCommentEditDialog();
+                        } else if ("REPLY".equals(key)) {
+                            //回复
+                            showReplayDialog(groupPosition, childPosiiton, isComment);
+                        }
                     }
-                } else if (dialogItemBean.getOperate().equals("COMMPENT")) {
-                    //评论
-                    dialog.dismiss();
-                    showCommentEditDialog();
-                } else if (dialogItemBean.getOperate().equals("REPLY")) {
-                    //回复
-                    dialog.dismiss();
-                    showReplayDialog(groupPosition, childPosiiton, isComment);
-                } else if (dialogItemBean.getOperate().equals("CANCLE")) {
-                    //取消
-                    dialog.dismiss();
-                }
-            }
-        });
-        dialog.show();
+                }).show();
     }
-
 
     /***
      * 查询动态评论
@@ -435,6 +422,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getCreateTime()));
         }
 
+        final ArrayList<String> imgUrls = new ArrayList<>();
         if (dynamicBean.getXkhTalentDynamicAnnexList() != null && dynamicBean.getXkhTalentDynamicAnnexList().size() > 0) {
             for (int i = 0; i < dynamicBean.getXkhTalentDynamicAnnexList().size(); i++) {
                 ImageView dynamicDetailsImg = (ImageView) LayoutInflater.from(this).inflate(R.layout.view_item_dynamic_details_img, null);
@@ -445,6 +433,19 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 dynamicDetailsImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).placeholder(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicDetailsImg);
                 dynamicDetailsImgLayout.addView(dynamicDetailsImg);
+                imgUrls.add(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl());
+                final int FINALI = i;
+                dynamicDetailsImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new PhotoPagerConfig.Builder(GraphicDynamicDetailsActivity.this)
+                                .setBigImageUrls(imgUrls)      //大图片url,可以是sd卡res，asset，网络图片.
+                                .setSavaImage(true)                                 //开启保存图片，默认false
+                                .setPosition(FINALI)                                     //默认展示第2张图片
+                                .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
+                                .build();
+                    }
+                });
             }
             initShare("http://show.xiaokaihua.com/?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
         }
@@ -458,6 +459,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         final View contentView = LayoutInflater.from(this).inflate(R.layout.view_dialog_edit, null);
         final EditText commentEdit = contentView.findViewById(R.id.commentEdit);
         final TextView commentSendTxt = contentView.findViewById(R.id.commentSendTxt);
+        commentEdit.setHint("请输入您的回复(最多100字)");
         bottomSheetDialog.setContentView(contentView);
         final CommentResult commentResultBean = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
         CommentResult.ReplyResult replyResult = null;
@@ -485,6 +487,10 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     @Override
                     public void accept(Object o) throws Exception {
                         String replayContent = commentEdit.getText().toString();
+                        if (TextUtils.isEmpty(replayContent)) {
+                            Toasty.warning(GraphicDynamicDetailsActivity.this, "回复不能为空").show();
+                            return;
+                        }
                         CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
                         if (isComment) {
                             reply.setReplyContent(replayContent);
@@ -501,6 +507,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                             reply.setName(UserDataManager.getInstance().getUserNickName());
                             reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
                         }
+                        bottomSheetDialog.dismiss();
+                        hideKeyBoard();
                         sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
                     }
                 });
@@ -516,6 +524,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         final View contentView = LayoutInflater.from(this).inflate(R.layout.view_dialog_edit, null);
         final EditText commentEdit = contentView.findViewById(R.id.commentEdit);
         final TextView commentSendTxt = contentView.findViewById(R.id.commentSendTxt);
+        commentEdit.setHint("请输入您的评论(最多100字)");
         bottomSheetDialog.setContentView(contentView);
         /**
          * 解决bsd显示不全的情况
@@ -537,6 +546,10 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
+                        if (TextUtils.isEmpty(commentEdit.getText().toString())) {
+                            Toasty.warning(GraphicDynamicDetailsActivity.this, "评论不能为空").show();
+                            return;
+                        }
                         CommentResult commentResult = new CommentResult();
                         CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
                         commentResultBean.setComment(commentEdit.getText().toString());
@@ -548,6 +561,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                         commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
                         commentResult.setCommentResult(commentResultBean);
                         commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
+                        bottomSheetDialog.dismiss();
+                        hideKeyBoard();
                         sendComment(commentEdit.getText().toString(), commentResult);
                     }
                 });
@@ -581,8 +596,6 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     long replyId = (long) extra.get("result");
                     replyResult.setId(replyId);
                     commentExpandAdapter.addTheReplyData(replyResult, groupPosition);
-                    bottomSheetDialog.dismiss();
-                    hideKeyBoard();
                 }
             }
         });
@@ -614,8 +627,6 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     commentCount++;
                     detailsCommentTxt.setText(String.valueOf(commentCount));
                     commentExpandAdapter.addTheCommentData(commentResult);
-                    bottomSheetDialog.dismiss();
-                    hideKeyBoard();
                 }
             }
         });
@@ -720,9 +731,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 @Override
                 public void isLogin(boolean isLogin) {
                     if (isLogin) {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("评论", "COMMPENT", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                     } else {
                         SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
@@ -742,9 +752,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 @Override
                 public void isLogin(boolean isLogin) {
                     if (isLogin) {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("评论", "COMMPENT", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                     } else {
                         SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
@@ -768,6 +777,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 }
             });
         } else if (view == userHeadImg) {
+            TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, String.valueOf(userId));
+        } else if (view == userNickNameTxt) {
             TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, String.valueOf(userId));
         } else if (view == userIsAttentionTxt) {
             if ("focus".equals(foucsStatus)) {

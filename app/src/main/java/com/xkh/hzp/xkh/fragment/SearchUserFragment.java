@@ -71,7 +71,7 @@ public class SearchUserFragment extends BaseFragment implements BaseQuickAdapter
     private void initData(final int pageNum, int pageSize) {
         HashMap<String, String> params = new HashMap<>();
         params.put("userType", "talent");
-        params.put("name", getSearchKeywords());
+        params.put("nameOrSignature", getSearchKeywords());
         params.put("limit", String.valueOf(pageSize));
         params.put("offset", String.valueOf((pageNum - 1) * pageSize));
         ABHttp.getIns().get(UrlConfig.searchUser, params, new AbHttpCallback() {

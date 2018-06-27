@@ -28,7 +28,9 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import xkh.hzp.xkh.com.R;
+import xkh.hzp.xkh.com.base.utils.NetUtils;
 import xkh.hzp.xkh.com.base.utils.ToastUtils;
+import xkh.hzp.xkh.com.base.view.EmptyView;
 
 /**
  * Author 唐洋
@@ -43,6 +45,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView toolBarRightImg;
     private FrameLayout baseContentLayout;
     protected LinearLayout baseContainerLayout;
+    private EmptyView noNetView;
+
+    public void setListenerNet(boolean listenerNet) {
+        this.listenerNet = listenerNet;
+    }
+
+    private boolean listenerNet = false;
+
 
     public static void lunchActivity(Activity activity, Bundle bundle, Class tClass) {
         Intent intent = new Intent(activity, tClass);
@@ -105,8 +115,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         setTitleNavigationIcon(R.drawable.icon_back_black);
         setToolbarBgColor();
         baseContentLayout.addView(LinearLayout.inflate(this, getLayoutId(), null));
+        noNetView = new EmptyView(this);
+        noNetView.setOperateBtnVisiable(false);
+        noNetView.setNodataTitle("当前无网络连接，请检查网络");
+        noNetView.setNodataImageSource(R.drawable.icon_no_net);
+        noNetView.setBackgroundColor(getResources().getColor(R.color.toolBarBg));
+        baseContentLayout.addView(noNetView);
         setBaseContainerBg();
         initView();
+        if (!NetUtils.isConnected(this) && listenerNet) {
+            noNetView.setVisibility(View.VISIBLE);
+        } else {
+            noNetView.setVisibility(View.GONE);
+        }
         setListenner();
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,5 +284,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
 }

@@ -28,6 +28,7 @@ public class TalentPictureAdapter extends BaseQuickAdapter<String, BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
+        helper.addOnClickListener(R.id.telentPictureImg);
         ImageView pictureImg = helper.getView(R.id.telentPictureImg);
         LinearLayout itemContentLayout = helper.getView(R.id.itemContentLayout);
         View startTelentPictureSpaceView = helper.getView(R.id.startTelentPictureSpaceView);

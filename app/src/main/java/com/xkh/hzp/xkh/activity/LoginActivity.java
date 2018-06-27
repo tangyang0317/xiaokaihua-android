@@ -325,6 +325,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void loginWithAuthCode() {
         String account = meditText.getText().toString();
         String sms = editYzm.getText().toString();
+
+        if (TextUtils.isEmpty(account)) {
+            Toasty.warning(this, "请输入手机号码").show();
+            return;
+        }
         if (!RegExpValidatorUtils.IsHandset(account)) {
             Toasty.warning(this, "请输入正确的手机号码").show();
             return;

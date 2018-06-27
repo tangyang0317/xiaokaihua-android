@@ -20,13 +20,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp15">
 
-
                 <ImageView
                     android:id="@+id/userHeadImg"
                     android:layout_width="@dimen/dp40"
                     android:layout_height="@dimen/dp40"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_launcher_round" />
+                    android:layout_alignParentLeft="true" />
 
                 <TextView
                     android:id="@+id/userNickNameTxt"
@@ -35,7 +33,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp15"
                     android:layout_toRightOf="@id/userHeadImg"
-                    android:text="爱吃糖的羊"
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_14" />
 
@@ -47,10 +44,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/shape_attention"
-                    android:paddingBottom="@dimen/dp4"
-                    android:paddingLeft="@dimen/dp15"
-                    android:paddingRight="@dimen/dp15"
-                    android:paddingTop="@dimen/dp4"
+                    android:paddingBottom="@dimen/dp2"
+                    android:paddingLeft="@dimen/dp10"
+                    android:paddingRight="@dimen/dp10"
+                    android:paddingTop="@dimen/dp2"
                     android:text="+关注"
                     android:textColor="@color/color_ff5555" />
 
@@ -168,9 +165,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp6"
                     android:layout_toRightOf="@id/detailsSharedImg"
                     android:text="转发"
-                    android:layout_marginLeft="@dimen/dp6"
                     android:textColor="@color/color_666666"
                     android:textSize="13sp" />
 

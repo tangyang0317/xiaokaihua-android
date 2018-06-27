@@ -51,8 +51,8 @@
 
                 <ImageView
                     android:id="@+id/msgDotImg"
-                    android:layout_width="@dimen/dp10"
-                    android:layout_height="@dimen/dp10"
+                    android:layout_width="@dimen/dp6"
+                    android:layout_height="@dimen/dp6"
                     android:layout_gravity="right"
                     android:src="@drawable/shpe_white_dot"
                     android:visibility="gone" />
@@ -73,6 +73,7 @@
                     android:id="@+id/headerBanner"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
+                    android:visibility="gone"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
                 <LinearLayout

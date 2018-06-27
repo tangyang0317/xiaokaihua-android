@@ -99,6 +99,12 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                dynamicSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -106,22 +112,18 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
                             if (talentResults.size() < 10) {
-                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicVideoAdapter.loadMoreEnd();
                                 dynamicVideoAdapter.setNewData(talentResults);
                             } else {
-                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicVideoAdapter.setEnableLoadMore(true);
                                 dynamicVideoAdapter.setNewData(talentResults);
                             }
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
-                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.addData(talentResults);
                         } else {
-                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.loadMoreEnd();
                         }
@@ -144,6 +146,9 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
                 }
                 switch (view.getId()) {
                     case R.id.dynamicUserHeadImg:
+                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getUserId()));
+                        break;
+                    case R.id.dynamicUserNickNameTxt:
                         TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getUserId()));
                         break;
                     case R.id.sharedLayout:

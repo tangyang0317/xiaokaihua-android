@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, DynamicBean item) {
         helper.addOnClickListener(R.id.dynamicUserHeadImg);
+        helper.addOnClickListener(R.id.dynamicUserNickNameTxt);
         helper.addOnClickListener(R.id.sharedLayout);
         helper.addOnClickListener(R.id.componentLayout);
         helper.addOnClickListener(R.id.goodLayout);
@@ -48,6 +50,13 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         LinearLayout componentLayout = helper.getView(R.id.componentLayout);
         LinearLayout goodLayout = helper.getView(R.id.goodLayout);
         View dividerView = helper.getView(R.id.dividerView);
+        videoPlayCountTxt.setText(item.getViewNumber() + "次播放");
+        if (!TextUtils.isEmpty(item.getTimeLength())) {
+            videoDuringTxt.setVisibility(View.VISIBLE);
+            videoDuringTxt.setText(item.getTimeLength());
+        } else {
+            videoDuringTxt.setVisibility(View.GONE);
+        }
         if ("normal".equals(item.getLikeStatus())) {
             praisedImg.setImageResource(R.mipmap.icon_praised);
         } else {

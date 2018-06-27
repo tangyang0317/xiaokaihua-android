@@ -39,6 +39,7 @@ public class DynamicBean {
     private String status;
     private String dynamicType;
     private String faceUrl;
+    private String timeLength;
     private List<String> annexUrlList;
     private String likeStatus;
 
@@ -161,5 +162,13 @@ public class DynamicBean {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    public String getTimeLength() {
+        return timeLength;
+    }
+
+    public void setTimeLength(String timeLength) {
+        this.timeLength = timeLength;
     }
 }

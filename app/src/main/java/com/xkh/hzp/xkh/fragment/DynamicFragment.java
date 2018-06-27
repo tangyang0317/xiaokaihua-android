@@ -31,6 +31,7 @@ import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
+import com.xkh.hzp.xkh.utils.DateUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -144,7 +145,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 if (success) {
                     UnReadMsgResult unReadMsgResult = (UnReadMsgResult) extra.get("result");
                     if (unReadMsgResult != null) {
-                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike()) {
+                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike() || unReadMsgResult.isHaveUnreadPush()) {
                             msgDotImg.setVisibility(View.VISIBLE);
                         }
                     }
@@ -166,13 +167,13 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         EventBus.getDefault().unregister(this);
     }
 
-
     /***
      * 加载数据
      */
     private void initData() {
         HashMap<String, String> params = new HashMap<>();
         params.put("showPosition", "index");
+        params.put("endTime", DateUtils.getStringByFormat(System.currentTimeMillis(), DateUtils.dateFormatYMDHMS));
         ABHttp.getIns().get(UrlConfig.banner, params, new AbHttpCallback() {
             @Override
             public void setupEntity(AbHttpEntity entity) {
@@ -190,8 +191,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                     if (bannerResults != null && bannerResults.size() > 0) {
                         sampleHeaderView.setVisibility(View.VISIBLE);
                         sampleHeaderView.setImages(bannerResults).setIndicatorGravity(BannerConfig.RIGHT).isAutoPlay(true).setImageLoader(new GlideImageLoader()).start();
-                    } else {
-                        sampleHeaderView.setVisibility(View.GONE);
                     }
                 }
             }

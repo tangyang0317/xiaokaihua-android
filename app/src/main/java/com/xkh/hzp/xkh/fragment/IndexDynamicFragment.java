@@ -97,6 +97,12 @@ public class IndexDynamicFragment extends BaseFragment implements BaseQuickAdapt
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                dynamicSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -104,22 +110,18 @@ public class IndexDynamicFragment extends BaseFragment implements BaseQuickAdapt
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
                             if (talentResults.size() < 10) {
-                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicAdapter.loadMoreEnd();
                                 dynamicAdapter.setNewData(talentResults);
                             } else {
-                                dynamicSwipeRefreshLayout.setRefreshing(false);
                                 dynamicAdapter.setEnableLoadMore(true);
                                 dynamicAdapter.setNewData(talentResults);
                             }
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
-                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicAdapter.loadMoreComplete();
                             dynamicAdapter.addData(talentResults);
                         } else {
-                            dynamicSwipeRefreshLayout.setRefreshing(false);
                             dynamicAdapter.loadMoreComplete();
                             dynamicAdapter.loadMoreEnd();
                         }
@@ -140,6 +142,9 @@ public class IndexDynamicFragment extends BaseFragment implements BaseQuickAdapt
                 }
                 switch (view.getId()) {
                     case R.id.dynamicUserHeadImg:
+                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getUserId()));
+                        break;
+                    case R.id.dynamicUserNickNameTxt:
                         TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getUserId()));
                         break;
                     case R.id.sharedLayout:

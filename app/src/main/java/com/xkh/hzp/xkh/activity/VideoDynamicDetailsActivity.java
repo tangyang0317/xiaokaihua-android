@@ -13,6 +13,7 @@ import android.support.v4.graphics.ColorUtils;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -81,6 +82,7 @@ import io.reactivex.functions.Consumer;
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.JsonUtils;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
+import xkh.hzp.xkh.com.base.view.ActionSheetDialog;
 
 /**
  * 视频动态详情Activity
@@ -89,7 +91,7 @@ import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
  * @FileName VideoDynamicDetailsActivity
  * @Author tangyang
  * @DATE 2018/5/14
- **/
+ */
 
 public class VideoDynamicDetailsActivity extends BaseActivity implements View.OnClickListener {
     private NormalGSYVideoPlayer videoPlayerView;
@@ -141,6 +143,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     @Override
     public void initView() {
         hideToolbar();
+        setListenerNet(true);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         leftBackImg = findViewById(R.id.leftBackImg);
         commentTxt = findViewById(R.id.commentTxt);
@@ -178,20 +181,20 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                 CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
                 if (String.valueOf(commentResult.getCommentResult().getUserId()).equals(UserDataManager.getInstance().getUserId())) {
-                    List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new DialogItemBean("回复", "REPLY"));
-                    dialogItemBeans.add(new DialogItemBean("删除", "DEL"));
-                    dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                    List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 } else {
-                    List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new DialogItemBean("回复", "REPLY"));
-                    dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                    List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 }
                 return true;
             }
         });
+
+        Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
 
         commentExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -200,15 +203,13 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 if (commentResult != null) {
                     CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosition);
                     if (String.valueOf(replyResult.getUserId()).equals(UserDataManager.getInstance().getUserId())) {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("回复" + replyResult.getName(), "REPLY"));
-                        dialogItemBeans.add(new DialogItemBean("删除", "DEL"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + replyResult.getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, false, groupPosition, childPosition);
                     } else {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("回复" + replyResult.getName(), "REPLY"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + replyResult.getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, false, groupPosition, childPosition);
                     }
                 }
@@ -241,6 +242,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             }
         });
 
+        videoPlayerView.getTitleTextView().setVisibility(View.GONE);
+        videoPlayerView.getBackButton().setVisibility(View.GONE);
         queryDynamicDetails();
         queryDynamiComment(1, 10);
 
@@ -437,6 +440,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         final View contentView = LayoutInflater.from(this).inflate(R.layout.view_dialog_edit, null);
         final EditText commentEdit = contentView.findViewById(R.id.commentEdit);
         final TextView commentSendTxt = contentView.findViewById(R.id.commentSendTxt);
+        commentEdit.setHint("请输入您的回复(最多100字)");
         bottomSheetDialog.setContentView(contentView);
         final CommentResult commentResultBean = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
         CommentResult.ReplyResult replyResult = null;
@@ -458,15 +462,16 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 hideKeyBoard();
             }
         });
-
         final CommentResult.ReplyResult finalReplyResult = replyResult;
-
-
         RxView.clicks(commentSendTxt).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
                         String replayContent = commentEdit.getText().toString();
+                        if (TextUtils.isEmpty(replayContent)) {
+                            Toasty.warning(VideoDynamicDetailsActivity.this, "回复不能为空").show();
+                            return;
+                        }
                         CommentResult.ReplyResult reply = new CommentResult.ReplyResult();
                         if (isComment) {
                             reply.setReplyContent(replayContent);
@@ -483,7 +488,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                             reply.setName(UserDataManager.getInstance().getUserNickName());
                             reply.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
                         }
-
+                        bottomSheetDialog.dismiss();
+                        hideKeyBoard();
                         sendReply(groupPosition, reply, commentResultBean.getCommentResult().getId());
                     }
                 });
@@ -499,6 +505,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         final View contentView = LayoutInflater.from(this).inflate(R.layout.view_dialog_edit, null);
         final EditText commentEdit = contentView.findViewById(R.id.commentEdit);
         final TextView commentSendTxt = contentView.findViewById(R.id.commentSendTxt);
+        commentEdit.setHint("请输入您的评论(最多100字)");
         bottomSheetDialog.setContentView(contentView);
         /**
          * 解决bsd显示不全的情况
@@ -520,6 +527,10 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
+                        if (TextUtils.isEmpty(commentEdit.getText().toString())) {
+                            Toasty.warning(VideoDynamicDetailsActivity.this, "评论不能为空").show();
+                            return;
+                        }
                         CommentResult commentResult = new CommentResult();
                         CommentResult.CommentResultBean commentResultBean = new CommentResult.CommentResultBean();
                         commentResultBean.setComment(commentEdit.getText().toString());
@@ -531,6 +542,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                         commentResultBean.setUserId(Long.parseLong(UserDataManager.getInstance().getUserId()));
                         commentResult.setCommentResult(commentResultBean);
                         commentResult.setReplyResults(new ArrayList<CommentResult.ReplyResult>());
+                        bottomSheetDialog.dismiss();
+                        hideKeyBoard();
                         sendComment(commentEdit.getText().toString(), commentResult);
                     }
                 });
@@ -566,8 +579,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                     long replyId = (long) extra.get("result");
                     replyResult.setId(replyId);
                     commentExpandAdapter.addTheReplyData(replyResult, groupPosition);
-                    bottomSheetDialog.dismiss();
-                    hideKeyBoard();
                 }
             }
         });
@@ -599,8 +610,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                     detailsCommentTxt.setText(String.valueOf(commentCount));
                     commentResult.getCommentResult().setId(id);
                     commentExpandAdapter.addTheCommentData(commentResult);
-                    bottomSheetDialog.dismiss();
-                    hideKeyBoard();
                 }
             }
         });
@@ -611,48 +620,34 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     /***
      * 评论和删除Dialog
      */
-    private void commentAndDeleteDialog(List<DialogItemBean> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
-        final BottomSheetDialog dialog = new BottomSheetDialog(VideoDynamicDetailsActivity.this);
-        View dialogView = LayoutInflater.from(VideoDynamicDetailsActivity.this).inflate(R.layout.dialog_comment_reply, null);
-        RecyclerView listView = dialogView.findViewById(R.id.listview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VideoDynamicDetailsActivity.this);
-        listView.setLayoutManager(linearLayoutManager);
-        BottomSheetDialogAdapter bottomSheetDialogAdapter = new BottomSheetDialogAdapter();
-        bottomSheetDialogAdapter.setNewData(itemBeans);
-        listView.setAdapter(bottomSheetDialogAdapter);
-        dialog.setContentView(dialogView);
-        bottomSheetDialogAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DialogItemBean dialogItemBean = (DialogItemBean) adapter.getItem(position);
-                if (dialogItemBean.getOperate().equals("DEL")) {
-                    if (isComment) {
-                        //删除评论
-                        CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                        dialog.dismiss();
-                        deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
-                    } else {
-                        //删除回复
-                        CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                        CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
-                        dialog.dismiss();
-                        deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+    private void commentAndDeleteDialog(List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
+        new ActionSheetDialog(VideoDynamicDetailsActivity.this).builder()
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
+                .addSheetItemsList(itemBeans)
+                .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
+                    @Override
+                    public void onClick(String key) {
+                        if ("DEL".equals(key)) {
+                            if (isComment) {
+                                //删除评论
+                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
+                            } else {
+                                //删除回复
+                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
+                                deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+                            }
+                        } else if ("COMMPENT".equals(key)) {
+                            //评论
+                            showCommentEditDialog();
+                        } else if ("REPLY".equals(key)) {
+                            //回复
+                            showReplayDialog(groupPosition, childPosiiton, isComment);
+                        }
                     }
-                } else if (dialogItemBean.getOperate().equals("COMMPENT")) {
-                    //评论
-                    dialog.dismiss();
-                    showCommentEditDialog();
-                } else if (dialogItemBean.getOperate().equals("REPLY")) {
-                    //回复
-                    dialog.dismiss();
-                    showReplayDialog(groupPosition, childPosiiton, isComment);
-                } else if (dialogItemBean.getOperate().equals("CANCLE")) {
-                    //取消
-                    dialog.dismiss();
-                }
-            }
-        });
-        dialog.show();
+                }).show();
     }
 
     /***
@@ -725,7 +720,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(this).load(faceUrl).error(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(imageView);
-        resolveNormalVideoUI();
         //外部辅助的旋转，帮助全屏
         orientationUtils = new OrientationUtils(this, videoPlayerView);
         //初始化不打开外部的旋转
@@ -808,6 +802,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
 
     @Override
     public void setListenner() {
+        userNickNameTxt.setOnClickListener(this);
         userHeadImg.setOnClickListener(this);
         userIsAttentionTxt.setOnClickListener(this);
         detailsShareLayout.setOnClickListener(this);
@@ -816,8 +811,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         seeMoreCommentTxt.setOnClickListener(this);
         leftBackImg.setOnClickListener(this);
         commentMineImg.setOnClickListener(this);
+        commentTxt.setOnClickListener(this);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -866,13 +861,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         }
     }
 
-
-    private void resolveNormalVideoUI() {
-        //增加title
-        videoPlayerView.getTitleTextView().setVisibility(View.GONE);
-        videoPlayerView.getBackButton().setVisibility(View.GONE);
-    }
-
     private GSYVideoPlayer getCurPlay() {
         if (videoPlayerView.getFullWindowPlayer() != null) {
             return videoPlayerView.getFullWindowPlayer();
@@ -889,9 +877,9 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 @Override
                 public void isLogin(boolean isLogin) {
                     if (isLogin) {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("评论", "COMMPENT", ActionSheetDialog.SheetItemColor.Blue));
+                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                         commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                     } else {
                         SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
@@ -900,14 +888,12 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 }
             });
         } else if (view == commentTxt) {
-
             CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
                 @Override
                 public void isLogin(boolean isLogin) {
                     if (isLogin) {
-                        List<DialogItemBean> dialogItemBeans = new ArrayList<>();
-                        dialogItemBeans.add(new DialogItemBean("评论", "COMMPENT"));
-                        dialogItemBeans.add(new DialogItemBean("取消", "CANCLE"));
+                        List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
+                        dialogItemBeans.add(new ActionSheetDialog.SheetItem("评论", "COMMPENT", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                     } else {
                         SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
@@ -935,6 +921,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 focusTalent(userId);
             }
         } else if (view == userHeadImg) {
+            TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, String.valueOf(userId));
+        } else if (view == userNickNameTxt) {
             TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, String.valueOf(userId));
         } else if (view == commentMineImg) {
             CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {

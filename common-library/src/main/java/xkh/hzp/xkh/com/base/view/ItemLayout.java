@@ -57,6 +57,7 @@ public class ItemLayout extends LinearLayout {
         } else {
             rightIconImg.setVisibility(GONE);
         }
+        this.invalidate();
     }
 
     private void initView(AttributeSet attrs) {

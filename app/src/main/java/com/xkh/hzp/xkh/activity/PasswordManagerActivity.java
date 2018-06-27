@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.activity;
 
+import android.os.Handler;
 import android.view.View;
 
 import com.xkh.hzp.xkh.R;
@@ -65,7 +66,7 @@ public class PasswordManagerActivity extends BaseActivity implements View.OnClic
             ModifyPasswordActivity.lunchActivity(this, null, ModifyPasswordActivity.class);
             PasswordManagerActivity.this.finish();
         } else if (view == findPwdItemLayout) {
-            FindPasswordActivity.lunchActivity(this, null, FindPasswordActivity.class);
+            FindPasswordActivity.lanuchActivity(this, true);
             PasswordManagerActivity.this.finish();
         } else if (view == settingPasswordItemLayout) {
             SettingPasswordActivity.lanuchActivity(this, false);

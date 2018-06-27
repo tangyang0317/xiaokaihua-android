@@ -41,6 +41,21 @@
             android:layout_toRightOf="@id/commentUserHeadImg"
             android:text="06-09" />
 
+        <TextView
+            android:id="@+id/replyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp20"
+            android:background="@drawable/shape_edit_join_us"
+            android:paddingBottom="@dimen/dp2"
+            android:paddingLeft="@dimen/dp8"
+            android:paddingRight="@dimen/dp8"
+            android:paddingTop="@dimen/dp2"
+            android:text="回复"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_12" />
 
     </RelativeLayout>
 

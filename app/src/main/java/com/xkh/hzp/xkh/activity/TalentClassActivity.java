@@ -117,28 +117,30 @@ public class TalentClassActivity extends BaseActivity implements SwipeRefreshLay
             }
 
             @Override
+            public void onFinish() {
+                super.onFinish();
+                talentClassSwipefreshLayout.setRefreshing(false);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
                     List<TalentResult> talentResults = (List<TalentResult>) extra.get("result");
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             talentAdapter.setEnableLoadMore(true);
                             talentAdapter.setNewData(talentResults);
                             talentAdapter.notifyDataSetChanged();
                         } else {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreEnd();
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
                             talentAdapter.addData(talentResults);
                             talentAdapter.notifyDataSetChanged();
                         } else {
-                            talentClassSwipefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
                             talentAdapter.loadMoreEnd();
                         }

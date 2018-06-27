@@ -99,10 +99,10 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == adapterView.getChildCount() - 1) {
                     //限数量的多选(比喻最多9张)
-                    if (localImgFilePath.size() >= 4) {
-                        Toasty.info(JoinTalentActivity.this, "最多只能选9张图片", Toast.LENGTH_SHORT).show();
+                    if (localImgFilePath.size() > 3) {
+                        Toasty.info(JoinTalentActivity.this, "最多只能选3张图片", Toast.LENGTH_SHORT).show();
                     } else {
-                        richEditComponentSample.showSample(JoinTalentActivity.this, 4 - localImgFilePath.size());
+                        richEditComponentSample.showSample(JoinTalentActivity.this, 3 - localImgFilePath.size());
                     }
                 }
             }
@@ -144,8 +144,8 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
                 return;
             }
 
-            if (gridViewAddImgesAdpter.getDatas().size() != 3) {
-                Toasty.warning(JoinTalentActivity.this, "请上传4张照片").show();
+            if (gridViewAddImgesAdpter.getDatas() != null && gridViewAddImgesAdpter.getDatas().size() != 3) {
+                Toasty.warning(JoinTalentActivity.this, "请上传3张照片").show();
                 return;
             }
             doUploadImg();

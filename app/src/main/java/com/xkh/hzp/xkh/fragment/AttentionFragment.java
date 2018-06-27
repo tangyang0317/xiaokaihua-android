@@ -85,7 +85,6 @@ public class AttentionFragment extends BaseFragment implements BaseQuickAdapter.
         emptyView = new EmptyView(getActivity());
         emptyView.setNodataImageSource(R.mipmap.note_empty);
         emptyView.setOperateBtnVisiable(false);
-        emptyView.setNodataTitle("您还没有关注过达人哟");
         emptyView.setLoginClickListener(new EmptyView.LoginClickListener() {
             @Override
             public void loginCilck() {
@@ -109,6 +108,7 @@ public class AttentionFragment extends BaseFragment implements BaseQuickAdapter.
             @Override
             public void isLogin(boolean isLogin) {
                 if (isLogin) {
+                    emptyView.setNodataTitle("您还没有关注过达人哟");
                     emptyView.setOperateBtnVisiable(false);
                 } else {
                     emptyView.setOperateBtnVisiable(true);

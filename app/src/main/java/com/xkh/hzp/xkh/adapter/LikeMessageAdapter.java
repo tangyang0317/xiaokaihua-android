@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.adapter;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,10 +36,11 @@ public class LikeMessageAdapter extends BaseQuickAdapter<LikeMessageResult, Base
         TextView likeDateTxt = helper.getView(R.id.likeDateTxt);
         ImageView dynamicFaceUrlImg = helper.getView(R.id.dynamicFaceUrlImg);
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
-
-        List<String> imgUrl = Arrays.asList(item.getSimpleDynamicResult().getAnnexUrl().split(","));
+        if (!TextUtils.isEmpty(item.getSimpleDynamicResult().getAnnexUrl())) {
+            List<String> imgUrl = Arrays.asList(item.getSimpleDynamicResult().getAnnexUrl().split(","));
+            Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
+        }
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(likeUserHeadImg);
-        Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
         likeUserNickNameTxt.setText(item.getLikeUserName());
         dynamicContentTxt.setText(item.getSimpleDynamicResult().getWordDescription());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

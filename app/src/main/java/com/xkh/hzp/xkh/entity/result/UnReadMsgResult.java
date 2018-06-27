@@ -10,6 +10,7 @@ public class UnReadMsgResult {
 
     private boolean haveUnreadComment;
     private boolean haveUnreadLike;
+    private boolean haveUnreadPush;
 
     public boolean isHaveUnreadComment() {
         return haveUnreadComment;
@@ -25,5 +26,13 @@ public class UnReadMsgResult {
 
     public void setHaveUnreadLike(boolean haveUnreadLike) {
         this.haveUnreadLike = haveUnreadLike;
+    }
+
+    public boolean isHaveUnreadPush() {
+        return haveUnreadPush;
+    }
+
+    public void setHaveUnreadPush(boolean haveUnreadPush) {
+        this.haveUnreadPush = haveUnreadPush;
     }
 }

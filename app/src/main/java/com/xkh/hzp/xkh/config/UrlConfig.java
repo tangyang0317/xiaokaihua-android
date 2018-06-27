@@ -9,7 +9,7 @@ package com.xkh.hzp.xkh.config;
 public class UrlConfig {
     public static final String USER_BASE_URL = "http://user-test.xiaokaihua.com";
     public static final String DYNAMIC_BASE_URL = "http://dynamic-test.xiaokaihua.com";
-//            public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
+//    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
 //    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
     public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";

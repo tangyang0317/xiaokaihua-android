@@ -47,7 +47,6 @@ public class SearchDynamicFragment extends BaseFragment implements BaseQuickAdap
         return "";
     }
 
-
     @Override
     public void initView(View contentView) {
         fragmentSearchRecycleView = contentView.findViewById(R.id.fragmentSearchRecycleView);
@@ -82,6 +81,8 @@ public class SearchDynamicFragment extends BaseFragment implements BaseQuickAdap
                 entity.putField("result", new TypeToken<List<DynamicBean>>() {
                 }.getType());
             }
+
+
 
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {

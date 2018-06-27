@@ -25,13 +25,13 @@ import java.util.List;
  **/
 public class CommentMessageAdapter extends BaseQuickAdapter<CommentMessageResult, BaseViewHolder> {
 
-
     public CommentMessageAdapter() {
         super(R.layout.item_message_comment, new ArrayList<CommentMessageResult>());
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CommentMessageResult item) {
+        helper.addOnClickListener(R.id.replyTxt);
         ImageView commentUserHeadImg = helper.getView(R.id.commentUserHeadImg);
         TextView commentUserNickNameTxt = helper.getView(R.id.commentUserNickNameTxt);
         TextView commentDateTxt = helper.getView(R.id.commentDateTxt);
@@ -39,7 +39,7 @@ public class CommentMessageAdapter extends BaseQuickAdapter<CommentMessageResult
         TextView mineReplyContentTxt = helper.getView(R.id.mineReplyContentTxt);
         ImageView dynamicFaceUrlImg = helper.getView(R.id.dynamicFaceUrlImg);
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
-
+        TextView replyTxt = helper.getView(R.id.replyTxt);
         List<String> imgUrl = Arrays.asList(item.getSimpleDynamicResult().getAnnexUrl().split(","));
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(commentUserHeadImg);
         Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);

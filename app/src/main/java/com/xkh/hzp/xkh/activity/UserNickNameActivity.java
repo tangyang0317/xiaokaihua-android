@@ -64,7 +64,7 @@ public class UserNickNameActivity extends BaseActivity {
 
         if (UserDataManager.getInstance().getUserInfo() != null) {
             nickNameEdit.setText(UserDataManager.getInstance().getUserInfo().getName());
-            nickNameEdit.setSelection(UserDataManager.getInstance().getUserInfo().getName().length());
+            nickNameEdit.setSelection(UserDataManager.getInstance().getUserInfo().getName().length() > 10 ? 10 : UserDataManager.getInstance().getUserInfo().getName().length());
         } else {
             nickNameEdit.setHint("取个名字");
         }

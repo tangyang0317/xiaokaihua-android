@@ -103,6 +103,13 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                 }.getType());
             }
 
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                talentSwipeRefreshLayout.setRefreshing(false);
+            }
+
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
@@ -111,25 +118,20 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                     if (pageNum == 1) {
                         if (talentResults != null && talentResults.size() > 0) {
                             if (talentResults.size() < 10) {
-                                talentSwipeRefreshLayout.setRefreshing(false);
                                 talentAdapter.loadMoreEnd();
                                 talentAdapter.setNewData(talentResults);
                             } else {
-                                talentSwipeRefreshLayout.setRefreshing(false);
                                 talentAdapter.setEnableLoadMore(true);
                                 talentAdapter.setNewData(talentResults);
                             }
                         } else {
-                            talentSwipeRefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreEnd();
                         }
                     } else {
                         if (talentResults != null && talentResults.size() > 0) {
-                            talentSwipeRefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
                             talentAdapter.addData(talentResults);
                         } else {
-                            talentSwipeRefreshLayout.setRefreshing(false);
                             talentAdapter.loadMoreComplete();
                             talentAdapter.loadMoreEnd();
                         }

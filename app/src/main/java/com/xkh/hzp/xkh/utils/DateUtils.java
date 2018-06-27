@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -262,6 +263,9 @@ public class DateUtils {
         }
         return thisDateTime;
     }
+
+
+
 
     /**
      * 描述：获取表示当前日期时间的字符串.

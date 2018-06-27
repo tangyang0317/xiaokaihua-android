@@ -1,5 +1,6 @@
 package com.xkh.hzp.xkh.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
         helper.addOnClickListener(R.id.componentLayout);
         helper.addOnClickListener(R.id.goodLayout);
         helper.addOnClickListener(R.id.expandable_text);
+        helper.addOnClickListener(R.id.dynamicUserNickNameTxt);
         helper.addOnClickListener(R.id.dynamicImgContentLayout);
         helper.addOnClickListener(R.id.dynamicUserHeadImg);
         helper.addOnClickListener(R.id.dynamicContentTxt);
@@ -66,7 +68,13 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth - DimentUtils.dip2px(mContext, 30), screenWidth / 2);
             videoFaceImg.setLayoutParams(layoutParams);
             dynamicImgContentLayout.addView(view);
-            videoPlayCountTxt.setText(item.getViewNumber() + "次播放");
+            videoPlayCountTxt.setText(String.valueOf(item.getViewNumber()) + "次播放");
+            if (!TextUtils.isEmpty(item.getTimeLength())) {
+                videoDuringTxt.setVisibility(View.VISIBLE);
+                videoDuringTxt.setText(item.getTimeLength());
+            } else {
+                videoDuringTxt.setVisibility(View.GONE);
+            }
             Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(videoFaceImg);
         }
         if ("normal".equals(item.getLikeStatus())) {
@@ -90,7 +98,8 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             if (imgList.size() == 1) {
                 ImageView oneImg = new ImageView(mContext);
                 int width = screenWidth - DimentUtils.dip2px(mContext, 30);
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, width / 2);
+                int height = ((screenWidth - DimentUtils.dip2px(mContext, 30)) / 5 * 2) * 2;
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
                 oneImg.setLayoutParams(layoutParams);
                 oneImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(mContext).load(imgList.get(0)).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(oneImg);

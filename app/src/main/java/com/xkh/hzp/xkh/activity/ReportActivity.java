@@ -171,6 +171,7 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
+                Toasty.info(ReportActivity.this, msg).show();
                 if (success) {
                     boolean result = (boolean) extra.get("result");
                     if (result) {

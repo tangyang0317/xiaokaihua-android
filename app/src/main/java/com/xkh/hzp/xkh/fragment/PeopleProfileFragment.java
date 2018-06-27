@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.awen.photo.photopick.controller.PhotoPagerConfig;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.BusinessCooperationActivity;
@@ -185,6 +187,19 @@ public class PeopleProfileFragment extends BaseFragment {
                         }
                     }
                 });
+            }
+        });
+
+        talentPictureAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ArrayList<String> imgUrls = (ArrayList<String>) adapter.getData();
+                new PhotoPagerConfig.Builder(getActivity())
+                        .setBigImageUrls(imgUrls)      //大图片url,可以是sd卡res，asset，网络图片.
+                        .setSavaImage(true)                                 //开启保存图片，默认false
+                        .setPosition(position)                                     //默认展示第2张图片
+                        .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
+                        .build();
             }
         });
     }
