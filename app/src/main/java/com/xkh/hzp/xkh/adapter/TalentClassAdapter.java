@@ -29,6 +29,6 @@ public class TalentClassAdapter extends BaseQuickAdapter<HotLableResult, BaseVie
         ImageView talentHeadItemImg = helper.getView(R.id.talentHeadItemImg);
         TextView talentTypeTxt = helper.getView(R.id.talentTypeTxt);
         talentTypeTxt.setText(item.getSignatureName());
-        Glide.with(mContext).load(item.getIconUrl()).transform(new GlideCircleTransform(mContext)).placeholder(R.drawable.ic_launcher_round).error(R.drawable.ic_launcher_round).into(talentHeadItemImg);
+        Glide.with(mContext).load(item.getIconUrl()).transform(new GlideCircleTransform(mContext)).error(R.drawable.shape_place_holder).into(talentHeadItemImg);
     }
 }

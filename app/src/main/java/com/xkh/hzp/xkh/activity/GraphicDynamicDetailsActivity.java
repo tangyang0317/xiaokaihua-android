@@ -55,6 +55,7 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.Nums;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
@@ -169,7 +170,10 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
 
-        Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
+        if (!TextUtils.isEmpty(UserDataManager.getInstance().getUserHeadPic())) {
+            Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
+
+        }
         commentExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
@@ -177,13 +181,13 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 if (String.valueOf(commentResult.getCommentResult().getUserId()).equals(UserDataManager.getInstance().getUserId())) {
                     /****回复和删除自己的评论****/
                     List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + commentResult.getCommentResult().getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 } else {
                     /****回复别人的评论****/
                     List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + commentResult.getCommentResult().getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
 
                 }
@@ -245,6 +249,13 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -275,6 +286,14 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                 entity.putField("result", Boolean.TYPE);
             }
 
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+            }
+
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
@@ -292,34 +311,46 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
     /***
      * 评论和删除Dialog
      */
-    private void commentAndDeleteDialog(List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
-        new ActionSheetDialog(GraphicDynamicDetailsActivity.this).builder()
-                .setCancelable(true)
-                .setCanceledOnTouchOutside(true)
-                .addSheetItemsList(itemBeans)
-                .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
-                    @Override
-                    public void onClick(String key) {
-                        if ("DEL".equals(key)) {
-                            if (isComment) {
-                                //删除评论
-                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                                deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
-                            } else {
-                                //删除回复
-                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                                CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
-                                deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
-                            }
-                        } else if ("COMMPENT".equals(key)) {
-                            //评论
-                            showCommentEditDialog();
-                        } else if ("REPLY".equals(key)) {
-                            //回复
-                            showReplayDialog(groupPosition, childPosiiton, isComment);
-                        }
-                    }
-                }).show();
+    private void commentAndDeleteDialog(final List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
+
+        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+            @Override
+            public void isLogin(boolean isLogin) {
+                if (!isLogin) {
+                    SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                    LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+                    return;
+                } else {
+                    new ActionSheetDialog(GraphicDynamicDetailsActivity.this).builder()
+                            .setCancelable(true)
+                            .setCanceledOnTouchOutside(true)
+                            .addSheetItemsList(itemBeans)
+                            .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
+                                @Override
+                                public void onClick(String key) {
+                                    if ("DEL".equals(key)) {
+                                        if (isComment) {
+                                            //删除评论
+                                            CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                            deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
+                                        } else {
+                                            //删除回复
+                                            CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                            CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
+                                            deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+                                        }
+                                    } else if ("COMMPENT".equals(key)) {
+                                        //评论
+                                        showCommentEditDialog();
+                                    } else if ("REPLY".equals(key)) {
+                                        //回复
+                                        showReplayDialog(groupPosition, childPosiiton, isComment);
+                                    }
+                                }
+                            }).show();
+                }
+            }
+        });
     }
 
     /***
@@ -398,12 +429,11 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         userId = dynamicBean.getUserSimpleResult().getUserId();
         dynamicId = dynamicBean.getXkhTalentDynamic().getId();
 
-
         if (dynamicBean.getUserSimpleResult() != null) {
             Glide.with(this).load(dynamicBean.getUserSimpleResult().getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(userHeadImg);
             userNickNameTxt.setText(dynamicBean.getUserSimpleResult().getName());
         }
-        detailsCommentTxt.setText(String.valueOf(commentCount));
+        detailsCommentTxt.setText(Nums.countTranslate(commentCount));
         if ("normal".equals(likeStatus)) {
             //已点赞
             detailsPraiseImg.setImageResource(R.mipmap.icon_praised);
@@ -416,7 +446,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         } else {
             userIsAttentionTxt.setText("+ 关注");
         }
-        detailsPraiseTxt.setText(String.valueOf(likeCount));
+        detailsPraiseTxt.setText(Nums.countTranslate(likeCount));
         if (dynamicBean.getXkhTalentDynamic() != null) {
             dynamicContentTxt.setText(dynamicBean.getXkhTalentDynamic().getWordDescription());
             dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getCreateTime()));
@@ -440,14 +470,14 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     public void onClick(View view) {
                         new PhotoPagerConfig.Builder(GraphicDynamicDetailsActivity.this)
                                 .setBigImageUrls(imgUrls)      //大图片url,可以是sd卡res，asset，网络图片.
-                                .setSavaImage(true)                                 //开启保存图片，默认false
-                                .setPosition(FINALI)                                     //默认展示第2张图片
-                                .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
+                                .setSavaImage(false)           //开启保存图片，默认false
+                                .setPosition(FINALI)           //默认展示第2张图片
+                                .setOpenDownAnimate(true)      //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
                                 .build();
                     }
                 });
             }
-            initShare("http://show.xiaokaihua.com/?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
+            initShare(UrlConfig.SHARE_URL + "?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
         }
     }
 
@@ -590,6 +620,13 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -616,6 +653,14 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
                 entity.putField("result", Long.TYPE);
+            }
+
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
             }
 
             @Override
@@ -721,7 +766,7 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         detailsPraiseLayout.setOnClickListener(this);
         detailsShareLayout.setOnClickListener(this);
         userHeadImg.setOnClickListener(this);
-        commentMineImg.setOnClickListener(this);
+        userNickNameTxt.setOnClickListener(this);
     }
 
     @Override
@@ -764,18 +809,6 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
             });
         } else if (view == seeMoreCommentTxt) {
             SeeMoreCommentActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, getDynamicId());
-        } else if (view == commentMineImg) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, UserDataManager.getInstance().getUserId());
-                    } else {
-                        SharedprefrenceHelper.getIns(GraphicDynamicDetailsActivity.this).clear();
-                        LoginActivity.lunchActivity(GraphicDynamicDetailsActivity.this, null, LoginActivity.class);
-                    }
-                }
-            });
         } else if (view == userHeadImg) {
             TalentHomePageActivity.lanuchActivity(GraphicDynamicDetailsActivity.this, String.valueOf(userId));
         } else if (view == userNickNameTxt) {

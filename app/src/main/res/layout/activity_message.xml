@@ -13,8 +13,18 @@
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
         app:leftIcon="@mipmap/btn_comment_dor"
-        app:leftTitleTxt="评论"
-         />
+        app:leftTitleTxt="评论" />
+
+    <include layout="@layout/view_line_horientol" />
+
+    <xkh.hzp.xkh.com.base.view.ItemLayout
+        android:id="@+id/replyMsgItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:background="@color/color_ffffff"
+        android:gravity="center_vertical"
+        app:leftIcon="@mipmap/btn_reply_dor"
+        app:leftTitleTxt="回复" />
 
     <include layout="@layout/view_line_horientol" />
 
@@ -25,8 +35,7 @@
         android:background="@color/color_ffffff"
         android:gravity="center_vertical"
         app:leftIcon="@mipmap/btn_praise_dor"
-        app:leftTitleTxt="赞我"
-         />
+        app:leftTitleTxt="赞我" />
 
     <View
         android:id="@+id/likeBottomLine"

@@ -22,6 +22,7 @@ import com.xkh.hzp.xkh.event.DynamicRefreshEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 
@@ -233,23 +234,6 @@ public class IndexDynamicFragment extends BaseFragment implements BaseQuickAdapt
                         }
                         break;
                 }
-            }
-        });
-
-
-        dynamicAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                final DynamicBean dynamicBean = (DynamicBean) adapter.getItem(position);
-                if (dynamicBean == null) {
-                    return;
-                }
-                if ("image".equals(dynamicBean.getDynamicType())) {
-                    GraphicDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
-                } else if ("video".equals(dynamicBean.getDynamicType())) {
-                    VideoDynamicDetailsActivity.lanuchActivity(getActivity(), String.valueOf(dynamicBean.getDynamicId()));
-                }
-
             }
         });
 

@@ -105,13 +105,9 @@
             android:name="UMENG_APPKEY"
             android:value="59b0b49d310c932ea200097e"></meta-data>
 
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="7866ba16da0e56874f3de9ebcbb33846"></meta-data>-->
-
-        <!--<meta-data-->
-        <!--android:name="UMENG_CHANNEL"-->
-        <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${CHANNEL_NAME_VALUE}" />
 
         <meta-data
             android:name="com.alibaba.app.appkey"
@@ -403,6 +399,10 @@
             android:name=".activity.LikeMessageActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.ReplyMessageActivity"
+            android:screenOrientation="portrait" />
+
         <!--友盟分享-->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
@@ -460,8 +460,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.ReportActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
             android:name=".activity.NoticeActivity"

@@ -53,6 +53,7 @@ public class ItemLayout extends LinearLayout {
 
     public void setRightIcon(int icon) {
         if (icon != 0) {
+            rightIconImg.setVisibility(VISIBLE);
             rightIconImg.setImageResource(icon);
         } else {
             rightIconImg.setVisibility(GONE);

@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,6 +22,7 @@ import com.xkh.hzp.xkh.entity.result.UserInfoResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.AppBarStateChangeListener;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 
 /**
@@ -97,7 +100,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         if (userInfoResult != null) {
             talentNickNameTxt.setText(userInfoResult.getName());
             homePageTitleTxt.setText(userInfoResult.getName());
-            talentSignTxt.setText("" + userInfoResult.getPersonSignature());
+            talentSignTxt.setText(TextUtils.isEmpty(userInfoResult.getPersonSignature())?"":userInfoResult.getPersonSignature());
             Glide.with(this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(talentHeadImg);
         }
     }
@@ -163,7 +166,17 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         reportUserImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReportActivity.lanuchActivity(TalentHomePageActivity.this, "user", 0, Long.parseLong(getTalentUserId()));
+                CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                    @Override
+                    public void isLogin(boolean isLogin) {
+                        if (isLogin) {
+                            ReportActivity.lanuchActivity(TalentHomePageActivity.this, "user", 0, Long.parseLong(getTalentUserId()));
+                        } else {
+                            SharedprefrenceHelper.getIns(TalentHomePageActivity.this).clear();
+                            LoginActivity.lunchActivity(TalentHomePageActivity.this, null, LoginActivity.class);
+                        }
+                    }
+                });
             }
         });
     }

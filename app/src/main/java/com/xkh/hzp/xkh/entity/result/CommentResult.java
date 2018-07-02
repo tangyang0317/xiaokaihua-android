@@ -121,7 +121,8 @@ public class CommentResult {
         private long createTime;
         private String name;
         private String headPortrait;
-        private Object status;
+        private String status;
+        private String userType;
 
         public long getId() {
             return id;
@@ -179,12 +180,20 @@ public class CommentResult {
             this.headPortrait = headPortrait;
         }
 
-        public Object getStatus() {
+        public String getStatus() {
             return status;
         }
 
-        public void setStatus(Object status) {
+        public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
     }
 }

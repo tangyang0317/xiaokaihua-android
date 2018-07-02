@@ -129,7 +129,10 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
      */
     private void queryUnReadMsg() {
         Map<String, String> param = new HashMap<>();
-        param.put("lastReadTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReadTime", "2017-01-01 00:00:00"));
+        param.put("lastCommentTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastCommentTime", "2017-01-01 00:00:00"));
+        param.put("lastReplyTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReplyTime", "2017-01-01 00:00:00"));
+        param.put("lastPushTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastPushTime", "2017-01-01 00:00:00"));
+        param.put("lastLikeTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastLikeTime", "2017-01-01 00:00:00"));
         param.put("userId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().postJSON(UrlConfig.msgUnRead, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override
@@ -145,7 +148,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 if (success) {
                     UnReadMsgResult unReadMsgResult = (UnReadMsgResult) extra.get("result");
                     if (unReadMsgResult != null) {
-                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike() || unReadMsgResult.isHaveUnreadPush()) {
+                        if (unReadMsgResult.isHaveUnreadComment() || unReadMsgResult.isHaveUnreadLike() || unReadMsgResult.isHaveUnreadPush() || unReadMsgResult.isHaveUnreadReply()) {
                             msgDotImg.setVisibility(View.VISIBLE);
                         }
                     }

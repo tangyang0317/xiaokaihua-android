@@ -196,9 +196,9 @@ public class PeopleProfileFragment extends BaseFragment {
                 ArrayList<String> imgUrls = (ArrayList<String>) adapter.getData();
                 new PhotoPagerConfig.Builder(getActivity())
                         .setBigImageUrls(imgUrls)      //大图片url,可以是sd卡res，asset，网络图片.
-                        .setSavaImage(true)                                 //开启保存图片，默认false
-                        .setPosition(position)                                     //默认展示第2张图片
-                        .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
+                        .setSavaImage(false)           //开启保存图片，默认false
+                        .setPosition(position)         //默认展示第2张图片
+                        .setOpenDownAnimate(true)      //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
                         .build();
             }
         });

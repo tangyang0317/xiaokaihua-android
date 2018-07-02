@@ -40,6 +40,7 @@ public class TalentAdapter extends BaseQuickAdapter<TalentResult, BaseViewHolder
     protected void convert(BaseViewHolder helper, TalentResult item) {
         helper.addOnClickListener(R.id.isAttentionTxt);
         helper.addOnClickListener(R.id.talentHeadImg);
+        helper.addOnClickListener(R.id.talentNickNameTxt);
         helper.addOnClickListener(R.id.talentPicImg);
         View spaceView = helper.getView(R.id.spaceView);
         ImageView talentHeadImg = helper.getView(R.id.talentHeadImg);

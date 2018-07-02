@@ -183,8 +183,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
+                    android:gravity="top"
+                    android:hint="请输入投诉内容"
                     android:paddingLeft="@dimen/dp_10"
-                    android:paddingTop="@dimen/dp_10" />
+                    android:paddingTop="@dimen/dp_10"
+                    android:textSize="@dimen/sp_14" />
 
                 <View
                     android:layout_width="match_parent"

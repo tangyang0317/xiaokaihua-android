@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.xkh.hzp.xkh.R;
+import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
+import com.xkh.hzp.xkh.activity.LoginActivity;
 import com.xkh.hzp.xkh.activity.TalentHomePageActivity;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.CommentDetailBean;
@@ -25,6 +27,7 @@ import com.xkh.hzp.xkh.entity.result.CommentResult;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
@@ -33,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
 
 /**
  * Author: Moos
@@ -45,10 +50,10 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     private static final String TAG = "CommentExpandAdapter";
     private List<CommentResult> commentBeanList;
     private List<CommentResult.ReplyResult> replyBeanList;
-    private Context context;
+    private Activity context;
     private int pageIndex = 1;
 
-    public CommentExpandAdapter(Context context, List<CommentResult> commentBeanList) {
+    public CommentExpandAdapter(Activity context, List<CommentResult> commentBeanList) {
         this.context = context;
         this.commentBeanList = commentBeanList;
     }
@@ -150,6 +155,7 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         groupHolder.praisedImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if ("normal".equals(commentBeanList.get(groupPosition).getCommentResult().getStatus())) {
                     //取消点赞
                     commentCancleLike(commentBeanList.get(groupPosition).getCommentResult().getId(), groupPosition, groupHolder.praisedImg, groupHolder.itemPraisedCountTxt);
@@ -160,11 +166,21 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
             }
         });
 
-
         groupHolder.userHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TalentHomePageActivity.lanuchActivity((Activity) context, String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getUserId()));
+                if ("talent".equals(commentBeanList.get(groupPosition).getCommentResult().getUserType())) {
+                    TalentHomePageActivity.lanuchActivity(context, String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getUserId()));
+                }
+            }
+        });
+
+        groupHolder.userNameTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ("talent".equals(commentBeanList.get(groupPosition).getCommentResult().getUserType())) {
+                    TalentHomePageActivity.lanuchActivity(context, String.valueOf(commentBeanList.get(groupPosition).getCommentResult().getUserId()));
+                }
             }
         });
 
@@ -338,6 +354,13 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(context).clear();
+                LoginActivity.lunchActivity(context, null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -373,6 +396,13 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
                 entity.putField("result", Integer.TYPE);
+            }
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(context).clear();
+                LoginActivity.lunchActivity(context, null, LoginActivity.class);
             }
 
             @Override

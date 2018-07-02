@@ -39,7 +39,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     private String reportTitle;
     private RelativeLayout reportAdContentRel, reportTrashInfoRel, reportIrregularityRel, reportHostilityRel, reportOtherRel;
 
-
     public static void lanuchActivity(Activity activity, String type, long dynamicId, long userId) {
         Intent intent = new Intent(activity, ReportActivity.class);
         intent.putExtra("type", type);

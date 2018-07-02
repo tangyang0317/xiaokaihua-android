@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.Nums;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.view.FolderTextView;
 
@@ -68,7 +69,7 @@ public class DynamicAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth - DimentUtils.dip2px(mContext, 30), screenWidth / 2);
             videoFaceImg.setLayoutParams(layoutParams);
             dynamicImgContentLayout.addView(view);
-            videoPlayCountTxt.setText(String.valueOf(item.getViewNumber()) + "次播放");
+            videoPlayCountTxt.setText(Nums.countTranslate(item.getViewNumber()) + "次播放");
             if (!TextUtils.isEmpty(item.getTimeLength())) {
                 videoDuringTxt.setVisibility(View.VISIBLE);
                 videoDuringTxt.setText(item.getTimeLength());

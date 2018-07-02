@@ -63,14 +63,14 @@ public class CommentMessageActivity extends BaseActivity implements SwipeRefresh
 
     @Override
     public void initView() {
-        setToolbarTitleTv("评论");
+        setToolbarTitleTv("回复");
         talentClassSwipefreshLayout = findViewById(R.id.talentClassSwipefreshLayout);
         talentClassRecyclerView = findViewById(R.id.talentClassRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         talentClassRecyclerView.setLayoutManager(linearLayoutManager);
         talentClassSwipefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         talentClassSwipefreshLayout.setOnRefreshListener(this);
-        commentMessageAdapter = new CommentMessageAdapter();
+        commentMessageAdapter = new CommentMessageAdapter(false);
         EmptyView emptyView = new EmptyView(this);
         emptyView.setNodataTitle("暂无用户评论");
         emptyView.setOperateBtnVisiable(false);

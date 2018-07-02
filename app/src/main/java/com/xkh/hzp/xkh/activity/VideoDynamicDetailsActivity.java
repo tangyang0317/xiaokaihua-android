@@ -65,6 +65,7 @@ import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.Nums;
 import com.xkh.hzp.xkh.utils.PraiseUtils;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
@@ -97,7 +98,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     private NormalGSYVideoPlayer videoPlayerView;
     private NestedScrollView contentScrollView;
     private ImageView userHeadImg, leftBackImg;
-    private TextView userNickNameTxt, commentTxt, videoDynamicTitleTxt, userIsAttentionTxt, dynamicContentTxt, dynamicDateTxt;
+    private TextView userNickNameTxt, commentTxt, dynamicVideoPlayCountTxt, videoDynamicTitleTxt, userIsAttentionTxt, dynamicContentTxt, dynamicDateTxt;
     private CommentExpandableListView commentExpandableListView;
     private LinearLayout vgBottomInfo, navigationLayout;
     private RelativeLayout detailsShareLayout, detailsCommentLayout, detailsPraiseLayout;
@@ -147,6 +148,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         leftBackImg = findViewById(R.id.leftBackImg);
         commentTxt = findViewById(R.id.commentTxt);
+        dynamicVideoPlayCountTxt = findViewById(R.id.dynamicVideoPlayCountTxt);
         seeMoreCommentTxt = findViewById(R.id.seeMoreCommentTxt);
         videoDynamicTitleTxt = findViewById(R.id.videoDynamicTitleTxt);
         contentScrollView = findViewById(R.id.contentScrollView);
@@ -182,20 +184,21 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                 CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
                 if (String.valueOf(commentResult.getCommentResult().getUserId()).equals(UserDataManager.getInstance().getUserId())) {
                     List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + commentResult.getCommentResult().getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     dialogItemBeans.add(new ActionSheetDialog.SheetItem("删除", "DEL", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 } else {
                     List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
-                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复", "REPLY", ActionSheetDialog.SheetItemColor.Blue));
+                    dialogItemBeans.add(new ActionSheetDialog.SheetItem("回复:" + commentResult.getCommentResult().getName(), "REPLY", ActionSheetDialog.SheetItemColor.Blue));
                     commentAndDeleteDialog(dialogItemBeans, true, groupPosition, 0);
                 }
                 return true;
             }
         });
 
-        Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
-
+        if (TextUtils.isEmpty(UserDataManager.getInstance().getUserHeadPic())) {
+            Glide.with(this).load(UserDataManager.getInstance().getUserHeadPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(commentMineImg);
+        }
         commentExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
@@ -293,8 +296,9 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             Glide.with(this).load(dynamicBean.getUserSimpleResult().getHeadPortrait()).transform(new GlideCircleTransform(this)).placeholder(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(userHeadImg);
             userNickNameTxt.setText(dynamicBean.getUserSimpleResult().getName());
         }
-        detailsPraiseTxt.setText(String.valueOf(likeCount));
-        detailsCommentTxt.setText(String.valueOf(commentCount));
+        dynamicVideoPlayCountTxt.setText(Nums.countTranslate(dynamicBean.getXkhTalentDynamic().getViewNumber()) + "次播放");
+        detailsPraiseTxt.setText(Nums.countTranslate(likeCount));
+        detailsCommentTxt.setText(Nums.countTranslate(commentCount));
         if ("normal".equals(likeStatus)) {
             //已点赞
             detailsPraiseImg.setImageResource(R.mipmap.icon_praised);
@@ -312,9 +316,8 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             dynamicDateTxt.setText(TimeUtils.getTimeFormatText(dynamicBean.getXkhTalentDynamic().getCreateTime()));
         }
         initVideo(dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
-        initShare("http://show.xiaokaihua.com/?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
+        initShare(UrlConfig.SHARE_URL + "?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamic().getFaceUrl());
     }
-
 
     /**
      * 初始化分享
@@ -573,6 +576,13 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -602,6 +612,13 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             }
 
             @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+            }
+
+            @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
                 if (success) {
@@ -620,34 +637,46 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
     /***
      * 评论和删除Dialog
      */
-    private void commentAndDeleteDialog(List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
-        new ActionSheetDialog(VideoDynamicDetailsActivity.this).builder()
-                .setCancelable(true)
-                .setCanceledOnTouchOutside(true)
-                .addSheetItemsList(itemBeans)
-                .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
-                    @Override
-                    public void onClick(String key) {
-                        if ("DEL".equals(key)) {
-                            if (isComment) {
-                                //删除评论
-                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                                deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
-                            } else {
-                                //删除回复
-                                CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
-                                CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
-                                deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
-                            }
-                        } else if ("COMMPENT".equals(key)) {
-                            //评论
-                            showCommentEditDialog();
-                        } else if ("REPLY".equals(key)) {
-                            //回复
-                            showReplayDialog(groupPosition, childPosiiton, isComment);
-                        }
-                    }
-                }).show();
+    private void commentAndDeleteDialog(final List<ActionSheetDialog.SheetItem> itemBeans, final boolean isComment, final int groupPosition, final int childPosiiton) {
+        CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+            @Override
+            public void isLogin(boolean isLogin) {
+                if (!isLogin) {
+                    SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                    LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
+                    return;
+                } else {
+                    new ActionSheetDialog(VideoDynamicDetailsActivity.this).builder()
+                            .setCancelable(true)
+                            .setCanceledOnTouchOutside(true)
+                            .addSheetItemsList(itemBeans)
+                            .addSheetItemListenner(new ActionSheetDialog.OnSheetItemClickListener() {
+                                @Override
+                                public void onClick(String key) {
+                                    if ("DEL".equals(key)) {
+                                        if (isComment) {
+                                            //删除评论
+                                            CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                            deleteComment(commentResult.getCommentResult().getId(), UserDataManager.getInstance().getUserId(), groupPosition);
+                                        } else {
+                                            //删除回复
+                                            CommentResult commentResult = (CommentResult) commentExpandAdapter.getGroup(groupPosition);
+                                            CommentResult.ReplyResult replyResult = commentResult.getReplyResults().get(childPosiiton);
+                                            deleteReply(replyResult.getId(), UserDataManager.getInstance().getUserId(), groupPosition, childPosiiton);
+                                        }
+                                    } else if ("COMMPENT".equals(key)) {
+                                        //评论
+                                        showCommentEditDialog();
+                                    } else if ("REPLY".equals(key)) {
+                                        //回复
+                                        showReplayDialog(groupPosition, childPosiiton, isComment);
+                                    }
+                                }
+                            }).show();
+                }
+            }
+        });
+
     }
 
     /***
@@ -665,6 +694,13 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
                 entity.putField("result", Boolean.TYPE);
+            }
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
             }
 
             @Override
@@ -696,6 +732,13 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             public void setupEntity(AbHttpEntity entity) {
                 super.setupEntity(entity);
                 entity.putField("result", Boolean.TYPE);
+            }
+
+            @Override
+            public void onNotLogin() {
+                super.onNotLogin();
+                SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
+                LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
             }
 
             @Override
@@ -787,6 +830,7 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                     }
                 })
                 .build(videoPlayerView);
+        getCurPlay().startPlayLogic();
         videoPlayerView.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -810,7 +854,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
         detailsPraiseLayout.setOnClickListener(this);
         seeMoreCommentTxt.setOnClickListener(this);
         leftBackImg.setOnClickListener(this);
-        commentMineImg.setOnClickListener(this);
         commentTxt.setOnClickListener(this);
     }
 
@@ -924,18 +967,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
             TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, String.valueOf(userId));
         } else if (view == userNickNameTxt) {
             TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, String.valueOf(userId));
-        } else if (view == commentMineImg) {
-            CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                @Override
-                public void isLogin(boolean isLogin) {
-                    if (isLogin) {
-                        TalentHomePageActivity.lanuchActivity(VideoDynamicDetailsActivity.this, UserDataManager.getInstance().getUserId());
-                    } else {
-                        SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
-                        LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
-                    }
-                }
-            });
         } else if (view == detailsPraiseLayout) {
             if ("normal".equals(likeStatus)) {
                 //取消点赞

@@ -1,6 +1,7 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -126,7 +127,10 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
      */
     private void queryUnReadMsg() {
         Map<String, String> param = new HashMap<>();
-        param.put("lastReadTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReadTime", "2017-01-01 00:00:00"));
+        param.put("lastCommentTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastCommentTime", "2017-01-01 00:00:00"));
+        param.put("lastReplyTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastReplyTime", "2017-01-01 00:00:00"));
+        param.put("lastPushTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastPushTime", "2017-01-01 00:00:00"));
+        param.put("lastLikeTime", (String) SharedprefrenceHelper.getIns(getActivity()).get("lastLikeTime", "2017-01-01 00:00:00"));
         param.put("userId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().postJSON(UrlConfig.msgUnRead, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override
@@ -204,7 +208,7 @@ public class TalentMineFragment extends BaseFragment implements View.OnClickList
             mineNickNameTxt.setVisibility(View.VISIBLE);
             talentUserSignTxt.setVisibility(View.VISIBLE);
             mineNickNameTxt.setText(userInfoResult.getName());
-            talentUserSignTxt.setText("" + userInfoResult.getPersonSignature());
+            talentUserSignTxt.setText(TextUtils.isEmpty(userInfoResult.getPersonSignature()) ? "" : userInfoResult.getPersonSignature());
             Glide.with(Global.app).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(getActivity())).error(R.mipmap.icon_female_selected).into(mineHeadImg);
         } else {
             mineLoginTxt.setVisibility(View.VISIBLE);

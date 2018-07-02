@@ -144,7 +144,12 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
                 return;
             }
 
-            if (gridViewAddImgesAdpter.getDatas() != null && gridViewAddImgesAdpter.getDatas().size() != 3) {
+            if (gridViewAddImgesAdpter.getDatas() == null) {
+                Toasty.warning(JoinTalentActivity.this, "照片不能为空").show();
+                return;
+            }
+
+            if (gridViewAddImgesAdpter.getDatas().size() != 3) {
                 Toasty.warning(JoinTalentActivity.this, "请上传3张照片").show();
                 return;
             }

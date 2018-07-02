@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
+import com.xkh.hzp.xkh.utils.Nums;
 import com.xkh.hzp.xkh.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         LinearLayout componentLayout = helper.getView(R.id.componentLayout);
         LinearLayout goodLayout = helper.getView(R.id.goodLayout);
         View dividerView = helper.getView(R.id.dividerView);
-        videoPlayCountTxt.setText(item.getViewNumber() + "次播放");
+        videoPlayCountTxt.setText(Nums.countTranslate(item.getViewNumber()) + "次播放");
         if (!TextUtils.isEmpty(item.getTimeLength())) {
             videoDuringTxt.setVisibility(View.VISIBLE);
             videoDuringTxt.setText(item.getTimeLength());
@@ -65,7 +66,6 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         Glide.with(mContext).load(item.getFaceUrl()).placeholder(R.drawable.shape_place_holder).error(R.drawable.shape_place_holder).into(videoDynamicFaceurlImg);
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).placeholder(R.mipmap.icon_female_selected).error(R.mipmap.icon_female_selected).into(dynamicUserHeadImg);
         dynamicUserNickNameTxt.setText(item.getName());
-        videoPlayCountTxt.setText(item.getViewNumber() + "次播放");
         dynamicContentTxt.setText(item.getWordDescription());
         dynamicPublishDateTxt.setText(TimeUtils.getTimeFormatText(item.getCreateTime()));
     }

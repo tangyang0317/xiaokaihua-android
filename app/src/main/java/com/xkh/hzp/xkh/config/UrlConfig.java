@@ -7,10 +7,9 @@ package com.xkh.hzp.xkh.config;
  * @DATE 2018/5/28
  **/
 public class UrlConfig {
-    public static final String USER_BASE_URL = "http://user-test.xiaokaihua.com";
-    public static final String DYNAMIC_BASE_URL = "http://dynamic-test.xiaokaihua.com";
-//    public static final String USER_BASE_URL = "http://user-dev.xiaokaihua.com";
-//    public static final String DYNAMIC_BASE_URL = "http://dynamic-dev.xiaokaihua.com";
+    public static final String USER_BASE_URL = "http://user.xkhstar.com";
+    public static final String DYNAMIC_BASE_URL = "http://dynamic.xkhstar.com";
+    public static final String SHARE_URL = "http://show.xkhstar.com/detail";
     public static final String banner = DYNAMIC_BASE_URL + "/banner";
     public static final String getToken = DYNAMIC_BASE_URL + "/dynamic/getToken";
     public static final String login = USER_BASE_URL + "/uc/login/in";
@@ -48,4 +47,6 @@ public class UrlConfig {
     public static final String messageNotice = DYNAMIC_BASE_URL + "/search/pushList";
     public static final String report = DYNAMIC_BASE_URL + "/report";
     public static final String msgUnRead = DYNAMIC_BASE_URL + "/search/searchHasUnread";
+    public static final String messageReply = DYNAMIC_BASE_URL + "/dynamic/searchComment/mySelf";
+
 }

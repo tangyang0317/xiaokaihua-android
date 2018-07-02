@@ -17,6 +17,7 @@ import com.xkh.hzp.xkh.event.LogoutEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
 import com.xkh.hzp.xkh.http.AbHttpEntity;
+import com.xkh.hzp.xkh.utils.ChannelUtils;
 import com.xkh.hzp.xkh.utils.IntentUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,6 +59,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         clearCacheItemLayout = findViewById(R.id.clearCacheItemLayout);
         aboutXkhItemLayout = findViewById(R.id.aboutXkhItemLayout);
         logoutTxt = findViewById(R.id.logoutTxt);
+        Toasty.info(this, ChannelUtils.getChannel(this, "UMENG_CHANNEL")).show();
     }
 
     @Override

@@ -33,10 +33,10 @@ import xkh.hzp.xkh.com.base.view.ItemLayout;
  **/
 public class MessageActivity extends BaseActivity implements View.OnClickListener {
 
-    private ItemLayout commentMsgItemLayout, likeMsgItemLayout, noticeMsgItemLayout;
+    private ItemLayout commentMsgItemLayout, likeMsgItemLayout, noticeMsgItemLayout, replyMsgItemLayout;
     private View likeBottomLine;
 
-    private boolean commentMsgUnRead, likeMsgUnRead;
+    private boolean commentMsgUnRead, likeMsgUnRead, replyMsgUnRead, pushMsgUnRead;
 
     @Override
     public int getLayoutId() {
@@ -49,11 +49,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         commentMsgItemLayout = findViewById(R.id.commentMsgItemLayout);
         likeMsgItemLayout = findViewById(R.id.likeMsgItemLayout);
         noticeMsgItemLayout = findViewById(R.id.noticeMsgItemLayout);
+        replyMsgItemLayout = findViewById(R.id.replyMsgItemLayout);
         likeBottomLine = findViewById(R.id.likeBottomLine);
-        if (UserDataManager.getInstance().getUserInfo() != null && !"talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
-            likeMsgItemLayout.setVisibility(View.GONE);
-            likeBottomLine.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -67,7 +64,10 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
      */
     private void queryUnReadMsg() {
         Map<String, String> param = new HashMap<>();
-        param.put("lastReadTime", (String) SharedprefrenceHelper.getIns(this).get("lastReadTime", "2017-01-01 00:00:00"));
+        param.put("lastCommentTime", (String) SharedprefrenceHelper.getIns(this).get("lastCommentTime", "2017-01-01 00:00:00"));
+        param.put("lastReplyTime", (String) SharedprefrenceHelper.getIns(this).get("lastReplyTime", "2017-01-01 00:00:00"));
+        param.put("lastPushTime", (String) SharedprefrenceHelper.getIns(this).get("lastPushTime", "2017-01-01 00:00:00"));
+        param.put("lastLikeTime", (String) SharedprefrenceHelper.getIns(this).get("lastLikeTime", "2017-01-01 00:00:00"));
         param.put("userId", UserDataManager.getInstance().getUserId());
         ABHttp.getIns().postJSON(UrlConfig.msgUnRead, JsonUtils.toJson(param), new AbHttpCallback() {
             @Override
@@ -85,15 +85,28 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     if (unReadMsgResult != null) {
                         commentMsgUnRead = unReadMsgResult.isHaveUnreadComment();
                         likeMsgUnRead = unReadMsgResult.isHaveUnreadLike();
+                        replyMsgUnRead = unReadMsgResult.isHaveUnreadReply();
+                        pushMsgUnRead = unReadMsgResult.isHaveUnreadPush();
                         if (unReadMsgResult.isHaveUnreadLike()) {
                             likeMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        } else {
+                            likeMsgItemLayout.setRightIcon(0);
                         }
                         if (unReadMsgResult.isHaveUnreadComment()) {
                             commentMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        } else {
+                            commentMsgItemLayout.setRightIcon(0);
                         }
+                        if (unReadMsgResult.isHaveUnreadReply()) {
+                            replyMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        } else {
+                            replyMsgItemLayout.setRightIcon(0);
 
+                        }
                         if (unReadMsgResult.isHaveUnreadPush()) {
                             noticeMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        } else {
+                            noticeMsgItemLayout.setRightIcon(0);
                         }
                     }
                 }
@@ -107,27 +120,42 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         commentMsgItemLayout.setOnClickListener(this);
         likeMsgItemLayout.setOnClickListener(this);
         noticeMsgItemLayout.setOnClickListener(this);
+        replyMsgItemLayout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view == commentMsgItemLayout) {
             SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.dateFormatYMDHMS);
-            SharedprefrenceHelper.getIns(this).put("lastReadTime", sdf.format(new Date()));
+            SharedprefrenceHelper.getIns(this).put("lastReplyTime", sdf.format(new Date()));
             commentMsgUnRead = false;
-            if (!commentMsgUnRead && !likeMsgUnRead) {
+            if (!commentMsgUnRead && !likeMsgUnRead && !pushMsgUnRead && !replyMsgUnRead) {
+                EventBus.getDefault().post(new RefreshDotEvent());
+            }
+            ReplyMessageActivity.lunchActivity(MessageActivity.this, null, ReplyMessageActivity.class);
+        } else if (view == replyMsgItemLayout) {
+            SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.dateFormatYMDHMS);
+            SharedprefrenceHelper.getIns(this).put("lastCommentTime", sdf.format(new Date()));
+            commentMsgUnRead = false;
+            if (!commentMsgUnRead && !likeMsgUnRead && !pushMsgUnRead && !replyMsgUnRead) {
                 EventBus.getDefault().post(new RefreshDotEvent());
             }
             CommentMessageActivity.lunchActivity(MessageActivity.this, null, CommentMessageActivity.class);
         } else if (view == likeMsgItemLayout) {
             SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.dateFormatYMDHMS);
-            SharedprefrenceHelper.getIns(this).put("lastReadTime", sdf.format(new Date()));
+            SharedprefrenceHelper.getIns(this).put("lastLikeTime", sdf.format(new Date()));
             likeMsgUnRead = false;
-            if (!commentMsgUnRead && !likeMsgUnRead) {
+            if (!commentMsgUnRead && !likeMsgUnRead && !pushMsgUnRead && !replyMsgUnRead) {
                 EventBus.getDefault().post(new RefreshDotEvent());
             }
             LikeMessageActivity.lunchActivity(MessageActivity.this, null, LikeMessageActivity.class);
         } else if (view == noticeMsgItemLayout) {
+            SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.dateFormatYMDHMS);
+            SharedprefrenceHelper.getIns(this).put("lastPushTime", sdf.format(new Date()));
+            pushMsgUnRead = false;
+            if (!commentMsgUnRead && !likeMsgUnRead && !pushMsgUnRead && !replyMsgUnRead) {
+                EventBus.getDefault().post(new RefreshDotEvent());
+            }
             NoticeActivity.lunchActivity(MessageActivity.this, null, NoticeActivity.class);
         }
     }

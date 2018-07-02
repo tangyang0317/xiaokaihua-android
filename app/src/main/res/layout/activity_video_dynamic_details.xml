@@ -70,16 +70,29 @@
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_16" />
 
-
-            <TextView
-                android:id="@+id/dynamicDateTxt"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="@dimen/dp15"
-                android:text="2017-04-24"
-                android:textColor="@color/color_999999"
-                android:textSize="@dimen/sp_12" />
+                android:layout_margin="@dimen/dp15">
+
+                <TextView
+                    android:id="@+id/dynamicVideoPlayCountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+
+
+                <TextView
+                    android:id="@+id/dynamicDateTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

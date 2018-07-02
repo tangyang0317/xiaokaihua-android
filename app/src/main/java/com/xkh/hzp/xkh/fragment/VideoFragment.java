@@ -124,6 +124,7 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.addData(talentResults);
                         } else {
+                            dynamicVideoAdapter.setEnableLoadMore(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.loadMoreEnd();
                         }
