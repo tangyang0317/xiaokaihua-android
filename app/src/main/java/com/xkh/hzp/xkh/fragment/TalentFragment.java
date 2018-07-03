@@ -47,6 +47,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     private RecyclerView talentRecyclerView;
     private TextView searchLayout;
     private TalentAdapter talentAdapter;
+    private View headView = null;
     private TalentClassAdapter talentClassAdapter;
     private int pageNum = 1, pageSize = 10;
 
@@ -54,7 +55,6 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     public int getFragmentLayoutId() {
         return R.layout.fragment_talent;
     }
-
 
     @Override
     public void initView(View contentView) {
@@ -65,7 +65,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         talentSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         talentRecyclerView.setLayoutManager(linearLayoutManager);
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.view_talent_header, null);
+        headView = LayoutInflater.from(getActivity()).inflate(R.layout.view_talent_header, null);
         RecyclerView recommendTalentRecycleView = headView.findViewById(R.id.recommendTalentRecycleView);
         LinearLayoutManager headerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recommendTalentRecycleView.setLayoutManager(headerLayoutManager);
@@ -79,7 +79,6 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
         talentAdapter.setEmptyView(emptyView);
         talentAdapter.setOnLoadMoreListener(this, talentRecyclerView);
         talentAdapter.setLoadMoreView(new XkhLoadMoreView());
-        talentAdapter.addHeaderView(headView);
         talentRecyclerView.setAdapter(talentAdapter);
         initHeaderData();
         pageNum = 1;
@@ -166,6 +165,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                     if (hotLableResults != null && hotLableResults.size() > 0) {
                         talentClassAdapter.setNewData(hotLableResults);
                         talentClassAdapter.notifyDataSetChanged();
+                        talentAdapter.addHeaderView(headView);
                     }
                 }
             }
@@ -310,7 +310,6 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
     public void onRefresh() {
         pageNum = 1;
         initTalentData(pageNum, pageSize);
-        initHeaderData();
     }
 
     @Override

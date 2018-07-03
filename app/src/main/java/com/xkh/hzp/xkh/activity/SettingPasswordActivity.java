@@ -98,11 +98,6 @@ public class SettingPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(passwordStr)) {
-            Toasty.error(SettingPasswordActivity.this, "密码长度为6-16位").show();
-            return;
-        }
-
         if (RegExpValidatorUtils.IsChinese(passwordStr)) {
             Toasty.error(SettingPasswordActivity.this, "密码不能是中文").show();
             return;
@@ -111,11 +106,6 @@ public class SettingPasswordActivity extends BaseActivity {
 
         if (TextUtils.isEmpty(passwordAgainStr)) {
             Toasty.error(SettingPasswordActivity.this, "确认密码不能为空").show();
-            return;
-        }
-
-        if (!RegExpValidatorUtils.IsPasswLength(passwordAgainStr)) {
-            Toasty.error(SettingPasswordActivity.this, "确认密码长度为6-16位").show();
             return;
         }
 

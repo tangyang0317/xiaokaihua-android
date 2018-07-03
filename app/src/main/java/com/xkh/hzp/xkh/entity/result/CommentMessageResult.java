@@ -140,6 +140,24 @@ public class CommentMessageResult {
         private int dynamicId;
         private String wordDescription;
         private String annexUrl;
+        private String dynamicType;
+        private String faceUrl;
+
+        public String getDynamicType() {
+            return dynamicType;
+        }
+
+        public void setDynamicType(String dynamicType) {
+            this.dynamicType = dynamicType;
+        }
+
+        public String getFaceUrl() {
+            return faceUrl;
+        }
+
+        public void setFaceUrl(String faceUrl) {
+            this.faceUrl = faceUrl;
+        }
 
         public int getDynamicId() {
             return dynamicId;

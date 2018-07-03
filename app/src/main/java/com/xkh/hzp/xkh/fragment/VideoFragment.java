@@ -62,7 +62,6 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicSwipeRefreshLayout.setOnRefreshListener(this);
         dynamicSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
-        dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicVideoAdapter = new DynamicVideoAdapter();
         EmptyView emptyView = new EmptyView(getActivity());
         emptyView.setOperateBtnVisiable(false);
@@ -124,13 +123,13 @@ public class VideoFragment extends BaseFragment implements BaseQuickAdapter.Requ
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.addData(talentResults);
                         } else {
-                            dynamicVideoAdapter.setEnableLoadMore(false);
                             dynamicVideoAdapter.loadMoreComplete();
                             dynamicVideoAdapter.loadMoreEnd();
                         }
                     }
                 }
             }
+
         });
     }
 

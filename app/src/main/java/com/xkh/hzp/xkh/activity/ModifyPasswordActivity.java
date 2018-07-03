@@ -86,11 +86,6 @@ public class ModifyPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(oldPass)) {
-            Toasty.error(ModifyPasswordActivity.this, "旧密码长度为6-16位").show();
-            return;
-        }
-
         if (RegExpValidatorUtils.IsChinese(oldPass)) {
             Toasty.error(ModifyPasswordActivity.this, "旧密码不能是中文").show();
             return;
@@ -102,10 +97,6 @@ public class ModifyPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(nPass)) {
-            Toasty.error(ModifyPasswordActivity.this, "新密码长度为6-16位").show();
-            return;
-        }
 
         if (RegExpValidatorUtils.IsChinese(nPass)) {
             Toasty.error(ModifyPasswordActivity.this, "新密码不能是中文").show();
@@ -118,10 +109,6 @@ public class ModifyPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(mPassComfirm)) {
-            Toasty.error(ModifyPasswordActivity.this, "确认密码长度为6-16位").show();
-            return;
-        }
 
         if (RegExpValidatorUtils.IsChinese(mPassComfirm)) {
             Toasty.error(ModifyPasswordActivity.this, "确认密码不能是中文").show();

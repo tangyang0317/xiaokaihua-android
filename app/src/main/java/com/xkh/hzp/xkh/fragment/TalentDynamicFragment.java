@@ -76,7 +76,6 @@ public class TalentDynamicFragment extends BaseFragment implements BaseQuickAdap
         dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicAdapter = new DynamicAdapter();
         EmptyView emptyView = new EmptyView(getActivity());
         emptyView.setOperateBtnVisiable(false);

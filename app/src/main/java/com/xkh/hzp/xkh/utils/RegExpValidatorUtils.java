@@ -68,17 +68,6 @@ public class RegExpValidatorUtils {
     }
 
     /**
-     * 验证输入密码长度 (6-18位)
-     *
-     * @param
-     * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
-     */
-    public static boolean IsPasswLength(String str) {
-        String regex = "^\\d{6,16}$";
-        return match(regex, str);
-    }
-
-    /**
      * 验证输入邮政编号
      *
      * @param

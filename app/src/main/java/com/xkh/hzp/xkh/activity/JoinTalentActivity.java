@@ -194,8 +194,8 @@ public class JoinTalentActivity extends BaseActivity implements View.OnClickList
      */
     private void doJoinUs(List<String> imgList) {
         JoinUsParam joinUsParam = new JoinUsParam();
-        joinUsParam.setHigh(Integer.parseInt(talentHeightStr));
-        joinUsParam.setWeight(Integer.parseInt(talentWidghtStr));
+        joinUsParam.setHigh(talentHeightStr);
+        joinUsParam.setWeight(talentWidghtStr);
         joinUsParam.setMicroblogName(talentWeiBoStr);
         joinUsParam.setPhone(talentLinkManPhoneStr);
         joinUsParam.setContactName(talentLinkManNameStr);

@@ -168,10 +168,6 @@ public class FindPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(newPassStr)) {
-            Toasty.error(FindPasswordActivity.this, "新密码长度为6-16位").show();
-            return;
-        }
 
         if (RegExpValidatorUtils.IsChinese(newPassStr)) {
             Toasty.error(FindPasswordActivity.this, "新密码不能是中文").show();
@@ -184,10 +180,6 @@ public class FindPasswordActivity extends BaseActivity {
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(newPassConfirmStr)) {
-            Toasty.error(FindPasswordActivity.this, "确认新密码长度为6-16位").show();
-            return;
-        }
 
         if (RegExpValidatorUtils.IsChinese(newPassConfirmStr)) {
             Toasty.error(FindPasswordActivity.this, "确认新密码不能是中文").show();
@@ -213,6 +205,7 @@ public class FindPasswordActivity extends BaseActivity {
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
+                Toasty.info(FindPasswordActivity.this, msg).show();
                 if (success) {
                     boolean result = (boolean) extra.get("result");
                     if (result) {

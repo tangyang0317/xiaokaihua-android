@@ -93,15 +93,14 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                             likeMsgItemLayout.setRightIcon(0);
                         }
                         if (unReadMsgResult.isHaveUnreadComment()) {
-                            commentMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
-                        } else {
-                            commentMsgItemLayout.setRightIcon(0);
-                        }
-                        if (unReadMsgResult.isHaveUnreadReply()) {
                             replyMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
                         } else {
                             replyMsgItemLayout.setRightIcon(0);
-
+                        }
+                        if (unReadMsgResult.isHaveUnreadReply()) {
+                            commentMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
+                        } else {
+                            commentMsgItemLayout.setRightIcon(0);
                         }
                         if (unReadMsgResult.isHaveUnreadPush()) {
                             noticeMsgItemLayout.setRightIcon(R.drawable.shpe_red_dot);
@@ -122,6 +121,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         noticeMsgItemLayout.setOnClickListener(this);
         replyMsgItemLayout.setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View view) {

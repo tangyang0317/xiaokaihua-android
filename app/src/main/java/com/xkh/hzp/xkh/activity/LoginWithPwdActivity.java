@@ -184,10 +184,6 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
             return;
         }
 
-        if (!RegExpValidatorUtils.IsPasswLength(password)) {
-            Toasty.error(LoginWithPwdActivity.this, "密码长度为6-16位").show();
-            return;
-        }
 
         if (RegExpValidatorUtils.IsChinese(password)) {
             Toasty.error(LoginWithPwdActivity.this, "密码不能是中文").show();

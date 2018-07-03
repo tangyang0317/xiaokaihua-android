@@ -21,6 +21,7 @@ public class LikeMessageResult {
     private long likeUserId;
     private String headPortrait;
     private String likeUserName;
+    private String comment;
     private SimpleDynamicResultBean simpleDynamicResult;
 
     public long getCreateTime() {
@@ -63,6 +64,14 @@ public class LikeMessageResult {
         this.simpleDynamicResult = simpleDynamicResult;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public static class SimpleDynamicResultBean {
         /**
          * wordDescription : 在经济消费能力之外，许多人为了过上所谓的更好的生活，贷款买苹果，买单反，买奢侈品，而年轻群体很多时候就成了目前这种“刺激消费”下的受害者。
@@ -71,6 +80,24 @@ public class LikeMessageResult {
 
         private String wordDescription;
         private String annexUrl;
+        private String dynamicType;
+        private String faceUrl;
+
+        public String getDynamicType() {
+            return dynamicType;
+        }
+
+        public void setDynamicType(String dynamicType) {
+            this.dynamicType = dynamicType;
+        }
+
+        public String getFaceUrl() {
+            return faceUrl;
+        }
+
+        public void setFaceUrl(String faceUrl) {
+            this.faceUrl = faceUrl;
+        }
 
         public String getWordDescription() {
             return wordDescription;

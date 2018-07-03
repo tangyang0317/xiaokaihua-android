@@ -18,20 +18,20 @@ public class JoinUsParam {
      * userId : 0
      * weight : 0
      */
-    private int high;
+    private String high;
     private int id;
     private String microblogName;
     private String phone;
     private String contactName;
     private String userId;
-    private int weight;
+    private String weight;
     private List<String> applyImageList;
 
-    public int getHigh() {
+    public String getHigh() {
         return high;
     }
 
-    public void setHigh(int high) {
+    public void setHigh(String high) {
         this.high = high;
     }
 
@@ -59,11 +59,11 @@ public class JoinUsParam {
         this.phone = phone;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

@@ -1,9 +1,7 @@
 apply plugin: 'android-library'
-
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 }
-
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
     buildToolsVersion rootProject.android.buildToolsVersion
@@ -18,7 +16,6 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
-
         // Move the tests to tests/java, tests/res, etc...
         instrumentTest.setRoot('tests')
         // Move the build types to build-types/<type>
@@ -31,7 +28,6 @@ android {
         release.setRoot('build-types/release')
     }
 }
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 }

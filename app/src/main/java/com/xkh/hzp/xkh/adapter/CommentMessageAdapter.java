@@ -43,9 +43,13 @@ public class CommentMessageAdapter extends BaseQuickAdapter<CommentMessageResult
         ImageView dynamicFaceUrlImg = helper.getView(R.id.dynamicFaceUrlImg);
         TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
         TextView replyTxt = helper.getView(R.id.replyTxt);
-        if (!TextUtils.isEmpty(item.getSimpleDynamicResult().getAnnexUrl())) {
-            List<String> imgUrl = Arrays.asList(item.getSimpleDynamicResult().getAnnexUrl().split(","));
-            Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
+        if ("video".equals(item.getSimpleDynamicResult().getDynamicType())) {
+            Glide.with(mContext).load(item.getSimpleDynamicResult().getFaceUrl()).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
+        } else {
+            if (!TextUtils.isEmpty(item.getSimpleDynamicResult().getAnnexUrl())) {
+                List<String> imgUrl = Arrays.asList(item.getSimpleDynamicResult().getAnnexUrl().split(","));
+                Glide.with(mContext).load(imgUrl.get(0)).error(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicFaceUrlImg);
+            }
         }
         Glide.with(mContext).load(item.getHeadPortrait()).transform(new GlideCircleTransform(mContext)).error(R.mipmap.icon_female_selected).placeholder(R.mipmap.icon_female_selected).into(commentUserHeadImg);
         commentUserNickNameTxt.setText(item.getReplyUserName());

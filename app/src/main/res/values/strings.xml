@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">校开花</string>
     <string name="report_error">举报</string>
-    <string name="digits">0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.</string>
+    <string name="digits">0123456789abcdefghijgklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.</string>
 </resources>

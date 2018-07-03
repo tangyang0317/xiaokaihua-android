@@ -27,7 +27,7 @@ public class TalentInfoResultBean {
 
     private int attributeId;
     private String constellation;
-    private int high;
+    private String high;
     private List<String> imgUrl;
     private String measurements;
     private String nickname;
@@ -37,7 +37,7 @@ public class TalentInfoResultBean {
     private String style;
     private String personIntro;
     private int userId;
-    private int weight;
+    private String weight;
 
     public int getAttributeId() {
         return attributeId;
@@ -55,11 +55,11 @@ public class TalentInfoResultBean {
         this.constellation = constellation;
     }
 
-    public int getHigh() {
+    public String getHigh() {
         return high;
     }
 
-    public void setHigh(int high) {
+    public void setHigh(String high) {
         this.high = high;
     }
 
@@ -111,11 +111,11 @@ public class TalentInfoResultBean {
         this.userId = userId;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

@@ -129,8 +129,8 @@ public class PeopleProfileFragment extends BaseFragment {
      * @param talentInfoResultBean
      */
     private void setTalentInfoUI(TalentInfoResultBean talentInfoResultBean) {
-        talentHeightTxt.setText(talentInfoResultBean.getHigh() == 0 ? "身高:" : "身高:" + talentInfoResultBean.getHigh() + "cm");
-        talentWidghtTxt.setText(talentInfoResultBean.getWeight() == 0 ? "体重:" : "体重:" + talentInfoResultBean.getWeight() + "kg");
+        talentHeightTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getHigh()) ? "身高:" : "身高:" + talentInfoResultBean.getHigh() + "cm");
+        talentWidghtTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getWeight()) ? "体重:" : "体重:" + talentInfoResultBean.getWeight() + "kg");
         talentMeasurementstTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getMeasurements()) ? "三围:" : "三围:" + talentInfoResultBean.getMeasurements());
         talentConstellationTxt.setText(TextUtils.isEmpty(talentInfoResultBean.getConstellation()) ? "星座:" : "星座：" + talentInfoResultBean.getConstellation());
         if (TextUtils.isEmpty(talentInfoResultBean.getPersonalitySignature())) {

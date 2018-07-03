@@ -95,6 +95,8 @@ public class ReplyMessageResult {
         private String annexUrl;
         private long dynamicId;
         private String wordDescription;
+        private String dynamicType;
+        private String faceUrl;
 
         public String getAnnexUrl() {
             return annexUrl;
@@ -118,6 +120,22 @@ public class ReplyMessageResult {
 
         public void setWordDescription(String wordDescription) {
             this.wordDescription = wordDescription;
+        }
+
+        public String getDynamicType() {
+            return dynamicType;
+        }
+
+        public void setDynamicType(String dynamicType) {
+            this.dynamicType = dynamicType;
+        }
+
+        public String getFaceUrl() {
+            return faceUrl;
+        }
+
+        public void setFaceUrl(String faceUrl) {
+            this.faceUrl = faceUrl;
         }
     }
 }

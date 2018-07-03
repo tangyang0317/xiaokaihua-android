@@ -56,13 +56,11 @@ public class IndexDynamicFragment extends BaseFragment implements BaseQuickAdapt
         return R.layout.fragment_dynamic_index;
     }
 
-
     @Override
     public void initView(View contentView) {
         dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicSwipeRefreshLayout.setOnRefreshListener(this);
         dynamicSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_ff5555));
         dynamicAdapter = new DynamicAdapter();

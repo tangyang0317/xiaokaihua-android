@@ -59,7 +59,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         clearCacheItemLayout = findViewById(R.id.clearCacheItemLayout);
         aboutXkhItemLayout = findViewById(R.id.aboutXkhItemLayout);
         logoutTxt = findViewById(R.id.logoutTxt);
-        Toasty.info(this, ChannelUtils.getChannel(this, "UMENG_CHANNEL")).show();
     }
 
     @Override

@@ -77,7 +77,6 @@ public class AttentionFragment extends BaseFragment implements BaseQuickAdapter.
         dynamicSwipeRefreshLayout = contentView.findViewById(R.id.dynamicSwipeRefreshLayout);
         dynamicObservableRecyclerView = contentView.findViewById(R.id.dynamicObservableRecyclerView);
         dynamicObservableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dynamicObservableRecyclerView.setHasFixedSize(true);
         dynamicAdapter = new DynamicAdapter();
         dynamicAdapter.setLoadMoreView(new XkhLoadMoreView());
         dynamicSwipeRefreshLayout.setOnRefreshListener(this);

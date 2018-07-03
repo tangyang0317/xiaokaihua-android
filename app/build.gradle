@@ -1,18 +1,16 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
-
     defaultConfig {
         applicationId "com.xkh.hzp.xkh"
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
-        versionCode 2
-        versionName "2.0"
+        versionCode 200
+        versionName "2.0.0"
         multiDexEnabled true
+        flavorDimensions "200"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     signingConfigs {
         release {
             keyAlias 'hzp'
@@ -25,27 +23,53 @@ android {
             storeFile file("debug.keystore")
         }
     }
-
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->  // each 改为 all
+                    def fileName = "xkh_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                    def outFile = output.outputFile
+                    if (outFile != null && outFile.name.endsWith('.apk')) {
+                        outputFileName = fileName  //  output.outputFile 改为 outputFileName
+                    }
+                }
+            }
         }
         debug {
             signingConfig signingConfigs.debug
             minifyEnabled false
         }
     }
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-}
 
+    productFlavors {
+        qh360 {}
+        baidu {}
+        ali {}
+        xiaomi {}
+        wandoujia {}
+        yingyongbao {}
+        sougou {}
+        pp {}
+        jinli {}
+        huawei {}
+        meizu {}
+        lianxiang {}
+        oppo {}
+        vivo {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'

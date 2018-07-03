@@ -923,7 +923,6 @@ public class VideoDynamicDetailsActivity extends BaseActivity implements View.On
                         List<ActionSheetDialog.SheetItem> dialogItemBeans = new ArrayList<>();
                         dialogItemBeans.add(new ActionSheetDialog.SheetItem("评论", "COMMPENT", ActionSheetDialog.SheetItemColor.Blue));
                         commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
-                        commentAndDeleteDialog(dialogItemBeans, true, 0, 0);
                     } else {
                         SharedprefrenceHelper.getIns(VideoDynamicDetailsActivity.this).clear();
                         LoginActivity.lunchActivity(VideoDynamicDetailsActivity.this, null, LoginActivity.class);
