@@ -3,9 +3,9 @@
     android:id="@+id/dynamicDetailsImg"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_marginLeft="@dimen/dp15"
-    android:layout_marginRight="@dimen/dp15"
-    android:layout_marginTop="@dimen/dp15"
+    android:paddingLeft="@dimen/dp15"
+    android:paddingRight="@dimen/dp15"
+    android:paddingTop="@dimen/dp15"
     android:scaleType="fitXY"
     android:src="@drawable/example">
 

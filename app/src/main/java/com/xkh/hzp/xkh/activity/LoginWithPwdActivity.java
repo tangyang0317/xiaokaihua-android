@@ -68,7 +68,6 @@ public class LoginWithPwdActivity extends BaseActivity implements View.OnClickLi
         baseContainerLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
     }
 
-
     @Override
     public void initView() {
         hideToolbar();

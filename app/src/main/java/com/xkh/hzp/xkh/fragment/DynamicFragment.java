@@ -1,10 +1,7 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
-import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import com.xkh.hzp.xkh.adapter.DynamicFragmentPagerAdapter;
 import com.xkh.hzp.xkh.config.UrlConfig;
 import com.xkh.hzp.xkh.entity.result.BannerResult;
 import com.xkh.hzp.xkh.entity.result.UnReadMsgResult;
-import com.xkh.hzp.xkh.event.DynamicRefreshEvent;
 import com.xkh.hzp.xkh.event.RefreshDotEvent;
 import com.xkh.hzp.xkh.http.ABHttp;
 import com.xkh.hzp.xkh.http.AbHttpCallback;
@@ -64,7 +60,6 @@ import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
  * @DATE 2018/4/28
  **/
 public class DynamicFragment extends BaseFragment implements View.OnClickListener {
-
     private TextView searchLayout;
     private ImageView msgImg, msgDotImg;
     private Banner sampleHeaderView;
@@ -73,7 +68,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private SectorMenuButton bottomMenuButton;
     private List<BannerResult> bannerResultList;
     private View mFakeStatusBar;
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshDot(RefreshDotEvent refreshDotEvent) {

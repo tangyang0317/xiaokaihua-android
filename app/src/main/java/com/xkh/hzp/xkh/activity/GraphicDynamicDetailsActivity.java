@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +30,9 @@ import android.widget.Toast;
 
 import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
@@ -455,14 +459,33 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
         final ArrayList<String> imgUrls = new ArrayList<>();
         if (dynamicBean.getXkhTalentDynamicAnnexList() != null && dynamicBean.getXkhTalentDynamicAnnexList().size() > 0) {
             for (int i = 0; i < dynamicBean.getXkhTalentDynamicAnnexList().size(); i++) {
-                ImageView dynamicDetailsImg = (ImageView) LayoutInflater.from(this).inflate(R.layout.view_item_dynamic_details_img, null);
-                int margin = DimentUtils.dip2px(this, 15);
-                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(DimentUtils.getScreenWidth(this) - margin * 2, DimentUtils.dip2px(this, 200));
-                layoutParams1.setMargins(margin, margin, margin, 0);
-                dynamicDetailsImg.setLayoutParams(layoutParams1);
-                dynamicDetailsImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).placeholder(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicDetailsImg);
+                final ImageView dynamicDetailsImg = (ImageView) LayoutInflater.from(this).inflate(R.layout.view_item_dynamic_details_img, null);
+                Glide.with(this).load(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl()).listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if (dynamicDetailsImg == null) {
+                            return false;
+                        }
+                        if (dynamicDetailsImg.getScaleType() != ImageView.ScaleType.FIT_XY) {
+                            dynamicDetailsImg.setScaleType(ImageView.ScaleType.FIT_XY);
+                        }
+                        ViewGroup.LayoutParams params = dynamicDetailsImg.getLayoutParams();
+                        int vw = dynamicDetailsImg.getWidth() - dynamicDetailsImg.getPaddingLeft() - dynamicDetailsImg.getPaddingRight();
+                        float scale = (float) vw / (float) resource.getIntrinsicWidth();
+                        int vh = Math.round(resource.getIntrinsicHeight() * scale);
+                        params.height = vh + dynamicDetailsImg.getPaddingTop() + dynamicDetailsImg.getPaddingBottom();
+                        dynamicDetailsImg.setLayoutParams(params);
+                        return false;
+                    }
+                }).placeholder(R.drawable.shape_place_holder).placeholder(R.drawable.shape_place_holder).into(dynamicDetailsImg);
+
                 dynamicDetailsImgLayout.addView(dynamicDetailsImg);
+
                 imgUrls.add(dynamicBean.getXkhTalentDynamicAnnexList().get(i).getAnnexUrl());
                 final int FINALI = i;
                 dynamicDetailsImg.setOnClickListener(new View.OnClickListener() {
@@ -477,8 +500,8 @@ public class GraphicDynamicDetailsActivity extends BaseActivity implements View.
                     }
                 });
             }
-            initShare(UrlConfig.SHARE_URL + "?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
         }
+        initShare(UrlConfig.SHARE_URL + "?activatedId=" + dynamicBean.getXkhTalentDynamic().getId(), dynamicBean.getXkhTalentDynamic().getWordDescription(), dynamicBean.getXkhTalentDynamicAnnexList().get(0).getAnnexUrl());
     }
 
     /***

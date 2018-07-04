@@ -14,6 +14,7 @@ import com.xkh.hzp.xkh.entity.DynamicBean;
 import com.xkh.hzp.xkh.utils.GlideCircleTransform;
 import com.xkh.hzp.xkh.utils.Nums;
 import com.xkh.hzp.xkh.utils.TimeUtils;
+import com.xkh.hzp.xkh.view.FolderTextView;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class DynamicVideoAdapter extends BaseQuickAdapter<DynamicBean, BaseViewH
         ImageView dynamicUserHeadImg = helper.getView(R.id.dynamicUserHeadImg);
         TextView dynamicUserNickNameTxt = helper.getView(R.id.dynamicUserNickNameTxt);
         TextView dynamicPublishDateTxt = helper.getView(R.id.dynamicPublishDateTxt);
-        TextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
+        FolderTextView dynamicContentTxt = helper.getView(R.id.dynamicContentTxt);
         ImageView praisedImg = helper.getView(R.id.praisedImg);
         ImageView videoDynamicFaceurlImg = helper.getView(R.id.videoDynamicFaceurlImg);
         TextView videoPlayCountTxt = helper.getView(R.id.videoPlayCountTxt);
