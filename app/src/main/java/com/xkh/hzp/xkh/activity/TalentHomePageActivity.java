@@ -100,7 +100,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         if (userInfoResult != null) {
             talentNickNameTxt.setText(userInfoResult.getName());
             homePageTitleTxt.setText(userInfoResult.getName());
-            talentSignTxt.setText(TextUtils.isEmpty(userInfoResult.getPersonSignature())?"":userInfoResult.getPersonSignature());
+            talentSignTxt.setText(TextUtils.isEmpty(userInfoResult.getPersonSignature()) ? "" : userInfoResult.getPersonSignature());
             Glide.with(this).load(userInfoResult.getHeadPortrait()).transform(new GlideCircleTransform(this)).error(R.mipmap.icon_female_selected).into(talentHeadImg);
         }
     }
@@ -140,7 +140,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
     public void setListenner() {
         homePageAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+            public void onStateChanged(AppBarLayout appBarLayout, State state, int verticalOffset) {
                 if (state == State.EXPANDED) {
                     //展开状态
                     spaceView.setVisibility(View.GONE);

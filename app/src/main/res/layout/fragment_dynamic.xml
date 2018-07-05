@@ -38,7 +38,6 @@
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_14" />
 
-
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +57,6 @@
                     android:src="@drawable/shpe_white_dot"
                     android:visibility="gone" />
             </FrameLayout>
-
         </LinearLayout>
 
         <android.support.design.widget.CoordinatorLayout
@@ -68,7 +66,8 @@
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_ffffff">
+                android:background="@color/color_ffffff"
+                app:elevation="0dp">
 
                 <com.youth.banner.Banner
                     android:id="@+id/headerBanner"
@@ -100,16 +99,12 @@
 
             </android.support.design.widget.AppBarLayout>
 
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/dynamicViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
         </android.support.design.widget.CoordinatorLayout>
-
-
     </LinearLayout>
 
     <xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton
@@ -135,6 +130,4 @@
         app:aebRippleEffect="true"
         app:aebStartAngleDegree="90"
         app:aebSubButtonSizeDp="40dp" />
-
 </FrameLayout>
-

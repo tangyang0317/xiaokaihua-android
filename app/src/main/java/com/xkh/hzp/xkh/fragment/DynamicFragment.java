@@ -1,7 +1,13 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,8 +92,8 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         searchLayout = contentView.findViewById(R.id.searchLayout);
         msgImg = contentView.findViewById(R.id.msgImg);
         msgDotImg = contentView.findViewById(R.id.msgDotImg);
-
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
+
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
         dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
         dynamicTabLayout.setViewPager(dynamicViewPager);
@@ -105,6 +111,8 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         } else {
             bottomMenuButton.setVisibility(View.GONE);
         }
+
+
         queryUnReadMsg();
         initData();
     }
@@ -199,6 +207,7 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
+
         sampleHeaderView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {

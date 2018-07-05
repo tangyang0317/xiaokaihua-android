@@ -28,7 +28,6 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_14" />
 
-
         <TextView
             android:id="@+id/dynamicPublishDateTxt"
             android:layout_width="wrap_content"
@@ -141,7 +140,6 @@
                 android:layout_height="@dimen/dp20"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/icon_unpraised" />
-
 
             <TextView
                 android:layout_width="wrap_content"
