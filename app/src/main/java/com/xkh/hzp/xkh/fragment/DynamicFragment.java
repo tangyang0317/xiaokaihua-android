@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
 import com.xkh.hzp.xkh.activity.LoginActivity;
@@ -35,6 +36,7 @@ import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.DateUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
+import com.xkh.hzp.xkh.view.AppBarStateChangeListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -73,7 +75,9 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private PagerSlidingTabStrip dynamicTabLayout;
     private SectorMenuButton bottomMenuButton;
     private List<BannerResult> bannerResultList;
+    private AppBarLayout dynamicAppBarLayout;
     private View mFakeStatusBar;
+    private Toolbar dynamicToolBar;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshDot(RefreshDotEvent refreshDotEvent) {
@@ -92,8 +96,9 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         searchLayout = contentView.findViewById(R.id.searchLayout);
         msgImg = contentView.findViewById(R.id.msgImg);
         msgDotImg = contentView.findViewById(R.id.msgDotImg);
+        dynamicAppBarLayout = contentView.findViewById(R.id.dynamicAppBarLayout);
+        dynamicToolBar = contentView.findViewById(R.id.dynamicToolBar);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
-
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
         dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
         dynamicTabLayout.setViewPager(dynamicViewPager);
@@ -111,8 +116,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         } else {
             bottomMenuButton.setVisibility(View.GONE);
         }
-
-
         queryUnReadMsg();
         initData();
     }
@@ -207,6 +210,31 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
+
+        dynamicAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state, int verticalOffset) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
+                    mDrawable.setAlpha(10);
+                    dynamicToolBar.setBackground(mDrawable);
+
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
+                    mDrawable.setAlpha(255);
+                    dynamicToolBar.setBackground(mDrawable);
+                } else {
+                    //中间状态
+                    float alpha = (float) verticalOffset / dynamicAppBarLayout.getHeight();
+                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
+                    mDrawable.setAlpha((int) alpha);
+                    dynamicToolBar.setBackground(mDrawable);
+
+                }
+            }
+        });
 
         sampleHeaderView.setOnBannerListener(new OnBannerListener() {
             @Override
