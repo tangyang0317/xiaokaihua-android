@@ -201,14 +201,7 @@ public class TalentFragment extends BaseFragment implements View.OnClickListener
                         }
                         break;
                     case R.id.talentPicImg:
-                        ArrayList<String> imgUrl = new ArrayList<>();
-                        imgUrl.add(talentResult.getImgUrl());
-                        new PhotoPagerConfig.Builder(getActivity())
-                                .setBigImageUrls(imgUrl)      //大图片url,可以是sd卡res，asset，网络图片.
-                                .setSavaImage(false)          //开启保存图片，默认false
-                                .setPosition(0)               //默认展示第2张图片
-                                .setOpenDownAnimate(true)     //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
-                                .build();
+                        TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(talentResult.getUserId()));
                         break;
                     case R.id.talentNickNameTxt:
                         TalentHomePageActivity.lanuchActivity(getActivity(), String.valueOf(talentResult.getUserId()));

@@ -3,17 +3,16 @@ package com.xkh.hzp.xkh.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.reflect.TypeToken;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.adapter.HomePageFragmentPagerAdapter;
@@ -28,7 +27,6 @@ import com.xkh.hzp.xkh.utils.UserDataManager;
 import com.xkh.hzp.xkh.view.AppBarStateChangeListener;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import xkh.hzp.xkh.com.base.base.BaseActivity;
 import xkh.hzp.xkh.com.base.utils.SharedprefrenceHelper;
@@ -44,6 +42,7 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
 
     private ImageView talentHeadImg, homePageBackImg, reportUserImg;
     private View spaceView;
+    private Button linkTalentBtn;
     private TextView talentNickNameTxt, talentSignTxt, homePageTitleTxt;
     private PagerSlidingTabStrip homePageTabLayout;
     private ViewPager talentMineViewPager;
@@ -83,12 +82,20 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
         homePageTabLayout = findViewById(R.id.homePageTabLayout);
         talentMineViewPager = findViewById(R.id.talentMineViewPager);
         reportUserImg = findViewById(R.id.reportUserImg);
+        linkTalentBtn = findViewById(R.id.linkTalentBtn);
         HomePageFragmentPagerAdapter homePageFragmentPagerAdapter = new HomePageFragmentPagerAdapter(getSupportFragmentManager(), getTalentUserId());
         talentMineViewPager.setAdapter(homePageFragmentPagerAdapter);
         homePageTabLayout.setViewPager(talentMineViewPager);
         if (getTalentUserId().equals(UserDataManager.getInstance().getUserId())) {
             reportUserImg.setVisibility(View.GONE);
         }
+
+        if (UserDataManager.getInstance().getUserInfo() != null && "talent".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
+            linkTalentBtn.setVisibility(View.GONE);
+        } else {
+            linkTalentBtn.setVisibility(View.VISIBLE);
+        }
+
         queryUserInfo();
     }
 
@@ -145,8 +152,10 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
                     //展开状态
                     spaceView.setVisibility(View.GONE);
                     homePageTitleTxt.setVisibility(View.GONE);
+                    YoYo.with(Techniques.SlideInUp).duration(300).playOn(linkTalentBtn);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
+                    YoYo.with(Techniques.SlideOutDown).duration(300).playOn(linkTalentBtn);
                     spaceView.setVisibility(View.VISIBLE);
                     homePageTitleTxt.setVisibility(View.VISIBLE);
                 } else {
@@ -155,6 +164,8 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
                 }
             }
         });
+
+        linkTalentBtn.setOnClickListener(this);
 
         homePageBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,5 +194,22 @@ public class TalentHomePageActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        if (view == linkTalentBtn) {
+            linkTalentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
+                        @Override
+                        public void isLogin(boolean isLogin) {
+                            if (isLogin) {
+                                BusinessCooperationActivity.lunchActivity(TalentHomePageActivity.this, null, BusinessCooperationActivity.class);
+                            } else {
+                                LoginActivity.lunchActivity(TalentHomePageActivity.this, null, LoginActivity.class);
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 }

@@ -86,27 +86,6 @@
 
         </com.zhy.view.flowlayout.TagFlowLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/linkTalentBtn"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp40"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/dp20"
-                android:layout_marginRight="@dimen/dp20"
-                android:background="@color/color_ff5555"
-                android:text="联系达人"
-                android:textColor="@color/color_ffffff"
-                android:textSize="@dimen/sp_15" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
 

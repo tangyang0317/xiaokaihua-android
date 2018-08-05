@@ -279,7 +279,6 @@ public abstract class NineGridLayout extends ViewGroup {
     protected void setOneImageLayoutParams(RatioImageView imageView, int width, int height) {
         imageView.setLayoutParams(new LayoutParams(width, height));
         imageView.layout(0, 0, width, height);
-
         LayoutParams params = getLayoutParams();
 //        params.width = width;
         params.height = height;

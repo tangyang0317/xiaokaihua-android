@@ -1,13 +1,7 @@
 package com.xkh.hzp.xkh.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +9,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.orhanobut.logger.Logger;
 import com.xkh.hzp.xkh.R;
 import com.xkh.hzp.xkh.activity.GraphicDynamicDetailsActivity;
 import com.xkh.hzp.xkh.activity.LoginActivity;
@@ -36,7 +29,6 @@ import com.xkh.hzp.xkh.http.AbHttpEntity;
 import com.xkh.hzp.xkh.utils.CheckLoginManager;
 import com.xkh.hzp.xkh.utils.DateUtils;
 import com.xkh.hzp.xkh.utils.UserDataManager;
-import com.xkh.hzp.xkh.view.AppBarStateChangeListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -60,7 +52,6 @@ import xkh.hzp.xkh.com.base.view.PagerSlidingTabStrip;
 import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonData;
 import xkh.hzp.xkh.com.base.view.sectorMenu.ButtonEventListener;
 import xkh.hzp.xkh.com.base.view.sectorMenu.SectorMenuButton;
-
 /**
  * @packageName com.xkh.hzp.xkh.fragment
  * @FileName DynamicFragment
@@ -75,15 +66,11 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
     private PagerSlidingTabStrip dynamicTabLayout;
     private SectorMenuButton bottomMenuButton;
     private List<BannerResult> bannerResultList;
-    private AppBarLayout dynamicAppBarLayout;
     private View mFakeStatusBar;
-    private Toolbar dynamicToolBar;
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshDot(RefreshDotEvent refreshDotEvent) {
         msgDotImg.setVisibility(View.GONE);
     }
-
     @Override
     public void initView(View contentView) {
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -96,8 +83,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         searchLayout = contentView.findViewById(R.id.searchLayout);
         msgImg = contentView.findViewById(R.id.msgImg);
         msgDotImg = contentView.findViewById(R.id.msgDotImg);
-        dynamicAppBarLayout = contentView.findViewById(R.id.dynamicAppBarLayout);
-        dynamicToolBar = contentView.findViewById(R.id.dynamicToolBar);
         bottomMenuButton = contentView.findViewById(R.id.bottomMenuButton);
         DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getChildFragmentManager());
         dynamicViewPager.setAdapter(dynamicFragmentPagerAdapter);
@@ -119,16 +104,12 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
         queryUnReadMsg();
         initData();
     }
-
-
     @Override
     public void onClick(View view) {
         if (view == searchLayout) {
             SearchHistoryActivty.openActivity(getActivity(), 0);
         }
     }
-
-
     /***
      * 查询未读消息
      */
@@ -146,7 +127,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 entity.putField("result", new TypeToken<UnReadMsgResult>() {
                 }.getType());
             }
-
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
@@ -161,20 +141,15 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
-
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_dynamic;
     }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
     /***
      * 加载数据
      */
@@ -189,7 +164,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 entity.putField("result", new TypeToken<List<BannerResult>>() {
                 }.getType());
             }
-
             @Override
             public void onSuccessGetObject(String code, String msg, boolean success, HashMap<String, Object> extra) {
                 super.onSuccessGetObject(code, msg, success, extra);
@@ -203,39 +177,10 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 }
             }
         });
-
     }
-
-
     @Override
     public void setListernner() {
         searchLayout.setOnClickListener(this);
-
-        dynamicAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state, int verticalOffset) {
-                if (state == State.EXPANDED) {
-                    //展开状态
-                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
-                    mDrawable.setAlpha(10);
-                    dynamicToolBar.setBackground(mDrawable);
-
-                } else if (state == State.COLLAPSED) {
-                    //折叠状态
-                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
-                    mDrawable.setAlpha(255);
-                    dynamicToolBar.setBackground(mDrawable);
-                } else {
-                    //中间状态
-                    float alpha = (float) verticalOffset / dynamicAppBarLayout.getHeight();
-                    Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.shape_bar_red_bg);
-                    mDrawable.setAlpha((int) alpha);
-                    dynamicToolBar.setBackground(mDrawable);
-
-                }
-            }
-        });
-
         sampleHeaderView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
@@ -251,7 +196,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                 }
             }
         });
-
         RxView.clicks(msgImg).throttleFirst(2, TimeUnit.SECONDS)//在一秒内只取第一次点击
                 .subscribe(new Consumer<Object>() {
                     @Override
@@ -268,7 +212,6 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                         });
                     }
                 });
-
         bottomMenuButton.setButtonEventListener(new ButtonEventListener() {
             @Override
             public void onButtonClicked(int index) {
@@ -278,18 +221,14 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
                     PublishPictureTextActvity.lunchActivity(getActivity(), null, PublishPictureTextActvity.class);
                 }
             }
-
             @Override
             public void onExpand() {
             }
-
             @Override
             public void onCollapse() {
             }
         });
-
     }
-
     /**
      * 加载banner的GlideImageLoader
      */
@@ -300,6 +239,4 @@ public class DynamicFragment extends BaseFragment implements View.OnClickListene
             Glide.with(context).load(bannerBean.getImgUrl()).into(imageView);
         }
     }
-
-
 }

@@ -136,4 +136,16 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+
+    <Button
+        android:id="@+id/linkTalentBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp40"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/dp30"
+        android:background="@drawable/shape_red_btn"
+        android:text="联系达人"
+        android:textColor="@color/color_ffffff"
+        android:textSize="@dimen/sp_15" />
+
 </android.support.design.widget.CoordinatorLayout>

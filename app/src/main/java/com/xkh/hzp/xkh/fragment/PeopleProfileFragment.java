@@ -88,11 +88,6 @@ public class PeopleProfileFragment extends BaseFragment {
         talentPictureRecycleView.setLayoutManager(layoutManager);
         talentPictureAdapter = new TalentPictureAdapter();
         talentPictureRecycleView.setAdapter(talentPictureAdapter);
-        if (UserDataManager.getInstance().getUserInfo() != null && "normal".equals(UserDataManager.getInstance().getUserInfo().getUserType())) {
-            linkTalentBtn.setVisibility(View.VISIBLE);
-        } else {
-            linkTalentBtn.setVisibility(View.GONE);
-        }
         queryTalentInfo();
     }
 
@@ -174,21 +169,6 @@ public class PeopleProfileFragment extends BaseFragment {
 
     @Override
     public void setListernner() {
-        linkTalentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckLoginManager.getInstance().isLogin(new CheckLoginManager.CheckLoginCallBack() {
-                    @Override
-                    public void isLogin(boolean isLogin) {
-                        if (isLogin) {
-                            BusinessCooperationActivity.lunchActivity(getActivity(), null, BusinessCooperationActivity.class);
-                        } else {
-                            LoginActivity.lunchActivity(getActivity(), null, LoginActivity.class);
-                        }
-                    }
-                });
-            }
-        });
 
         talentPictureAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
